@@ -4,6 +4,7 @@ public class Member {
 	private String Password;
 	public Member() {
                 //Hello
+		//Hi
 		// TODO Auto-generated constructor stub
 	}
 	
