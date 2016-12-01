@@ -17,5 +17,7 @@ public class Reservation {
 		Reservation_Cancelled=false;
 		Admin_Who_Cancelled=null;
 	}
-
+	public Resource getResource(){
+		return Resource_Booked;
+	}
 }
