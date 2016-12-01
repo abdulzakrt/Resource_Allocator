@@ -1,6 +1,7 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -71,30 +72,25 @@ public class Resource_Management_System {
 		
 		try {
 			in = new ObjectInputStream( new BufferedInputStream(new FileInputStream("users.ser")));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-				for(;;){
+			for(;;){
 				User u = (User)in.readObject();
 					Users[usercount]=u;
 					usercount++;
 				}
-				
-			} catch(EOFException e){
-                //e.printStackTrace();
-            }
-			catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		}catch(EOFException e){
+            //e.printStackTrace();
+        }
+		catch (FileNotFoundException e1) {
+			System.out.println("No Saved Data");
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	public void closeSystem(){
