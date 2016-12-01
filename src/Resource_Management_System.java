@@ -1,4 +1,4 @@
-
+import java.util.Date;
 public class Resource_Management_System {
 	private Resource[] Resources;
 	private User[] Users;
@@ -23,5 +23,18 @@ public class Resource_Management_System {
 			System.out.println(Resources[i].getID());
 			
 		}
+	}
+	public void Reserve(User u ,Resource c, Date start_date,Date end_date){
+		//Checking availability
+		for(int i=0;i<resourcecount;i++){
+			
+			
+		}
+		//Reserving
+		Reservation temp= new Reservation(c,start_date,end_date,u);
+		Reservations[reservationcount]=temp;
+		reservationcount++;
+		
+			
 	}
 }
