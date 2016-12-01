@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
+import java.util.Scanner;
+
 public class Resource_Management_System {
 	private Resource[] Resources;
 	private User[] Users;
@@ -35,8 +37,16 @@ public class Resource_Management_System {
 		}
 	}
 	public void Display_user(){
+		System.out.println("Users:");
 		for(int i=0;i<usercount;i++){
 			System.out.println(Users[i].getLog_in_ID());
+			
+		}
+	}
+	public void Display_admins(){
+		System.out.println("Admins:");
+		for(int i=0;i<admincount;i++){
+			System.out.println(Admins[i].getLog_in_ID());
 			
 		}
 	}
@@ -67,21 +77,99 @@ public class Resource_Management_System {
 			usercount++;
 			
 	}
-	public void openSystem(){
-		ObjectInputStream in = null;
+	
+	public void login(Resource_Management_System system){
+		int ID,pass;
+		Admin a;
+		User u;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please Enter ID>");
+		ID=in.nextInt();
+		System.out.println("Please Enter Password>");
+		pass=in.nextInt();
+		//checking admins
+		for(int i=0;i<admincount;i++){
+			if (Admins[i].getLog_in_ID()==ID && Admins[i].getPassword()==pass){
+				a=Admins[i];
+				System.out.println("Welcome" +" "+ a.getLog_in_ID());
+				a.add_user(system);
+				return ;
+			}
+		}
+		//checking users
+		for(int i=0;i<usercount;i++){
+			if (Users[i].getLog_in_ID()==ID && Users[i].getPassword()==pass){
+				u=Users[i];
+				System.out.println("Welcome" + u.getLog_in_ID());
+				return;
+			}
+		}
+		System.out.println("User ID or password is incorrect!");
 		
+	}
+	
+	
+	
+	
+	public void openSystem(){
+		ObjectInputStream inusers =null,inadmins = null;
+		//importingadmins
 		try {
-			in = new ObjectInputStream( new BufferedInputStream(new FileInputStream("users.ser")));
+			inadmins = new ObjectInputStream( new BufferedInputStream(new FileInputStream("admins.ser")));
 			for(;;){
-				User u = (User)in.readObject();
-					Users[usercount]=u;
-					usercount++;
+				Admin a = (Admin)inadmins.readObject();
+					Admins[admincount]=a;
+					admincount++;
 				}
 		}catch(EOFException e){
             //e.printStackTrace();
         }
 		catch (FileNotFoundException e1) {
-			System.out.println("No Saved Data");
+			//creating default admin
+			try {
+				ObjectOutputStream outadmin=null;
+				outadmin = new ObjectOutputStream( new BufferedOutputStream(new FileOutputStream("admins.ser")));
+				Admin a=new Admin();
+				a.setLog_in_ID(123);
+				a.setPassword(123);
+				outadmin.writeObject(a);
+				outadmin.flush();
+				outadmin.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("No Admins Found... Creating admins.ser with default admin");
+			System.out.println("Please Run the program again");
+			System.exit(0);
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		//importing users
+		try {
+			inusers = new ObjectInputStream( new BufferedInputStream(new FileInputStream("users.ser")));
+			for(;;){
+				User u = (User)inusers.readObject();
+					Users[usercount]=u;
+					usercount++;
+				}
+			
+		}catch(EOFException e){
+            //e.printStackTrace();
+        }
+		catch (FileNotFoundException e1) {
+			System.out.println("No Saved Users");
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -94,6 +182,24 @@ public class Resource_Management_System {
 
 	}
 	public void closeSystem(){
+		//saving admins
+				try {
+					FileOutputStream f = new FileOutputStream("admins.ser");
+					ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
+					for(int i=0;i<admincount;i++){
+					out.writeObject(Admins[i]); 
+					}
+					out.flush();
+					out.close();
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		//saving users
 		try {
 			FileOutputStream f = new FileOutputStream("users.ser");
 			ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
