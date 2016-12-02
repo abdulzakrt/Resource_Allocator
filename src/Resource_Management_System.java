@@ -25,6 +25,15 @@ public class Resource_Management_System {
 		resourcecount=usercount=admincount=reservationcount=0;
 		
 	}
+	public User searchUser(int id){
+		for (int i=0;i<usercount;i++){
+			if (Users[i].getLog_in_ID()==id)
+				return Users[i];
+			
+		}
+		return null;
+		
+	}
 	public void add_resource_to_array(Resource temp){
 		Resources[resourcecount]=temp;
 		resourcecount++;
@@ -39,7 +48,7 @@ public class Resource_Management_System {
 	public void Display_user(){
 		System.out.println("Users:");
 		for(int i=0;i<usercount;i++){
-			System.out.println(Users[i].getLog_in_ID());
+			System.out.println(Users[i]);
 			
 		}
 	}
@@ -50,7 +59,7 @@ public class Resource_Management_System {
 			
 		}
 	}
-	public int Reserve(User u ,Resource c, Date start_date,Date end_date){
+	public int Reserve(User u ,Resource c, Date start_time,Date end_time){
 		//Checking resource availability availability
 		for(int i=0;i<resourcecount;i++){
 			if(c.getID()==Resources[i].getID()){
@@ -63,16 +72,13 @@ public class Resource_Management_System {
 				
 			}
 			
-		Reservation temp= new Reservation(c,start_date,end_date,u);
+		Reservation temp= new Reservation(c,start_time,end_time,u);
 		Reservations[reservationcount]=temp;
 		reservationcount++;
 		return 0;
 				
 	}
-	public void addUser_to_system(int id,int pass){
-			User temp= new User();
-			temp.setLog_in_ID(id);
-			temp.setPassword(pass);
+	public void addUser_to_system(User temp){
 			Users[usercount]=temp;
 			usercount++;
 			
@@ -83,7 +89,7 @@ public class Resource_Management_System {
 		Admin a;
 		User u;
 		Scanner in = new Scanner(System.in);
-		System.out.println("Please Enter ID>");
+		System.out.println("Please Enter ID to login>");
 		ID=in.nextInt();
 		System.out.println("Please Enter Password>");
 		pass=in.nextInt();
@@ -91,8 +97,34 @@ public class Resource_Management_System {
 		for(int i=0;i<admincount;i++){
 			if (Admins[i].getLog_in_ID()==ID && Admins[i].getPassword()==pass){
 				a=Admins[i];
-				System.out.println("Welcome" +" "+ a.getLog_in_ID());
-				a.add_user(system);
+				int option=0;
+				while(option!=4){
+					System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
+					System.out.println("1-Modify Users>");
+					System.out.println("2-Modify Resources>");
+					System.out.println("3-Modify Admins>");
+					System.out.println("4-Logout>");
+					System.out.println("Enter option>");
+					option= in.nextInt();
+					switch(option){
+					case 1:{
+						a.add_user(system);
+						break;
+					}
+					case 2:{
+						a.Add_Resources(system);
+						
+						break;
+					}
+					case 3:{
+						
+						
+						break;
+					}
+					
+					}
+				}
+				
 				return ;
 			}
 		}
@@ -100,7 +132,7 @@ public class Resource_Management_System {
 		for(int i=0;i<usercount;i++){
 			if (Users[i].getLog_in_ID()==ID && Users[i].getPassword()==pass){
 				u=Users[i];
-				System.out.println("Welcome" + u.getLog_in_ID());
+				System.out.println("Welcome user " + u.getLog_in_ID());
 				return;
 			}
 		}

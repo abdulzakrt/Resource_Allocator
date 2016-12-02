@@ -1,9 +1,9 @@
 
+
 public class Main {
 
 
 	public static void main(String[] args) {
-		
 		Resource_Management_System system= new Resource_Management_System();
 		system.openSystem();
 		system.Display_admins();

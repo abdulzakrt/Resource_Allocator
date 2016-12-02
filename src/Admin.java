@@ -10,7 +10,7 @@ public class Admin extends Member {
 		int option=0;
 		while(option!=4){
 			System.out.println("1-Add User ");
-			System.out.println("2- ");
+			System.out.println("2-Modify A user ");
 			System.out.println("4-No more users ");
 			System.out.println("Enter An option>");
 			option=in.nextInt();
@@ -20,10 +20,27 @@ public class Admin extends Member {
 				int id=in.nextInt();
 				System.out.println("Enter Password>");
 				int pass=in.nextInt();
-				system.addUser_to_system(id, pass);
+				System.out.println("Enter First Name>");
+				String First=in.next();
+				System.out.println("Enter Last Name>");
+				String Last=in.next();
+				System.out.println("Enter Age>");
+				int age=in.nextInt();
+				System.out.println("Enter User_type>");
+				String type= in.next();
+				User temp=new User(First,Last,age,type,id,pass);
+					
+				system.addUser_to_system(temp);
 				break;
 			}
-			
+			case 2:{
+				System.out.println("Enter User ID to Modify>");
+				int id=in.nextInt();
+				User temp= system.searchUser(id);
+				System.out.println("Enter new password>");
+				temp.setPassword(in.nextInt());
+				break;
+			}
 			
 			}
 			
@@ -42,10 +59,11 @@ public class Admin extends Member {
 		option2=in.nextInt();
 			switch(option2){
 			case 1:{
-				System.out.println("Enter ID>");
+			
 				Resource temp=new Resource();
 				System.out.println("Enter ID>");
 				temp.setID(in.nextInt());
+			
 				system.add_resource_to_array(temp);
 				break;
 			}
