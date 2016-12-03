@@ -10,8 +10,19 @@ public class Equipment extends Resource{
 		equipnentCounter++;
 	}
         
+        public void setEquipmentName(String EquimpentName){
+            this.equipmentName = EquimpentName;
+        }
         
+        public void setEquipmentType(String EquipmentType){
+            this.equipmentType = EquipmentType;
+        }
         
-        
+        public String getEquipmnetName(){
+            return this.equipmentName;
+        }
 
+        public String getEquipmnetType(){
+            return this.equipmentType;
+        }        
 }
