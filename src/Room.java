@@ -1,10 +1,13 @@
 
 public class Room extends Resource {
+    
         private String roomName;
         private static int roomCounter;
         private int numberOfSeats;
         private char size;     //small s , mid. m, large l
         private boolean proj_availability;
+        private char labType;    
+        private char roomType;  //conferance room, class rooms, meeting rooms
         
         
 	public Room() {
@@ -26,6 +29,15 @@ public class Room extends Resource {
         public void setPojectorAvil(boolean isAvailable){
             this.proj_availability = isAvailable;
         }
+        
+        public void setLabType(char labType){
+            this.labType = labType;
+        }
+        
+        public void setRoomType(char roomType){
+            this.roomType = roomType;
+        }
+        
         public String getRoomName(){
             return this.roomName;
         }        
@@ -45,4 +57,12 @@ public class Room extends Resource {
         public boolean isProjectAvailable(){
             return this.proj_availability;
         }
+        
+        public char setLabType(){
+            return this.labType;
+        }
+        
+        public char setRoomType(){
+            return this.roomType;
+        }        
 }
