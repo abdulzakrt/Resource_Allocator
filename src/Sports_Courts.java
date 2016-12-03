@@ -18,11 +18,18 @@ public class Sports_Courts extends Resource{
             this.lightAvailable = light;
         }
         
+        private void setIndoor(boolean Indoor){
+            this.indoorCourt = Indoor;
+        }
         private char getCourtType(){
             return this.courtType;
         }
         
         private boolean isLightAvailable(){
             return this.lightAvailable;
+        }
+        
+        private boolean isIndoorCourt(){
+            return this.indoorCourt;
         }
 }
