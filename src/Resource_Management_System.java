@@ -250,7 +250,6 @@ public class Resource_Management_System implements Serializable{
 				e.printStackTrace();
 			}
 			System.out.println("No Saved Data...Creating system.ser with default admin");
-			System.out.println("Please Run the program again!");
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
