@@ -76,29 +76,28 @@ public class Admin extends Member {
                                 temp.setRoomName(in.next());
                                 System.out.println("Enter the room location>");
                                 temp.setResourceLocation(in.next());
+                                
                                 System.out.println("Enter Start Date yyyy-MM-dd>"); 
                                 String input = in.next();  
                                 LocalDate startDate = LocalDate.parse(input);
                                 temp.setStart_date(startDate);
+                                
+                                System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
+                                input = in.next();  //input is a string in order to store the starting time
+                                LocalDate endDate = LocalDate.parse(input);
+                                temp.setEnd_date(endDate);
                                 
                                 System.out.println("Enter Start time HH:MM >"); 
                                 input = in.next();  
                                 LocalTime startTime = LocalTime.parse(input);
                                 temp.setStart_Time(startTime);
                                 
-                                
-                                System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
-                                input = in.next();  //input is a string in order to store the starting time
-                                LocalDate endDate = LocalDate.parse(input);
-                                temp.setEnd_date(endDate);
-                                system.add_resource_to_array(temp);
-                                
                                 System.out.println("Enter end time HH:MM >"); 
                                 input = in.next();  
                                 LocalTime endTime = LocalTime.parse(input);
-                                temp.setEnd_Time(startTime);
+                                temp.setEnd_Time(endTime);
                                 
-
+                                system.add_resource_to_array(temp);       
 				break;
 			}
                         case 2:{

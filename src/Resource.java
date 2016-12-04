@@ -60,7 +60,7 @@ public class Resource implements Serializable{
             return this.startDate;
         }
         public void setEnd_date(LocalDate endDate){
-            this.startDate = endDate;
+            this.endDate = endDate;
         }
         public LocalDate getend_date(){
             return this.endDate;
