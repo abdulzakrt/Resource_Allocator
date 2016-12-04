@@ -13,6 +13,7 @@ public class Resource implements Serializable{
 	protected LocalDate startDate,endDate;   
 	protected LocalTime startTime,endTime;
 	protected String location;
+        protected userType resourceUserType;
 	protected char Allowance_time;
 	public Resource() {
 		
@@ -65,7 +66,14 @@ public class Resource implements Serializable{
         public LocalDate getend_date(){
             return this.endDate;
         }
+        public userType getResource_UserType() {
+		return resourceUserType;
+	}
+	public void setResource_UserType(userType resource_userType) {
+		resourceUserType = resource_userType;
+	}
         public String toString(){
-            return ("id: "+this.ID + "Location: "+ this.location + " Start Date: " + this.startDate);
-        }       
+            return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate);
+        }     
+        
 }

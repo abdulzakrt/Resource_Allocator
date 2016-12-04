@@ -86,6 +86,21 @@ public class Admin extends Member {
 				Room temp=new Room();
 				System.out.println("Enter ID>");
 				temp.setID(in.nextInt());
+<<<<<<< HEAD
+                                System.out.println("Enter Room Name>");
+                                temp.setRoomName(in.next());
+                                System.out.println("Enter the room location>");
+                                temp.setResourceLocation(in.next());
+                                System.out.println("Enter resource User Type>");
+                                System.out.println("1-Professor");
+                                System.out.println("2-Staff");
+                                System.out.println("3-Student");
+				temp.setResource_UserType(userType.values()[(in.nextInt())-1]);
+                                System.out.println("Enter Start Date yyyy-MM-dd>"); 
+                                String input = in.next();  
+                                LocalDate startDate = LocalDate.parse(input);
+                                temp.setStart_date(startDate);
+=======
                  System.out.println("Enter Room Name>");
                 temp.setRoomName(in.next());
             
@@ -103,6 +118,7 @@ public class Admin extends Member {
                 input = in.next();  //input is a string in order to store the starting time
                 LocalDate endDate = LocalDate.parse(input);
                 temp.setEnd_date(endDate);
+>>>>>>> origin/master
                                 
                 System.out.println("Enter Start time HH:MM >"); 
                 input = in.next();  

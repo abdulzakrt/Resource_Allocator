@@ -9,6 +9,7 @@ public class Main {
 		system.Display_admins();
 		system.Display_user();
 		system.Display_resource();
+                system.Display_reservation();
 		system.login(system);
 		system.closeSystem();
 	}
