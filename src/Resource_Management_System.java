@@ -94,8 +94,11 @@ public class Resource_Management_System implements Serializable{
                 Resource temp1=null;
                 for(int i=0;i<resourcecount;i++)
                 {
-                    if(Resources[i].getID()==ID)
+                    if(Resources[i].getID()==ID){
                         temp1=Resources[i];
+                        break;
+                    }                        
+                    
                 }
                 if (temp1!=null){
 	                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType()))
