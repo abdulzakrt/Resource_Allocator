@@ -69,7 +69,7 @@ public class Resource_Management_System implements Serializable{
 			System.out.println(Reservations[i]);
 		}
 	}
-	public int Reserve(User u){
+	public void Reserve(User u){
 		
                 for(int i=0;i<resourcecount;i++)
                 {
@@ -109,11 +109,11 @@ public class Resource_Management_System implements Serializable{
 	                  
 	                    Reservations[reservationcount]=temp;
 	                    reservationcount++;
-	                    return 1;
+	                    return ;
 	                }
                 }
                 System.out.println("No resarvation was made!!!");
-                return 0;
+                return ;
 				
 	}
         public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
@@ -215,10 +215,8 @@ public class Resource_Management_System implements Serializable{
                                 option= in.nextInt();
 					switch(option){
 						case 1:{
-							int x = this.Reserve(u);
-							if(x == 0){
-								System.out.println("No resarvation was made!!!");
-	                        }
+							this.Reserve(u);
+						
 							break;
 						}
 					
