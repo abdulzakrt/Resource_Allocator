@@ -97,17 +97,20 @@ public class Resource_Management_System implements Serializable{
                     if(Resources[i].getID()==ID)
                         temp1=Resources[i];
                 }
-                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType()))
-                {
-                    
-                    if(temp1!=null)
-                        temp= new Reservation(temp1,sdate,stime, etime,u);
-                    else{ System.out.println("No resarvation was made!!!"); return 0;}
-                    Reservations[reservationcount]=temp;
-                    reservationcount++;
-                    return 1;
+                if (temp1!=null){
+	                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType()))
+	                {
+	                    
+	                	 
+	                        temp= new Reservation(temp1,sdate,stime, etime,u);
+	                  
+	                    Reservations[reservationcount]=temp;
+	                    reservationcount++;
+	                    return 1;
+	                }
                 }
-		return 0;
+                System.out.println("No resarvation was made!!!");
+                return 0;
 				
 	}
         public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
