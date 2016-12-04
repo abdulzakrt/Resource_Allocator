@@ -13,8 +13,8 @@ public class Resource implements Serializable{
 	protected LocalDate startDate,endDate;   
 	protected LocalTime startTime,endTime;
 	protected String location;
-        protected userType resourceUserType;
-	protected char Allowance_time;
+	protected userType resourceUserType;
+	protected int Allowance_time;
 	public Resource() {
 		
 	}
@@ -36,10 +36,10 @@ public class Resource implements Serializable{
 	public void setStart_Time(LocalTime startTime) {
                 this.startTime = startTime;
 	}
-	public char getAllowance_time() {
+	public int getAllowance_time() {
 		return Allowance_time;
 	}
-	public void setAllowance_time(char allowance_time) {
+	public void setAllowance_time(int allowance_time) {
 		Allowance_time = allowance_time;
 	}
 	public LocalDate getEnd_Time() {

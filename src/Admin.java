@@ -69,79 +69,81 @@ public class Admin extends Member {
 			
 		}
 	}
-	
+	//Administrator can add resources 
 	public void Add_Resources(Resource_Management_System system){
 		Scanner in = new Scanner(System.in);
 		int option2=0;
+		//as long as it is not exit  the menu
 		while(option2!=4){
-  	System.out.println("1-Room ");
-
-		System.out.println("2-Equipment ");
-		System.out.println("3-Court");
-		System.out.println("4-No more resources ");
-		System.out.println("Enter An option>");
-		option2=in.nextInt();
-			switch(option2){
-			case 1:{
-				Room temp=new Room();
-				System.out.println("Enter ID>");
-				temp.setID(in.nextInt());
-
-                 System.out.println("Enter Room Name>");
-                 temp.setRoomName(in.next());
-                 System.out.println("Enter the room location>");
-                 temp.setResourceLocation(in.next());
-                 System.out.println("Enter resource User Type>");
-                 System.out.println("1-Professor");
-                 System.out.println("2-Staff");
-                 System.out.println("3-Student");
-				 temp.setResource_UserType(userType.values()[(in.nextInt())-1]);
-				 System.out.println("Enter Start Date yyyy-MM-dd>"); 
-				 String input = in.next();  
-				 LocalDate startDate = LocalDate.parse(input);
-				 temp.setStart_date(startDate);
-
-
-                System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
-                input = in.next();  //input is a string in order to store the starting time
-                LocalDate endDate = LocalDate.parse(input);
-                temp.setEnd_date(endDate);
-       
-                System.out.println("Enter Start time HH:MM >"); 
-                input = in.next();  
-                LocalTime startTime = LocalTime.parse(input);
-                temp.setStart_Time(startTime);
-                                
-                System.out.println("Enter end time HH:MM >"); 
-                input = in.next();  
-                LocalTime endTime = LocalTime.parse(input);
-                temp.setEnd_Time(endTime);
-                                
-                system.add_resource_to_array(temp);       
-
-				break;
-			}
-            case 2:{
-               Room temp = new Room();
-                System.out.println("Enter Room ID>");
-                temp.setID(in.nextInt());
-                System.out.println();
-                     }
-            case 3:{break;}
-            case 4:{break;}
-            default:{System.out.println("Wrong Input!");}
+			//print possible resources
+			System.out.println("1-Room ");
+			System.out.println("2-Equipment ");
+			System.out.println("3-Court");
+			System.out.println("4-No more resources ");
+			System.out.println("Enter An option>");
+			option2=in.nextInt();
 			
+			switch(option2){
+				case 1:{//if it is a room type resource
+					 Room temp=new Room();//new room object
+					 System.out.println("Enter ID>");//take ID
+					 temp.setID(in.nextInt());
+	                 System.out.println("Enter Room Name>");//take room name
+	                 temp.setRoomName(in.next());
+	                 System.out.println("Enter the room location>");//take room location
+	                 temp.setResourceLocation(in.next());
+	                 System.out.println("Enter resource User Type>");//take the type of the user that cn use it
+	                 System.out.println("1-Professor");
+	                 System.out.println("2-Staff");
+	                 System.out.println("3-Student");
+					 temp.setResource_UserType(userType.values()[(in.nextInt())-1]);
+					 System.out.println("Enter Start Date yyyy-MM-dd>"); //when will be available 
+					 String input = in.next();  
+					 LocalDate startDate = LocalDate.parse(input);
+					 temp.setStart_date(startDate);
+	
+	
+	                System.out.println("Enter End Date yyyy-MM-dd>");  //when will it terminate
+	                input = in.next();  //input is a string in order to store the starting time
+	                LocalDate endDate = LocalDate.parse(input);
+	                temp.setEnd_date(endDate);
+	       
+	                System.out.println("Enter Start time HH:MM >"); 
+	                input = in.next();  
+	                LocalTime startTime = LocalTime.parse(input);
+	                temp.setStart_Time(startTime);
+	                                
+	                System.out.println("Enter end time HH:MM >"); 
+	                input = in.next();  
+	                LocalTime endTime = LocalTime.parse(input);
+	                temp.setEnd_Time(endTime);
+	                                
+	                system.add_resource_to_array(temp);       
+	
+					break;
+				}
+	            case 2:{
+	               Room temp = new Room();
+	                System.out.println("Enter Room ID>");
+	                temp.setID(in.nextInt());
+	                System.out.println();
+	                     }
+	            case 3:{break;}
+	            case 4:{break;}
+	            default:{System.out.println("Wrong Input!");}
+				
 			}
 		}
 		
 	}
 	
-	
+	//it includes modify 
 	public void Allocate_Resources(Resource_Management_System system){
 		Scanner in = new Scanner(System.in);
 		int option=0;
 		while(option!=4){
 			System.out.println("1-Add Resource");
+			System.out.println("2-modify Resource");
 			System.out.println("4-No option");
 			System.out.println("Enter An option>");
 			option=in.nextInt();

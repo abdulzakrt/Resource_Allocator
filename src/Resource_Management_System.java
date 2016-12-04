@@ -167,9 +167,9 @@ public class Resource_Management_System implements Serializable{
 					System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
 
 
-					System.out.println("1-Add Users>");
-					System.out.println("2-Add Resources>");
-					System.out.println("3-Add Admins>");
+					System.out.println("1-Users settings>");
+					System.out.println("2-Resources settings>");
+					System.out.println("3-Admins settings>");
 					System.out.println("4-Logout>");
 					System.out.println("Enter option>");
 					option= in.nextInt();
@@ -179,7 +179,7 @@ public class Resource_Management_System implements Serializable{
 						break;
 					}
 					case 2:{
-						a.Add_Resources(system);
+						a.Allocate_Resources(system);
 						
 						break;
 					}
