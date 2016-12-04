@@ -108,9 +108,15 @@ public class Resource_Management_System implements Serializable{
 				int option=0;
 				while(option!=4){
 					System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
+<<<<<<< HEAD
 					System.out.println("1-Modify Users>");
 					System.out.println("2-Modify Resources>");
 					System.out.println("3-Add Admins>");
+=======
+					System.out.println("1-Add Users>");
+					System.out.println("2-Add Resources>");
+					System.out.println("3-Modify Admins>");
+>>>>>>> 01a8a0b6091ad11f7417cb931e3f59c0349d936c
 					System.out.println("4-Logout>");
 					System.out.println("Enter option>");
 					option= in.nextInt();
