@@ -1,4 +1,5 @@
 import java.io.BufferedInputStream;
+
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.File;
@@ -10,8 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
-
-public class Resource_Management_System {
+import java.io.Serializable;
+public class Resource_Management_System implements Serializable{
 	private Resource[] Resources;
 	private User[] Users;
 	private Admin[] Admins;
@@ -40,6 +41,7 @@ public class Resource_Management_System {
 		
 	}
 	public void Display_resource(){
+		System.out.println("Resources:");
 		for(int i=0;i<resourcecount;i++){
 			System.out.println(Resources[i].getID());
 			
@@ -83,6 +85,11 @@ public class Resource_Management_System {
 			usercount++;
 			
 	}
+	public void addAdmin_to_system(Admin temp){
+		Admins[admincount]=temp;
+		admincount++;
+		
+}
 	
 	public void login(Resource_Management_System system){
 		int ID,pass;
@@ -143,30 +150,97 @@ public class Resource_Management_System {
 	
 	
 	
-	public void openSystem(){
-		ObjectInputStream inusers =null,inadmins = null;
-		//importingadmins
+	public Resource_Management_System openSystem(){
+//		ObjectInputStream inusers =null,inadmins = null;
+//		//importingadmins
+//		try {
+//			inadmins = new ObjectInputStream( new BufferedInputStream(new FileInputStream("admins.ser")));
+//			for(;;){
+//				Admin a = (Admin)inadmins.readObject();
+//					Admins[admincount]=a;
+//					admincount++;
+//				}
+//		}catch(EOFException e){
+//            //e.printStackTrace();
+//        }
+//		catch (FileNotFoundException e1) {
+//			//creating default admin
+//			try {
+//				ObjectOutputStream outadmin=null;
+//				outadmin = new ObjectOutputStream( new BufferedOutputStream(new FileOutputStream("admins.ser")));
+//				Admin a=new Admin();
+//				a.setLog_in_ID(123);
+//				a.setPassword(123);
+//				outadmin.writeObject(a);
+//				outadmin.flush();
+//				outadmin.close();
+//			} catch (FileNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			System.out.println("No Admins Found... Creating admins.ser with default admin");
+//			System.out.println("Please Run the program again");
+//			System.exit(0);
+//
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		
+//		//importing users
+//		try {
+//			inusers = new ObjectInputStream( new BufferedInputStream(new FileInputStream("users.ser")));
+//			for(;;){
+//				User u = (User)inusers.readObject();
+//					Users[usercount]=u;
+//					usercount++;
+//				}
+//			
+//		}catch(EOFException e){
+//            //e.printStackTrace();
+//        }
+//		catch (FileNotFoundException e1) {
+//			System.out.println("No Saved Users");
+//
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		ObjectInputStream insystem=null;
+		//importingSystem
 		try {
-			inadmins = new ObjectInputStream( new BufferedInputStream(new FileInputStream("admins.ser")));
-			for(;;){
-				Admin a = (Admin)inadmins.readObject();
-					Admins[admincount]=a;
-					admincount++;
-				}
+			Resource_Management_System temp;
+			insystem = new ObjectInputStream( new BufferedInputStream(new FileInputStream("system.ser")));
+				temp = (Resource_Management_System)insystem.readObject();
+				return temp;
 		}catch(EOFException e){
             //e.printStackTrace();
         }
 		catch (FileNotFoundException e1) {
-			//creating default admin
 			try {
-				ObjectOutputStream outadmin=null;
-				outadmin = new ObjectOutputStream( new BufferedOutputStream(new FileOutputStream("admins.ser")));
-				Admin a=new Admin();
-				a.setLog_in_ID(123);
-				a.setPassword(123);
-				outadmin.writeObject(a);
-				outadmin.flush();
-				outadmin.close();
+				FileOutputStream f = new FileOutputStream("system.ser");
+				ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
+				Admin temp =new Admin();
+				temp.setLog_in_ID(123);
+				temp.setPassword(123);
+				this.addAdmin_to_system(temp);
+				out.writeObject(this); 
+				out.flush();
+				out.close();
+
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -174,9 +248,8 @@ public class Resource_Management_System {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("No Admins Found... Creating admins.ser with default admin");
-			System.out.println("Please Run the program again");
-			System.exit(0);
+			System.out.println("No Saved Data...Creating system.ser with default admin");
+			System.out.println("Please Run the program again!");
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -186,58 +259,48 @@ public class Resource_Management_System {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
-		//importing users
-		try {
-			inusers = new ObjectInputStream( new BufferedInputStream(new FileInputStream("users.ser")));
-			for(;;){
-				User u = (User)inusers.readObject();
-					Users[usercount]=u;
-					usercount++;
-				}
-			
-		}catch(EOFException e){
-            //e.printStackTrace();
-        }
-		catch (FileNotFoundException e1) {
-			System.out.println("No Saved Users");
-
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		return this;
 	}
 	public void closeSystem(){
 		//saving admins
-				try {
-					FileOutputStream f = new FileOutputStream("admins.ser");
-					ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
-					for(int i=0;i<admincount;i++){
-					out.writeObject(Admins[i]); 
-					}
-					out.flush();
-					out.close();
-
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		//saving users
+//				try {
+//					FileOutputStream f = new FileOutputStream("admins.ser");
+//					ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
+//					for(int i=0;i<admincount;i++){
+//					out.writeObject(Admins[i]); 
+//					}
+//					out.flush();
+//					out.close();
+//
+//				} catch (FileNotFoundException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		//saving users
+//		try {
+//			FileOutputStream f = new FileOutputStream("users.ser");
+//			ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
+//			for(int i=0;i<usercount;i++){
+//			out.writeObject(Users[i]); 
+//			}
+//			out.flush();
+//			out.close();
+//
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		//saving admins
 		try {
-			FileOutputStream f = new FileOutputStream("users.ser");
+			FileOutputStream f = new FileOutputStream("system.ser");
 			ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
-			for(int i=0;i<usercount;i++){
-			out.writeObject(Users[i]); 
-			}
+			out.writeObject(this); 
 			out.flush();
 			out.close();
 

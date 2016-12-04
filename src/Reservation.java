@@ -1,7 +1,7 @@
 import java.sql.Time;
 import java.util.Date;
-
-public class Reservation {
+import java.io.Serializable;
+public class Reservation implements Serializable{
 	private Date Date_of_Reservation;
 	private Date  Start_Time,End_Time;
 	private User User_Who_Made_Reservation;

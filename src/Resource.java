@@ -1,7 +1,7 @@
 import java.sql.Time;
 import java.util.Date;
-
-public class Resource {
+import java.io.Serializable;
+public class Resource implements Serializable{
 	private int ID,Resource_Status;
 	private Date Start_Time,End_Time;
 	private Date Start_Date,End_Date;
