@@ -110,13 +110,13 @@ public class Resource_Management_System implements Serializable{
 					System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
 					System.out.println("1-Modify Users>");
 					System.out.println("2-Modify Resources>");
-					System.out.println("3-Modify Admins>");
+					System.out.println("3-Add Admins>");
 					System.out.println("4-Logout>");
 					System.out.println("Enter option>");
 					option= in.nextInt();
 					switch(option){
 					case 1:{
-						a.add_user(system);
+						a.modify_user(system);
 						break;
 					}
 					case 2:{
@@ -125,11 +125,17 @@ public class Resource_Management_System implements Serializable{
 						break;
 					}
 					case 3:{
-						
+						a.add_admin(system);
 						
 						break;
 					}
-					
+					case 4:{
+						
+						break;
+					}
+					default:{
+						System.out.println("Wrong input !");
+					}
 					}
 				}
 				

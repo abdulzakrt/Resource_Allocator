@@ -9,14 +9,27 @@ public class Admin extends Member {
 	public Admin() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public void add_user(Resource_Management_System system){
+	public void add_admin(Resource_Management_System system){
+		Scanner in = new Scanner(System.in);
+		System.out.println("Enter ID>");
+		int id=in.nextInt();
+		System.out.println("Enter Password>");
+		int pass=in.nextInt();
+		Admin temp=new Admin();
+		temp.setLog_in_ID(id);
+		temp.setPassword(pass);
+		system.addAdmin_to_system(temp);
+		
+		
+		
+	}
+	public void modify_user(Resource_Management_System system){
 		Scanner in = new Scanner(System.in);
 		int option=0;
-		while(option!=4){
+		while(option!=3){
 			System.out.println("1-Add User ");
 			System.out.println("2-Modify A user ");
-			System.out.println("4-No more users ");
+			System.out.println("3-No more users ");
 			System.out.println("Enter An option>");
 			option=in.nextInt();
 			switch(option){
@@ -30,16 +43,13 @@ public class Admin extends Member {
 				System.out.println("Enter Last Name>");
 				String Last=in.next();
 				System.out.println("Enter Age>");
-				int age=in.nextInt();
-			
-                                System.out.println("1-Professor");
-                                System.out.println("2-Staff");
-                                System.out.println("3-Student");
-                                        
-                                System.out.println("Enter User_type(1-2-3)>");
+				int age=in.nextInt();			
+                System.out.println("1-Professor");
+                System.out.println("2-Staff");
+                System.out.println("3-Student");                                  
+                System.out.println("Enter User_type(1-2-3)>");
 				int type=  in.nextInt();
-				User temp=new User(First,Last,age,userType.values()[type-1],id,pass);
-					
+				User temp=new User(First,Last,age,userType.values()[type-1],id,pass);					
 				system.addUser_to_system(temp);
 				break;
 			}
@@ -51,7 +61,10 @@ public class Admin extends Member {
 				temp.setPassword(in.nextInt());
 				break;
 			}
-			
+			case 3:{break;}
+			default:{
+				System.out.println("Wrong Input!");
+			}
 			}
 			
 		}
@@ -63,7 +76,7 @@ public class Admin extends Member {
 		while(option2!=4){
 		System.out.println("1-Room ");
 		System.out.println("2-Equipment ");
-		System.out.println("3-");
+		System.out.println("3-Court");
 		System.out.println("4-No more resources ");
 		System.out.println("Enter An option>");
 		option2=in.nextInt();
@@ -72,35 +85,34 @@ public class Admin extends Member {
 				Room temp=new Room();
 				System.out.println("Enter ID>");
 				temp.setID(in.nextInt());
-                                System.out.println("Enter Room Name>");
-                                temp.setRoomName(in.next());
-                                System.out.println("Enter the room location>");
-                                temp.setResourceLocation(in.next());
-                                System.out.println("Enter Start Date yyyy-MM-dd>"); 
-                                String input = in.next();  
-                                LocalDate startDate = LocalDate.parse(input);
-                                temp.setStart_date(startDate);
-                                //LocalTime startTime = date.toLocalTime();
-                                //LocalDate startDate = date.toLocalDate();
+                 System.out.println("Enter Room Name>");
+                temp.setRoomName(in.next());
+                System.out.println("Enter the room location>");
+                temp.setResourceLocation(in.next());
+                System.out.println("Enter Start Date yyyy-MM-dd>"); 
+                String input = in.next();  
+                LocalDate startDate = LocalDate.parse(input);
+                temp.setStart_date(startDate);
+                //LocalTime startTime = date.toLocalTime();
+                //LocalDate startDate = date.toLocalDate();
                                 
                                 
-                                System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
-                                input = in.next();  //input is a string in order to store the starting time
-                                LocalDate endDate = LocalDate.parse(input);
-                                temp.setEnd_date(endDate);
-                                system.add_resource_to_array(temp);
-                                
-                                
-
+                System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
+                input = in.next();  //input is a string in order to store the starting time
+                LocalDate endDate = LocalDate.parse(input);
+                temp.setEnd_date(endDate);
+                system.add_resource_to_array(temp);
 				break;
 			}
-                        case 2:{
-                                Room temp = new Room();
-                                System.out.println("Enter Room ID>");
-                                temp.setID(in.nextInt());
-                                System.out.println();
-                        }
-			
+            case 2:{
+               Room temp = new Room();
+                System.out.println("Enter Room ID>");
+                temp.setID(in.nextInt());
+                System.out.println();
+                     }
+            case 3:{break;}
+            case 4:{break;}
+            default:{System.out.println("Wrong Input!");}
 			
 			}
 		}
