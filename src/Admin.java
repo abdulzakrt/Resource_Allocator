@@ -62,7 +62,7 @@ public class Admin extends Member {
 		int option2=0;
 		while(option2!=4){
 		System.out.println("1-Room ");
-		System.out.println("2-Equipment ");
+		System.out.println("2- ");
 		System.out.println("3-");
 		System.out.println("4-No more resources ");
 		System.out.println("Enter An option>");
@@ -80,8 +80,11 @@ public class Admin extends Member {
                                 String input = in.next();  
                                 LocalDate startDate = LocalDate.parse(input);
                                 temp.setStart_date(startDate);
-                                //LocalTime startTime = date.toLocalTime();
-                                //LocalDate startDate = date.toLocalDate();
+                                
+                                System.out.println("Enter Start time HH:MM >"); 
+                                input = in.next();  
+                                LocalTime startTime = LocalTime.parse(input);
+                                temp.setStart_Time(startTime);
                                 
                                 
                                 System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
@@ -90,6 +93,10 @@ public class Admin extends Member {
                                 temp.setEnd_date(endDate);
                                 system.add_resource_to_array(temp);
                                 
+                                System.out.println("Enter end time HH:MM >"); 
+                                input = in.next();  
+                                LocalTime endTime = LocalTime.parse(input);
+                                temp.setEnd_Time(startTime);
                                 
 
 				break;
