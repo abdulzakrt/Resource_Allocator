@@ -3,6 +3,7 @@ import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+
 public class Admin extends Member {
 
 	public Admin() {
@@ -30,9 +31,14 @@ public class Admin extends Member {
 				String Last=in.next();
 				System.out.println("Enter Age>");
 				int age=in.nextInt();
-				System.out.println("Enter User_type>");
-				String type= in.next();
-				User temp=new User(First,Last,age,type,id,pass);
+			
+                                System.out.println("1-Professor");
+                                System.out.println("2-Staff");
+                                System.out.println("3-Student");
+                                        
+                                System.out.println("Enter User_type(1-2-3)>");
+				int type=  in.nextInt();
+				User temp=new User(First,Last,age,userType.values()[type-1],id,pass);
 					
 				system.addUser_to_system(temp);
 				break;
@@ -70,17 +76,21 @@ public class Admin extends Member {
                                 temp.setRoomName(in.next());
                                 System.out.println("Enter the room location>");
                                 temp.setResourceLocation(in.next());
-                                System.out.println("Enter Start Date yyyy-MM-ddTHH:mm>"); 
+                                System.out.println("Enter Start Date yyyy-MM-dd>"); 
                                 String input = in.next();  
-                                LocalDateTime date = LocalDateTime.parse(input); 
-                                LocalTime startTime = date.toLocalTime();
-                                LocalDate startDate = date.toLocalDate();
-                                temp.setStart_Time(startTime); 
+                                LocalDate startDate = LocalDate.parse(input);
                                 temp.setStart_date(startDate);
+                                //LocalTime startTime = date.toLocalTime();
+                                //LocalDate startDate = date.toLocalDate();
                                 
-                                System.out.println("Enter End Date yyyy-MM-ddTHH:mm>");  //The End date and time should be in this format!!!!!!
+                                
+                                System.out.println("Enter End Date yyyy-MM-dd>");  //The End date and time should be in this format!!!!!!
                                 input = in.next();  //input is a string in order to store the starting time
-                                LocalDateTime enddate = LocalDateTime.parse(input);    
+                                LocalDate endDate = LocalDate.parse(input);
+                                temp.setEnd_date(endDate);
+                                system.add_resource_to_array(temp);
+                                
+                                
 
 				break;
 			}

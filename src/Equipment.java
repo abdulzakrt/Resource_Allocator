@@ -1,5 +1,4 @@
 
-
 enum equipmentType {Printer, Computer, TinnesRackets, Bicycle}
 
 public class Equipment extends Resource{

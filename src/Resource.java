@@ -1,12 +1,19 @@
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.sql.Time;
+import java.util.Date;
+import java.io.Serializable;
 
-public class Resource {
-	private int ID,Resource_Status;
-	private LocalDate startDate,endDate;   
-	private LocalTime startTime,endTime;
-	private String location;
-	private char Allowance_time;
+
+
+public class Resource implements Serializable{
+
+	protected int ID,Resource_Status;
+	protected LocalDate startDate,endDate;   
+	protected LocalTime startTime,endTime;
+	protected String location;
+	protected char Allowance_time;
 	public Resource() {
 		
 	}
@@ -58,5 +65,7 @@ public class Resource {
         public LocalDate getend_date(){
             return this.endDate;
         }
-                
+        public String toString(){
+            return ("id: "+this.ID + "Location: "+ this.location + " Start Date: " + this.startDate);
+        }       
 }

@@ -1,6 +1,6 @@
 
 
-enum RoomType {conferanceRoom,classRoom,meetingroom }
+enum RoomType {conferanceRoom,classRoom,meetingRoom }
 
 public class Room extends Resource {
     
@@ -68,4 +68,8 @@ public class Room extends Resource {
         public RoomType setRoomType(){
             return this.roomType;
         }        
+        /*
+        public String toString(){
+            return ("Start Date: " + startDate);
+        }     */
 }

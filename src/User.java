@@ -1,17 +1,18 @@
 import java.time.LocalDate;
 
+enum userType {Prof,Staff,Student}
+
 public class User extends Member{
-	private String user_type;
+	private userType user_type;
 	private String First_Name,Last_Name;
 	private int age;
 	private LocalDate Date_of_birth;
-	public User(String F,String L,int age,String user,int ID,int pass) {
+	public User(String F,String L,int age,userType user,int ID,int pass) {
 		this.setLog_in_ID(ID);
 		this.setPassword(pass);
 		First_Name=F;
 		Last_Name=L;
 		this.age=age;
-		
 		user_type= user;
 	}
 	public void Reserve(){
@@ -29,10 +30,10 @@ public class User extends Member{
 	public void setLast_Name(String last_Name) {
 		Last_Name = last_Name;
 	}
-	public String getUser_type() {
+	public userType getUser_type() {
 		return user_type;
 	}
-	public void setUser_type(String user_type) {
+	public void setUser_type(userType user_type) {
 		this.user_type = user_type;
 	}
 	public int getAge() {

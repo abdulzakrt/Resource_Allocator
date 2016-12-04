@@ -1,17 +1,21 @@
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
+import java.io.Serializable;
 
-public class Reservation {
-	private LocalDateTime Date_of_Reservation;
-	private LocalDateTime  Start_Time,End_Time;
+
+
+
+public class Reservation implements Serializable{
+	private LocalDate Date_of_Reservation;
+	private LocalDate  Start_Time,End_Time;
 	private User User_Who_Made_Reservation;
 	private Resource Resource_Booked;
 	private boolean Reservation_Cancelled;
 	private Admin Admin_Who_Cancelled;
         private static int reservationCount;
         
-	public Reservation(Resource c,LocalDateTime Start, LocalDateTime End,User u) {
-		Date_of_Reservation = LocalDateTime.now();
+	public Reservation(Resource c,LocalDate Start, LocalDate End,User u) {
+		Date_of_Reservation = LocalDate.now();
 		Resource_Booked=c;
 		Start_Time=Start;
 		End_Time=End; 
@@ -25,11 +29,11 @@ public class Reservation {
 		return Resource_Booked;
 	}
         
-        public LocalDateTime getStartTiem(){
+        public LocalDate getStartTiem(){
             return this.Start_Time;
         }
         
-        public LocalDateTime getEndTime(){
+        public LocalDate getEndTime(){
             return this.End_Time;
         }
 }
