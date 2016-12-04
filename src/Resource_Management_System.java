@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 public class Resource_Management_System implements Serializable{
 	private Resource[] Resources;
 	private User[] Users;
@@ -62,25 +63,72 @@ public class Resource_Management_System implements Serializable{
 			
 		}
 	}
-	public int Reserve(User u ,Resource c, LocalDate start_time,LocalDate end_time){
-		//Checking resource availability availability
-		for(int i=0;i<resourcecount;i++){
-			if(c.getID()==Resources[i].getID()){
-				for(int j=0;j<reservationcount;j++){
-				
-						
-					}
-				}
-				//Reserving
-				
-			}
-			
-		Reservation temp= new Reservation(c,start_time,end_time,u);
-		Reservations[reservationcount]=temp;
-		reservationcount++;
+        public void Display_reservation(){
+		System.out.println("reservations :");
+		for(int i=0;i<reservationcount;i++){
+			System.out.println(Reservations[i]);
+		}
+	}
+	public int Reserve(User u){
+		
+                for(int i=0;i<resourcecount;i++)
+                {
+                    System.out.println(Resources[i].getID());
+                }
+                //Resource temp = new Resource();
+                Scanner in = new Scanner(System.in);
+                System.out.println("Enter resource ID >"); 
+                int ID = in.nextInt(); 
+                System.out.println("Enter Start Date yyyy-MM-dd>"); 
+                String input = in.next();  
+                LocalDate sdate = LocalDate.parse(input);
+                                
+                System.out.println("Enter Start time HH:MM >"); 
+                input = in.next();  
+                LocalTime stime = LocalTime.parse(input);
+                                
+                System.out.println("Enter end time HH:MM >"); 
+                input = in.next();  
+                LocalTime etime = LocalTime.parse(input);
+                Reservation temp; 
+                Resource temp1=null;
+                for(int i=0;i<resourcecount;i++)
+                {
+                    if(Resources[i].getID()==ID)
+                        temp1=Resources[i];
+                }
+                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType()))
+                {
+                    
+                    if(temp1!=null)
+                        temp= new Reservation(temp1,sdate,stime, etime,u);
+                    else{ System.out.println("No resarvation was made!!!"); return 0;}
+                    Reservations[reservationcount]=temp;
+                    reservationcount++;
+                    return 1;
+                }
 		return 0;
 				
 	}
+        public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
+        {
+            for(int i = 0;i<reservationcount;i++)
+            {
+                Reservation temp = Reservations[i];
+                if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(u.getUser_type()==temp.getResource().getResource_UserType()))
+                {
+                    if((temp.getStartTime().equals(stime))&&(temp.getEndTime().equals(etime)))
+                        return 0;
+                    else if((temp.getStartTime().isBefore(stime))&&(temp.getEndTime().isAfter(stime)))
+                        return 0;
+                    else if((temp.getStartTime().isBefore(etime))&&(temp.getEndTime().isAfter(etime)))
+                        return 0;
+                    else if((stime.isBefore(temp.getStartTime()))&&(etime.isAfter(temp.getEndTime())))
+                        return 0;   
+                }
+            }
+            return 1;
+        }
 	public void addUser_to_system(User temp){
 			Users[usercount]=temp;
 			usercount++;
@@ -90,7 +138,7 @@ public class Resource_Management_System implements Serializable{
 		Admins[admincount]=temp;
 		admincount++;
 		
-}
+        }
 	
 	public void login(Resource_Management_System system){
 		int ID,pass;
@@ -106,8 +154,9 @@ public class Resource_Management_System implements Serializable{
 			if (Admins[i].getLog_in_ID()==ID && Admins[i].getPassword()==pass){
 				a=Admins[i];
 				int option=0;
+                                System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
 				while(option!=4){
-					System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
+					
 					System.out.println("1-Add Users>");
 					System.out.println("2-Add Resources>");
 					System.out.println("3-Modify Admins>");
@@ -140,8 +189,25 @@ public class Resource_Management_System implements Serializable{
 		for(int i=0;i<usercount;i++){
 			if (Users[i].getLog_in_ID()==ID && Users[i].getPassword()==pass){
 				u=Users[i];
-				System.out.println("Welcome user " + u.getLog_in_ID());
-				return;
+				System.out.println("Welcome user " + u.getFirst_Name());
+                                
+                                int option=0;
+                                while(option!=2){
+                                System.out.println("1-reserve>");
+                                System.out.println("2-logout>");
+                                System.out.println("Enter option>");
+                                option= in.nextInt();
+					switch(option){
+					case 1:{
+						int x = this.Reserve(u);
+                                                if(x == 0){
+                                                    System.out.println("No resarvation was made!!!");
+                                                }
+						break;
+					}
+                                        }
+                                }
+				return ;
 			}
 		}
 		System.out.println("User ID or password is incorrect!");
