@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Resource_Management_System {
@@ -59,7 +59,7 @@ public class Resource_Management_System {
 			
 		}
 	}
-	public int Reserve(User u ,Resource c, Date start_time,Date end_time){
+	public int Reserve(User u ,Resource c, LocalDateTime start_time,LocalDateTime end_time){
 		//Checking resource availability availability
 		for(int i=0;i<resourcecount;i++){
 			if(c.getID()==Resources[i].getID()){
@@ -213,24 +213,24 @@ public class Resource_Management_System {
 		}
 
 	}
-	public void closeSystem(){
+	public void closeSystem(){         
 		//saving admins
-				try {
-					FileOutputStream f = new FileOutputStream("admins.ser");
-					ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
-					for(int i=0;i<admincount;i++){
-					out.writeObject(Admins[i]); 
-					}
-					out.flush();
-					out.close();
+		try {
+                    FileOutputStream f = new FileOutputStream("admins.ser");
+                    ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
+		    for(int i=0;i<admincount;i++){
+                        out.writeObject(Admins[i]); 
+                    }
+                    out.flush();
+                    out.close();
 
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//saving users
 		try {
 			FileOutputStream f = new FileOutputStream("users.ser");
@@ -248,5 +248,22 @@ public class Resource_Management_System {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+                //saving resources
+                try{
+			FileOutputStream f = new FileOutputStream("resources.ser");
+			ObjectOutputStream out =   new ObjectOutputStream( new BufferedOutputStream(f));
+			for(int i=0;i<usercount;i++){
+			out.writeObject(Resources[i]); 
+			}
+			out.flush();
+			out.close();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();                    
+                }
 	}
 }

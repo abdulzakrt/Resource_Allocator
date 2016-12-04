@@ -1,4 +1,7 @@
 
+
+enum RoomType {conferanceRoom,classRoom,meetingroom }
+
 public class Room extends Resource {
     
         private String roomName;
@@ -7,7 +10,7 @@ public class Room extends Resource {
         private char size;     //small s , mid. m, large l
         private boolean proj_availability;
         private char labType;    
-        private char roomType;  //conferance room, class rooms, meeting rooms
+        private RoomType roomType;  //conferance room, class rooms, meeting rooms
         
         
 	public Room() {
@@ -34,7 +37,7 @@ public class Room extends Resource {
             this.labType = labType;
         }
         
-        public void setRoomType(char roomType){
+        public void setRoomType(RoomType roomType){
             this.roomType = roomType;
         }
         
@@ -62,7 +65,7 @@ public class Room extends Resource {
             return this.labType;
         }
         
-        public char setRoomType(){
+        public RoomType setRoomType(){
             return this.roomType;
         }        
 }

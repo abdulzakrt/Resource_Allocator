@@ -1,4 +1,8 @@
+import java.time.LocalDate;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class Admin extends Member {
 
 	public Admin() {
@@ -51,22 +55,41 @@ public class Admin extends Member {
 		Scanner in = new Scanner(System.in);
 		int option2=0;
 		while(option2!=4){
-		System.out.println("1-Resource ");
-		System.out.println("2-Room ");
-		System.out.println("3-Equipment ");
+		System.out.println("1-Room ");
+		System.out.println("2-Equipment ");
+		System.out.println("3-");
 		System.out.println("4-No more resources ");
 		System.out.println("Enter An option>");
 		option2=in.nextInt();
 			switch(option2){
 			case 1:{
-			
-				Resource temp=new Resource();
+				Room temp=new Room();
 				System.out.println("Enter ID>");
 				temp.setID(in.nextInt());
-			
-				system.add_resource_to_array(temp);
+                                System.out.println("Enter Room Name>");
+                                temp.setRoomName(in.next());
+                                System.out.println("Enter the room location>");
+                                temp.setResourceLocation(in.next());
+                                System.out.println("Enter Start Date yyyy-MM-ddTHH:mm>"); 
+                                String input = in.next();  
+                                LocalDateTime date = LocalDateTime.parse(input); 
+                                LocalTime startTime = date.toLocalTime();
+                                LocalDate startDate = date.toLocalDate();
+                                temp.setStart_Time(startTime); 
+                                temp.setStart_date(startDate);
+                                
+                                System.out.println("Enter End Date yyyy-MM-ddTHH:mm>");  //The End date and time should be in this format!!!!!!
+                                input = in.next();  //input is a string in order to store the starting time
+                                LocalDateTime enddate = LocalDateTime.parse(input);    
+
 				break;
 			}
+                        case 2:{
+                                Room temp = new Room();
+                                System.out.println("Enter Room ID>");
+                                temp.setID(in.nextInt());
+                                System.out.println();
+                        }
 			
 			
 			}

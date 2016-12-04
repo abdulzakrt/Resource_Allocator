@@ -1,10 +1,10 @@
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Resource {
 	private int ID,Resource_Status;
-	private Date Start_Time,End_Time;
-	private Date Start_Date,End_Date;
+	private LocalDate startDate,endDate;   
+	private LocalTime startTime,endTime;
 	private String location;
 	private char Allowance_time;
 	public Resource() {
@@ -22,11 +22,11 @@ public class Resource {
 	public void setResource_Status(int resource_Status) {
 		Resource_Status = resource_Status;
 	}
-	public Date getStart_Time() {
-		return Start_Time;
+	public LocalTime getStart_Time() {
+		return startTime;
 	}
-	public void setStart_Time(Date start_Time) {
-		Start_Time = start_Time;
+	public void setStart_Time(LocalTime startTime) {
+                this.startTime = startTime;
 	}
 	public char getAllowance_time() {
 		return Allowance_time;
@@ -34,10 +34,29 @@ public class Resource {
 	public void setAllowance_time(char allowance_time) {
 		Allowance_time = allowance_time;
 	}
-	public Date getStart_Date() {
-		return Start_Date;
+	public LocalDate getEnd_Time() {
+		return this.endDate;
 	}
-	public void setStart_Date(Date start_Date) {
-		Start_Date = start_Date;
+	public void setEnd_Time(LocalTime end) {
+		this.endTime = end;
 	}
+        public void setResourceLocation(String Location){
+            this.location = Location;
+        }
+        public String getResourceLocation(){
+            return this.location;
+        }
+        public void setStart_date(LocalDate startDate){
+            this.startDate = startDate;
+        }
+        public LocalDate getStart_date(){
+            return this.startDate;
+        }
+        public void setEnd_date(LocalDate endDate){
+            this.startDate = endDate;
+        }
+        public LocalDate getend_date(){
+            return this.endDate;
+        }
+                
 }
