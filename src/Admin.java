@@ -57,8 +57,16 @@ public class Admin extends Member {
 				System.out.println("Enter User ID to Modify>");
 				int id=in.nextInt();
 				User temp= system.searchUser(id);
+				if(temp!=null){
+				System.out.println("Enter new ID>");
+				int id2=in.nextInt();
+				temp.setLog_in_ID(id2);
 				System.out.println("Enter new password>");
 				temp.setPassword(in.nextInt());
+				}
+				else{
+					System.out.println("No Such User Found!");
+				}
 				break;
 			}
 			case 3:{break;}
