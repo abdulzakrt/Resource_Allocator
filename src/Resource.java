@@ -48,32 +48,36 @@ public abstract class Resource implements Serializable{
 	public void setEnd_Time(LocalTime end) {
 		this.endTime = end;
 	}
-        public void setResourceLocation(String Location){
-            this.location = Location;
-        }
-        public String getResourceLocation(){
-            return this.location;
-        }
-        public void setStart_date(LocalDate startDate){
-            this.startDate = startDate;
-        }
-        public LocalDate getStart_date(){
-            return this.startDate;
-        }
-        public void setEnd_date(LocalDate endDate){
-            this.endDate = endDate;
-        }
-        public LocalDate getend_date(){
-            return this.endDate;
-        }
-        public userType getResource_UserType() {
-		return resourceUserType;
+    public void setResourceLocation(String Location){
+         this.location = Location;
+    }
+    public String getResourceLocation(){
+         return this.location;
+    }
+    public void setStart_date(LocalDate startDate){
+         this.startDate = startDate;
+    }
+    public LocalDate getStart_date(){
+         return this.startDate;
+    }
+    public void setEnd_date(LocalDate endDate){
+         this.endDate = endDate;
+    }
+    public LocalDate getend_date(){
+         return this.endDate;
+    }
+    public userType getResource_UserType() {
+    	return resourceUserType;
 	}
 	public void setResource_UserType(userType resource_userType) {
 		resourceUserType = resource_userType;
 	}
-        public String toString(){
-            return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate +" End Date: "+this.endTime+" Start Time: "+this.startTime + " End Time: "+ this.endTime +" User Type: " + this.resourceUserType);
-        }     
+
+	public String toString(){
+		return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate +" End Date: "+this.endTime+" Start Time: "+this.startTime + " End Time: "+ this.endTime +" User Type: " + this.resourceUserType);
+  	}     
+
+ 
+
         
 }

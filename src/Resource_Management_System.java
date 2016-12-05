@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;//New
 public class Resource_Management_System implements Serializable{
 	private Resource[] Resources;
 	private User[] Users;
@@ -71,7 +72,7 @@ public class Resource_Management_System implements Serializable{
 	}
         //todo list:
         //a person can't reserve two resources at the same time
-        //allowance time check
+        //allowance time check  Done 
         //input error checking
 	public void Reserve(User u){
 		
@@ -96,6 +97,8 @@ public class Resource_Management_System implements Serializable{
                 LocalTime etime = LocalTime.parse(input);
                 Reservation temp; 
                 Resource temp1=null;
+                long duration = ChronoUnit.MINUTES.between(stime, etime);  //To get reservation duration in min.
+                duration = duration/60;
                 for(int i=0;i<resourcecount;i++)
                 {
                     if(Resources[i].getID()==ID){
@@ -105,12 +108,13 @@ public class Resource_Management_System implements Serializable{
                     
                 }
                 if (temp1!=null){
+                	if(duration > temp1.getAllowance_time()){  //To check if the users exceeded the allowed time
+                		System.out.println("The allowed time is: "+ temp1.getAllowance_time() + " Hour(s)");
+                		return;
+                	}
 	                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType()))
-	                {
-	                    
-	                	 
-	                        temp= new Reservation(temp1,sdate,stime, etime,u);
-	                  
+	                {         	 
+  	                    temp= new Reservation(temp1,sdate,stime, etime,u);	                  
 	                    Reservations[reservationcount]=temp;
 	                    reservationcount++;
 	                    return ;
@@ -120,25 +124,25 @@ public class Resource_Management_System implements Serializable{
                 return ;
 				
 	}
-        public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
+    public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
+    {
+    	for(int i = 0;i<reservationcount;i++)
         {
-            for(int i = 0;i<reservationcount;i++)
-            {
-                Reservation temp = Reservations[i];
-                if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(u.getUser_type()==temp.getResource().getResource_UserType()))
-                {
-                    if((temp.getStartTime().equals(stime))&&(temp.getEndTime().equals(etime)))
-                        return 0;
-                    else if((temp.getStartTime().isBefore(stime))&&(temp.getEndTime().isAfter(stime)))
-                        return 0;
-                    else if((temp.getStartTime().isBefore(etime))&&(temp.getEndTime().isAfter(etime)))
-                        return 0;
-                    else if((stime.isBefore(temp.getStartTime()))&&(etime.isAfter(temp.getEndTime())))
-                        return 0;   
-                }
-            }
-            return 1;
-        }
+    		Reservation temp = Reservations[i];
+    		if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(u.getUser_type()==temp.getResource().getResource_UserType()))
+    		{
+    			if((temp.getStartTime().equals(stime))&&(temp.getEndTime().equals(etime)))
+    				return 0;
+                else if((temp.getStartTime().isBefore(stime))&&(temp.getEndTime().isAfter(stime)))
+               		return 0;
+              	else if((temp.getStartTime().isBefore(etime))&&(temp.getEndTime().isAfter(etime)))
+               		return 0;
+              	else if((stime.isBefore(temp.getStartTime()))&&(etime.isAfter(temp.getEndTime())))
+              		return 0;   
+           	}
+       	}
+       	return 1;
+    }
 	public void addUser_to_system(User temp){
 			Users[usercount]=temp;
 			usercount++;
