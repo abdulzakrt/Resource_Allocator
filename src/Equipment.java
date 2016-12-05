@@ -3,12 +3,11 @@ enum equipmentType {Printer, Computer, Speaker,TennisRackets, Bicycle}
 
 public class Equipment extends Resource{
         
-        private static int equipmentCounter;
         private equipmentType equipment;   
         
         
 	public Equipment() {
-		equipmentCounter++;
+
 	}
         
 
@@ -23,6 +22,6 @@ public class Equipment extends Resource{
             return this.equipment;
         }        
         public String toString(){
-            return (super.toString()+" Equipment Type: "+this.equipment +" Number of Equipments: "+ equipmentCounter);
+            return (super.toString()+" Equipment Type: "+this.equipment );
         }
 }

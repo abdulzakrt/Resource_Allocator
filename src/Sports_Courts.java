@@ -1,14 +1,14 @@
 enum courtType {Basketball,Tennis,Football,Squash}
 public class Sports_Courts extends Resource{
     
-        private static int courtCounter;
+
         private courtType Court_Type; 
         private boolean lightAvailable;
         private boolean indoorCourt;
         private String CourtName;
 
 	public Sports_Courts() {
-		courtCounter++;
+
 	}
         
      
@@ -63,6 +63,6 @@ public class Sports_Courts extends Resource{
 			this.lightAvailable = lightAvailable;
 		}
 		public String toString(){
-            return (super.toString()+" Court Name: "+this.CourtName +" Number of Rooms: "+ courtCounter+ " Lights Available: "+ this.lightAvailable + " Indoor Available: "+this.indoorCourt + " Lights Available: "+this.Court_Type);
+            return (super.toString()+" Court Name: "+this.CourtName + " Lights Available: "+ this.lightAvailable + " Indoor Available: "+this.indoorCourt + " Lights Available: "+this.Court_Type);
         }
 }

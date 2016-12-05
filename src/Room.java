@@ -5,7 +5,6 @@ enum RoomType {conferanceRoom,classRoom,meetingRoom,computer_lab,electrical_lab,
 public class Room extends Resource {
     
         private String roomName;
-        private static int roomCounter;
         private int numberOfSeats;
         private boolean proj_availability;
    
@@ -13,7 +12,7 @@ public class Room extends Resource {
         
         
 		public Room() {
-			roomCounter++;
+
 		}
         
         public void setRoomName(String roomName){
@@ -53,7 +52,7 @@ public class Room extends Resource {
         }
   
         public String toString(){
-            return (super.toString()+" Room Name: "+this.roomName +" Number of Rooms: "+ roomCounter+" Number of Seats: "+this.numberOfSeats +" Room Type: "+this.roomType +" proj available: "+this.proj_availability);
+            return (super.toString()+" Room Name: "+this.roomName +" Number of Seats: "+this.numberOfSeats +" Room Type: "+this.roomType +" proj available: "+this.proj_availability);
         }
 
 
