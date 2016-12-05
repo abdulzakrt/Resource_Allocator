@@ -1,30 +1,28 @@
 
-enum equipmentType {Printer, Computer, TennisRackets, Bicycle}
+enum equipmentType {Printer, Computer, Speaker,TennisRackets, Bicycle}
 
 public class Equipment extends Resource{
         
-        private static int equipnentCounter;
-        private String equipmentName;
+        private static int equipmentCounter;
         private equipmentType equipment;   
         
         
 	public Equipment() {
-		equipnentCounter++;
+		equipmentCounter++;
 	}
         
-        public void setEquipmentName(String EquimpentName){
-            this.equipmentName = EquimpentName;
-        }
+
         
         public void setEquipmentType(equipmentType EquipmentType){
             this.equipment = EquipmentType;
         }
         
-        public String getEquipmnetName(){
-            return this.equipmentName;
-        }
+
 
         public equipmentType getEquipmnetType(){
             return this.equipment;
         }        
+        public String toString(){
+            return (super.toString()+" Equipment Type: "+this.equipment +" Number of Equipments: "+ equipmentCounter);
+        }
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 
 
-public class Resource implements Serializable{
+public abstract class Resource implements Serializable{
 
 	protected int ID,Resource_Status;
 	protected LocalDate startDate,endDate;   
@@ -73,7 +73,7 @@ public class Resource implements Serializable{
 		resourceUserType = resource_userType;
 	}
         public String toString(){
-            return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate);
+            return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate +" End Date: "+this.endTime+" Start Time: "+this.startTime + " End Time: "+ this.endTime +" User Type: " + this.resourceUserType);
         }     
         
 }
