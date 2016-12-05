@@ -197,7 +197,7 @@ public class Resource_Management_System implements Serializable{
 						break;
 					}
 					case 4:{
-						
+						System.out.println("Logout Successful!");
 						break;
 					}
 					default:{
@@ -216,9 +216,10 @@ public class Resource_Management_System implements Serializable{
 				System.out.println("Welcome user " + u.getFirst_Name());
                                 
                                 int option=0;
-                                while(option!=2){
+                                while(option!=3){
                                 System.out.println("1-reserve>");
-                                System.out.println("2-logout>");
+                                System.out.println("2-Change Password>");
+                                System.out.println("3-logout>");
                                 System.out.println("Enter option>");
                                 option= in.nextInt();
 					switch(option){
@@ -227,7 +228,20 @@ public class Resource_Management_System implements Serializable{
 						
 							break;
 						}
-					
+						case 2:{
+							System.out.println("Enter new Password>");
+							u.setPassword(in.nextInt());
+							System.out.println("New password set successfully!");
+							break;
+						}
+						case 3:{
+							System.out.println("Logout Successful!");
+							break;
+							
+						}
+						default:{
+							System.out.println("Wrong Input!");
+						}
 					}
                 }
 				return ;

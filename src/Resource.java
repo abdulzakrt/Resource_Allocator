@@ -14,7 +14,7 @@ public abstract class Resource implements Serializable{
 	protected LocalTime startTime,endTime;
 	protected String location;
 	protected userType resourceUserType;
-	protected int Allowance_time;
+	protected long Allowance_time;
 	public Resource() {
 		
 	}
@@ -36,12 +36,7 @@ public abstract class Resource implements Serializable{
 	public void setStart_Time(LocalTime startTime) {
                 this.startTime = startTime;
 	}
-	public int getAllowance_time() {
-		return Allowance_time;
-	}
-	public void setAllowance_time(int allowance_time) {
-		Allowance_time = allowance_time;
-	}
+
 	public LocalDate getEnd_Time() {
 		return this.endDate;
 	}
@@ -75,7 +70,13 @@ public abstract class Resource implements Serializable{
 
 	public String toString(){
 		return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate +" End Date: "+this.endTime+" Start Time: "+this.startTime + " End Time: "+ this.endTime +" User Type: " + this.resourceUserType);
-  	}     
+  	}
+	public long getAllowance_time() {
+		return Allowance_time;
+	}
+	public void setAllowance_time(long allowance_time) {
+		Allowance_time = allowance_time;
+	}     
 
  
 

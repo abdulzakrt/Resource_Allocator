@@ -100,7 +100,9 @@ public class Admin extends Member {
 					temp.setRoomName(in.next());
 					System.out.println("Enter the room location>");//take room location
 					temp.setResourceLocation(in.next());
-					
+					//setting allowance time
+					System.out.println("Enter the allowance time in minutes (int)>");//take room location
+					temp.setAllowance_time(in.nextLong());
 					System.out.println("1-Professor");
 					System.out.println("2-Staff");
 					System.out.println("3-Student");
@@ -154,7 +156,11 @@ public class Admin extends Member {
 					System.out.println("2-Staff");
 					System.out.println("3-Student");
 					System.out.println("Enter Equipment User Type>");//take the type of the user that cn use it
-					temp.setResource_UserType(userType.values()[(in.nextInt())-1]);	            
+					temp.setResource_UserType(userType.values()[(in.nextInt())-1]);	     
+					System.out.println("Enter the equipment location>");//take room location
+					temp.setResourceLocation(in.next());
+					System.out.println("Enter the allowance time in minutes (int)>");//take room location
+					temp.setAllowance_time(in.nextLong());
 	                System.out.println("1-Printer");
 	                System.out.println("2-Computer");
 	                System.out.println("3-Speaker");
@@ -194,7 +200,9 @@ public class Admin extends Member {
 					temp.setCourtName(in.next());
 					System.out.println("Enter the Court location>");//take room location
 					temp.setResourceLocation(in.next());
-
+					//setting allowance time
+					System.out.println("Enter the allowance time in minutes (int)>");//take room location
+					temp.setAllowance_time(in.nextLong());
 					System.out.println("1-Professor");
 					System.out.println("2-Staff");
 					System.out.println("3-Student");
