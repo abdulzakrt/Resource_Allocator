@@ -33,7 +33,7 @@ public class Sports_Courts extends Resource{
 		}
 		public void setLightAvailable(boolean lightAvailable) {
 			this.lightAvailable = lightAvailable;
-		}
+		}//
 		public String toString(){
             return (super.toString()+" Court Name: "+this.CourtName +" Number of Rooms: "+ courtCounter+ " Lights Available: "+ this.lightAvailable + " Indoor Available: "+this.indoorCourt + " Lights Available: "+this.Court_Type);
         }
