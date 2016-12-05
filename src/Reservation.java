@@ -17,7 +17,7 @@ public class Reservation implements Serializable{
         private static int reservationCount;
         
 	public Reservation(Resource c,LocalDate Start,LocalTime stime, LocalTime etime,User u) {
-		Date_of_Reservation = LocalDate.now();
+	//	Date_of_Reservation = LocalDate.now();
 		Resource_Booked=c;
 		Start_Date=Start;
 		
