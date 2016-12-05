@@ -69,6 +69,10 @@ public class Resource_Management_System implements Serializable{
 			System.out.println(Reservations[i]);
 		}
 	}
+        //todo list:
+        //a person can't reserve two resources at the same time
+        //allowance time check
+        //input error checking
 	public void Reserve(User u){
 		
                 for(int i=0;i<resourcecount;i++)
