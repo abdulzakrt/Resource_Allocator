@@ -1,12 +1,12 @@
 import java.time.LocalDate;
 
-enum userType {Prof,Staff,Student}
+enum userType {Prof,Staff,Student, prof_staff, prof_student, staff_student, all}
 
 public class User extends Member{
 	private userType user_type;
 	private String First_Name,Last_Name;
 	private int age;
-	private LocalDate Date_of_birth;
+	
 	public User(String F,String L,int age,userType user,int ID,int pass) {
 		this.setLog_in_ID(ID);
 		this.setPassword(pass);
@@ -41,12 +41,6 @@ public class User extends Member{
 	}
 	public void setAge(int age) {
 		this.age = age;
-	}
-	public LocalDate getDate_of_birth() {
-		return Date_of_birth;
-	}
-	public void setDate_of_birth(LocalDate date_of_birth) {
-		Date_of_birth = date_of_birth;
 	}
 	public String toString(){
 		

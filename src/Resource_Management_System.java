@@ -71,8 +71,10 @@ public class Resource_Management_System implements Serializable{
 		}
 	}
         //todo list:
-        //a person can't reserve two resources at the same time
-        //allowance time check  Done 
+        //a person can't reserve two resources at the same time,//
+        //unique ID for users, resources should have a unique id
+        //if date is before start date of resource or after end date of resource 
+        //allowance time check  Done  
         //input error checking
 	public void Reserve(User u){
 		
@@ -98,7 +100,6 @@ public class Resource_Management_System implements Serializable{
                 Reservation temp; 
                 Resource temp1=null;
                 long duration = ChronoUnit.MINUTES.between(stime, etime);  //To get reservation duration in min.
-                duration = duration/60;
                 for(int i=0;i<resourcecount;i++)
                 {
                     if(Resources[i].getID()==ID){
@@ -107,12 +108,17 @@ public class Resource_Management_System implements Serializable{
                     }                        
                     
                 }
-                if (temp1!=null){
-                	if(duration > temp1.getAllowance_time()){  //To check if the users exceeded the allowed time
-                		System.out.println("The allowed time is: "+ temp1.getAllowance_time() + " Hour(s)");
+                if ((temp1!=null)){
+                	if((sdate.isBefore(temp1.getStart_date()))||(sdate.isAfter(temp1.getend_date())))
+                	{
+                		System.out.println("error wrong starting date !");
                 		return;
                 	}
-	                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType()))
+                	if(duration > temp1.getAllowance_time()){  //To check if the users exceeded the allowed time
+                		System.out.println("error The allowed time is: "+ temp1.getAllowance_time() + " minute(s)");
+                		return;
+                	}
+	                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType(u.getUser_type())))
 	                {         	 
   	                    temp= new Reservation(temp1,sdate,stime, etime,u);	                  
 	                    Reservations[reservationcount]=temp;
@@ -129,7 +135,7 @@ public class Resource_Management_System implements Serializable{
     	for(int i = 0;i<reservationcount;i++)
         {
     		Reservation temp = Reservations[i];
-    		if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(u.getUser_type()==temp.getResource().getResource_UserType()))
+    		if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(u.getUser_type()==temp.getResource().getResource_UserType(u.getUser_type())))
     		{
     			if((temp.getStartTime().equals(stime))&&(temp.getEndTime().equals(etime)))
     				return 0;
@@ -168,13 +174,8 @@ public class Resource_Management_System implements Serializable{
 			if (Admins[i].getLog_in_ID()==ID && Admins[i].getPassword()==pass){
 				a=Admins[i];
 				int option=0;
-                                System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
+                System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
 				while(option!=4){
-
-
-					System.out.println("Welcome Admin" +" "+ a.getLog_in_ID());
-
-
 					System.out.println("1-Users settings>");
 					System.out.println("2-Resources settings>");
 					System.out.println("3-Admins settings>");

@@ -46,8 +46,9 @@ public class Admin extends Member {
 				int age=in.nextInt();			
                 System.out.println("1-Professor");
                 System.out.println("2-Staff");
-                System.out.println("3-Student");                                  
-                System.out.println("Enter User_type(1-2-3)>");
+                System.out.println("3-Student");
+                
+                System.out.println("Enter User_type(1....3)>");
 				int type=  in.nextInt();
 				User temp=new User(First,Last,age,userType.values()[type-1],id,pass);					
 				system.addUser_to_system(temp);
@@ -101,12 +102,16 @@ public class Admin extends Member {
 					System.out.println("Enter the room location>");//take room location
 					temp.setResourceLocation(in.next());
 					//setting allowance time
-					System.out.println("Enter the allowance time in minutes (int)>");//take room location
+					System.out.println("Enter the allowance time in minutes (int)>");
 					temp.setAllowance_time(in.nextLong());
 					System.out.println("1-Professor");
 					System.out.println("2-Staff");
 					System.out.println("3-Student");
-					System.out.println("Enter room User Type>");//take the type of the user that cn use it
+					System.out.println("4-Professor_staff");
+	                System.out.println("5-professor_Student");
+	                System.out.println("6-staff_Student");
+	                System.out.println("7-professor_staff_student");
+					System.out.println("Enter room User Type (1.....7)>");//take the type of the user that cn use it
 					temp.setResource_UserType(userType.values()[(in.nextInt())-1]);
 					//Room Type
 					
@@ -133,7 +138,7 @@ public class Admin extends Member {
 	                input = in.next();  //input is a string in order to store the starting time
 	                LocalDate endDate = LocalDate.parse(input);
 	                temp.setEnd_date(endDate);
-	       
+	                //todo make sure that the dates are correct i.e. startdate<enddate
 	                System.out.println("Enter Start time HH:MM >"); 
 	                input = in.next();  
 	                LocalTime startTime = LocalTime.parse(input);
@@ -155,7 +160,11 @@ public class Admin extends Member {
 					System.out.println("1-Professor");
 					System.out.println("2-Staff");
 					System.out.println("3-Student");
-					System.out.println("Enter Equipment User Type>");//take the type of the user that cn use it
+					System.out.println("4-Professor_staff");
+	                System.out.println("5-professor_Student");
+	                System.out.println("6-staff_Student");
+	                System.out.println("7-professor_staff_student");
+					System.out.println("Enter Equipment User Type(1.....7)>");//take the type of the user that cn use it
 					temp.setResource_UserType(userType.values()[(in.nextInt())-1]);	     
 					System.out.println("Enter the equipment location>");//take room location
 					temp.setResourceLocation(in.next());
@@ -177,7 +186,8 @@ public class Admin extends Member {
 	                input = in.next();  //input is a string in order to store the starting time
 	                LocalDate endDate = LocalDate.parse(input);
 	                temp.setEnd_date(endDate);
-	       
+	                //todo make sure that the dates are correct i.e. startdate<enddate
+
 	                System.out.println("Enter Start time HH:MM >"); 
 	                input = in.next();  
 	                LocalTime startTime = LocalTime.parse(input);
@@ -206,7 +216,11 @@ public class Admin extends Member {
 					System.out.println("1-Professor");
 					System.out.println("2-Staff");
 					System.out.println("3-Student");
-					System.out.println("Enter Court User Type>");//take the type of the user that cn use it
+					System.out.println("4-Professor_staff");
+	                System.out.println("5-professor_Student");
+	                System.out.println("6-staff_Student");
+	                System.out.println("7-professor_staff_student");
+					System.out.println("Enter Court User Type(1.....7)>");//take the type of the user that cn use it
 					temp.setResource_UserType(userType.values()[(in.nextInt())-1]);
 				
 					System.out.println("1-BasketBall");
@@ -228,7 +242,8 @@ public class Admin extends Member {
 	                input = in.next();  //input is a string in order to store the starting time
 	                LocalDate endDate = LocalDate.parse(input);
 	                temp.setEnd_date(endDate);
-	       
+	                //todo make sure that the dates are correct i.e. startdate<enddate
+
 	                System.out.println("Enter Start time HH:MM >"); 
 	                input = in.next();  
 	                LocalTime startTime = LocalTime.parse(input);
