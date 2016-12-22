@@ -160,7 +160,7 @@ public class Resource_Management_System implements Serializable{
 		
         }
 	
-	public void login(Resource_Management_System system){
+/*	public void login(Resource_Management_System system){
 		int ID,pass;
 		Admin a;
 		User u;
@@ -251,9 +251,28 @@ public class Resource_Management_System implements Serializable{
 		System.out.println("User ID or password is incorrect!");
 		
 	}
+	*/
 	
-	
-	
+	public Member login(int ID,int pass){
+		Admin a;
+		User u;
+
+
+		//checking admins
+		for(int i=0;i<admincount;i++){
+			if (Admins[i].getLog_in_ID()==ID && Admins[i].getPassword()==pass){			
+				return Admins[i];
+			}
+		}
+		//checking users
+		for(int i=0;i<usercount;i++){
+			if (Users[i].getLog_in_ID()==ID && Users[i].getPassword()==pass){				
+				return Users[i];
+			}
+		}
+		return null;
+		
+	}	
 	
 	public Resource_Management_System openSystem(){
 //		ObjectInputStream inusers =null,inadmins = null;

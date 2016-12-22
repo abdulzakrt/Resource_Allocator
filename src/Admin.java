@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 
 public class Admin extends Member {
-
+	
 	public Admin() {
 		// TODO Auto-generated constructor stub
 	}
@@ -77,6 +77,14 @@ public class Admin extends Member {
 			}
 			
 		}
+	}
+	boolean modify_user_password(int id, int pass,Resource_Management_System system){
+		User temp= system.searchUser(id);
+		if(temp!=null){
+		temp.setPassword(pass);
+		return true;
+		}
+		else return false;
 	}
 	//Administrator can add resources 
 	public void Add_Resources(Resource_Management_System system){
