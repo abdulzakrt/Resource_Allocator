@@ -9,7 +9,8 @@ import java.io.Serializable;
 
 public abstract class Resource implements Serializable{
 
-	protected int ID,Resource_Status;
+	protected int ID;
+	boolean Resource_Status;
 	protected LocalDate startDate,endDate;   
 	protected LocalTime startTime,endTime;
 	protected String location;
@@ -24,10 +25,10 @@ public abstract class Resource implements Serializable{
 	public void setID(int iD) {
 		ID = iD;
 	}
-	public int getResource_Status() {
+	public boolean getResource_Status() {
 		return Resource_Status;
 	}
-	public void setResource_Status(int resource_Status) {
+	public void setResource_Status(boolean resource_Status) {
 		Resource_Status = resource_Status;
 	}
 	public LocalTime getStart_Time() {

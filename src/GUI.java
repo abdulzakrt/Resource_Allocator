@@ -5,8 +5,12 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import com.github.lgooddatepicker.components.CalendarPanel;
+import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
 import com.github.lgooddatepicker.components.TimePicker;
@@ -151,7 +155,14 @@ public class GUI extends JFrame{
 		    }
 		s.setVetoPolicy(new SampleTimeVetoPolicy());
 	//	s.setColor(area, color);
-		frame.add(d);
+		JToggleButton nine = new JToggleButton("9:00am");
+		nine.setForeground(Color.BLACK);
+		frame.add(nine);
+		nine.setEnabled(false);
+		nine.setBackground(Color.RED);
+		//nine.setDisabledSelectedIcon(new ImageIcon(ReservationPanel.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-light.png")));
+		JToggleButton ten = new JToggleButton("10:00am");
+		frame.add(nine);
 		frame.pack();
 		frame.setVisible(true);
 		
@@ -180,9 +191,11 @@ public class GUI extends JFrame{
 		JPanel cards = new JPanel(new CardLayout());
 		UserSettingsGUI();
 		ResourceSettingsGUI();
+		JScrollPane s= new JScrollPane(ResourceSettings);
+		JScrollPane u= new JScrollPane(UserSettings);
 		frame.add(cards, BorderLayout.CENTER);
-		cards.add(UserSettings,"User settings");
-		cards.add(ResourceSettings,"Resources settings");
+		cards.add(u,"User settings");
+		cards.add(s,"Resources settings");
 		menu.addItemListener(new ItemListener(){
 			
 			@Override
@@ -203,8 +216,18 @@ public class GUI extends JFrame{
 		UserSettings.setLayout(new BoxLayout(UserSettings, BoxLayout.Y_AXIS));
 		String[] menuitems={"Add User","Modify A user"};
 		JComboBox menu = new JComboBox(menuitems);
-		menu.setSize(150, 50);
 		JPanel cards = new JPanel(new CardLayout());
+		menu.setMaximumSize(new Dimension(250,30));
+		menu.addItemListener(new ItemListener(){
+			
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				CardLayout cl = (CardLayout)(cards.getLayout());
+		        cl.show(cards, (String)evt.getItem());
+				}
+		
+		});
+		
 		
 		
 		
@@ -213,35 +236,35 @@ public class GUI extends JFrame{
 		JPanel add= new JPanel();
 		add.setLayout(new BoxLayout(add, BoxLayout.Y_AXIS));
 		//ID
-		JLabel ID_l=new JLabel("ID");
+		JLabel ID_l=new JLabel("ID                ");
 		JTextField ID= new JTextField();
 		ID.setColumns(15);
 		JPanel ID_p=new JPanel();
 		ID_p.add(ID_l);
 		ID_p.add(ID);
 		//password
-		JLabel pass_l=new JLabel("Password");
+		JLabel pass_l=new JLabel("Password  ");
 		JTextField pass= new JTextField();
 		pass.setColumns(15);
 		JPanel pass_p=new JPanel();
 		pass_p.add(pass_l);
 		pass_p.add(pass);
 		//First name 
-		JLabel first_l=new JLabel("First Name");
+		JLabel first_l=new JLabel("First Name  ");
 		JTextField first= new JTextField();
 		first.setColumns(15);
 		JPanel first_p=new JPanel();
 		first_p.add(first_l);
 		first_p.add(first);		
 		//Last name 
-		JLabel last_l=new JLabel("Last Name");
+		JLabel last_l=new JLabel("Last Name   ");
 		JTextField last= new JTextField();
 		last.setColumns(15);
 		JPanel last_p=new JPanel();
 		last_p.add(last_l);
 		last_p.add(last);	
 		//Age 
-		JLabel age_l=new JLabel("Age");
+		JLabel age_l=new JLabel("  Age                ");
 		JTextField age= new JTextField();
 		age.setColumns(15);
 		JPanel age_p=new JPanel();
@@ -289,6 +312,7 @@ public class GUI extends JFrame{
 			
 		});
 		//adding panels to add
+		add.add(new JLabel(" "));
 		add.add(ID_p);
 		add.add(pass_p);
 		add.add(first_p);
@@ -297,7 +321,7 @@ public class GUI extends JFrame{
 		add.add(type_p);
 		add.add(new JLabel(" "));
 		add.add(submit);
-		
+		add.add(new JLabel(" "));
 		//Modify a user Panel
 		JPanel modify= new JPanel();
 		modify.setLayout(new BoxLayout(modify, BoxLayout.Y_AXIS));
@@ -356,10 +380,11 @@ public class GUI extends JFrame{
 		
 		
 		//adding panels to card
+		modify.add(new JLabel(" "));
 		modify.add(ID_pm);
 		modify.add(submitm);
 		
-		
+		modify.add(new JLabel(" "));
 		
 		//adding different card to cards
 		cards.add(add,"Add User");
@@ -381,12 +406,343 @@ public class GUI extends JFrame{
 	
 	void ResourceSettingsGUI(){
 		ResourceSettings=new JPanel();
+		ResourceSettings.setLayout(new BoxLayout(ResourceSettings, BoxLayout.Y_AXIS));
 		String[] menuitems={"Add Resource","Modify Resource"};
 		JComboBox menu = new JComboBox(menuitems);
-		menu.setSize(100, 50);
+		menu.setMaximumSize(new Dimension(250,30));
+		JPanel cards = new JPanel(new CardLayout());
+		
+		//adding different card to cards
+		cards.add(AddUserSettings(),"Add Resource");
+		
 		ResourceSettings.add(menu);
+		ResourceSettings.add(cards);
+		
 	}
 	
+	JPanel AddUserSettings() {
+		//adding a resource panel
+		JPanel addcards= new JPanel(new CardLayout());
+		//There are 3 different cards addRoom, addEquipment and addCourt each will have different contents 
+		//and will show based on the selected option
+		//some fields are used commonly like ID that are the general resource resources
+		JPanel addRoom = new JPanel();
+		addRoom.setLayout(new BoxLayout(addRoom, BoxLayout.Y_AXIS));
+		JPanel addEquipment = new JPanel();
+		addEquipment.setLayout(new BoxLayout(addEquipment, BoxLayout.Y_AXIS));
+		JPanel addCourt = new JPanel();
+		addCourt.setLayout(new BoxLayout(addCourt, BoxLayout.Y_AXIS));
+		
+		String[] menuitems={"Room","Equipment","Sports_Courts"};
+		JComboBox menun = new JComboBox(menuitems);
+		menun.setMaximumSize(new Dimension(150,30));
+		
+		JPanel menu =new JPanel();
+		menu.add(new JLabel("Choose a Resource Type: "));
+		menu.add(menun);
+		
 	
+		
+		//Room fields
+		//setting up fields that can be multiused 
+		//ID
+		JLabel ID_l=new JLabel("ID                ");
+		JTextField ID= new JTextField();
+		ID.setColumns(15);
+		JPanel ID_p=new JPanel();
+		ID_p.add(ID_l);
+		ID_p.add(ID);
+		//RoomName
+		JLabel roomname_l=new JLabel("Room Name");
+		JTextField roomname= new JTextField();
+		roomname.setColumns(15);
+		JPanel roomname_p=new JPanel();
+		roomname_p.add(roomname_l);
+		roomname_p.add(roomname);		
+		//number of seats
+		JLabel seatsnum_l=new JLabel("Number of Seats");
+		JTextField seatsnum= new JTextField();
+		seatsnum.setColumns(15);
+		JPanel seatsnum_p=new JPanel();
+		seatsnum_p.add(seatsnum_l);
+		seatsnum_p.add(seatsnum);		
+		//Location
+		JLabel loc_l=new JLabel("Location  ");
+		JTextField loc= new JTextField();
+		loc.setColumns(15);
+		JPanel loc_p=new JPanel();
+		loc_p.add(loc_l);
+		loc_p.add(loc);		
+		//projector availability
+		JLabel proj_l=new JLabel("Is projector available?");
+		JToggleButton proj_t = new JToggleButton("Yes");
+		JPanel proj_p = new JPanel();
+		proj_p.add(proj_l);
+		proj_p.add(proj_t);
+		//User_Type 
+		JLabel type_l=new JLabel("User type:");
+		JCheckBox p =new JCheckBox("Professor");
+		JCheckBox s =new JCheckBox("Student");
+		JCheckBox st =new JCheckBox("Staff");
+		JPanel type_p=new JPanel();
+		type_p.setLayout(new BoxLayout(type_p, BoxLayout.Y_AXIS));
+		type_p.add(type_l);
+		type_p.add(p);
+		type_p.add(s);			
+		type_p.add(st);
+		//Room_Type 
+		JLabel Room_l=new JLabel("Room type:               ");
+		JRadioButton cr =new JRadioButton("Conferance Room");
+		JRadioButton clr =new JRadioButton("Class Room");
+		JRadioButton mr =new JRadioButton("MeetingRoom");
+		JRadioButton cl =new JRadioButton("Computer lab");
+		JRadioButton el =new JRadioButton("Electrical lab");
+		JRadioButton ml =new JRadioButton("Mechanical lab");
+		ButtonGroup g= new ButtonGroup();
+		g.add(cr);
+		g.add(clr);			
+		g.add(mr);	
+		g.add(cl);	
+		g.add(el);	
+		g.add(ml);	
+		JPanel Room_p=new JPanel();
+		Room_p.setLayout(new BoxLayout(Room_p, BoxLayout.Y_AXIS));
+		Room_p.add(Room_l);
+		Room_p.add(cr);
+		Room_p.add(clr);			
+		Room_p.add(mr);	
+		Room_p.add(cl);	
+		Room_p.add(el);	
+		Room_p.add(ml);	
+		//start Date
+		DatePicker startdate_l = new DatePicker();
+		JPanel startdate=new JPanel();
+		startdate.add(new JLabel("Start Date: "));
+		startdate.add(startdate_l);
+		//end Date
+		DatePicker enddate_l = new DatePicker();
+		JPanel enddate=new JPanel();
+		enddate.add(new JLabel("End Date: "));
+		enddate.add(enddate_l);
+		//start Time
+		TimePicker starttime_l = new TimePicker();
+		JPanel starttime=new JPanel();
+		starttime.add(new JLabel("Start Time: "));
+		starttime.add(starttime_l);
+		//end Date
+		TimePicker endtime_l = new TimePicker();
+		JPanel endtime=new JPanel();
+		endtime.add(new JLabel("End Time: "));
+		endtime.add(endtime_l);		
+		
+		
+		//Allowance Time
+		JLabel Allowance_l=new JLabel("Allowance Time");
+		JTextField Allowance= new JTextField();
+		Allowance.setColumns(15);
+		JPanel Allowance_p=new JPanel();
+		Allowance_p.add(Allowance_l);
+		Allowance_p.add(Allowance);		
+		
+		
+		//Equipment Fields
+		//Equipment_Type 
+		JLabel equip_l=new JLabel("Equipment type:               ");
+		JRadioButton pr =new JRadioButton("Printer");
+		JRadioButton co =new JRadioButton("Computer");
+		JRadioButton sp =new JRadioButton("Speaker");
+		JRadioButton te =new JRadioButton("Tennis Racket");
+		JRadioButton bi =new JRadioButton("Bicycle");
+		ButtonGroup g1= new ButtonGroup();
+		g1.add(pr);
+		g1.add(co);			
+		g1.add(sp);	
+		g1.add(te);	
+		g1.add(bi);		
+		JPanel equip_p=new JPanel();
+		equip_p.setLayout(new BoxLayout(equip_p, BoxLayout.Y_AXIS));
+		equip_p.add(equip_l);
+		equip_p.add(pr);
+		equip_p.add(co);			
+		equip_p.add(sp);	
+		equip_p.add(te);	
+		equip_p.add(bi);			
+		
+		
+		
+		
+		//Court Fields 
+		
+		
+		//submit button
+		JButton submit=new JButton("Submit");		
+		//submit action
+		submit.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Resource temp = null;
+				int type=0;
+				if(p.isSelected() && s.isSelected() && st.isSelected())
+					type=7;
+				else if(st.isSelected() && s.isSelected())
+					type=6;
+				else if(p.isSelected() && s.isSelected())
+					type=5;	
+				else if(p.isSelected() && st.isSelected())
+					type=4;	
+				else if(s.isSelected() )
+					type=3;	
+				else if(st.isSelected() )
+					type=2;	
+				else if(p.isSelected() )
+					type=1;	
+				
+
+				
+				//setting specific fields for each class type
+				if(((String)menun.getSelectedItem()).equals("Room")){
+				temp=new Room();
+				//setting common attributes
+				temp.setID(Integer.parseInt(ID.getText()));
+				temp.setResource_UserType(userType.values()[type-1]);
+				temp.setStart_date(startdate_l.getDate());
+				temp.setEnd_date(enddate_l.getDate());
+				temp.setStart_Time(starttime_l.getTime());
+				temp.setEnd_Time(endtime_l.getTime());
+				temp.setResourceLocation(loc.getText());
+				//finding the room type
+				int roomtype=0;
+				if(cr.isSelected())
+					roomtype=0;
+				else if (clr.isSelected())
+					roomtype=1;
+				else if (mr.isSelected())
+					roomtype=2;
+				else if (cl.isSelected())
+					roomtype=3;
+				else if (el.isSelected())
+					roomtype=4;
+				else if (el.isSelected())
+					roomtype=4;
+				else if (ml.isSelected())
+					roomtype=5;
+
+
+				((Room)temp).setRoomType(RoomType.values()[roomtype]);
+				((Room)temp).setNumberOfSeats(Integer.parseInt(seatsnum.getText()));
+				((Room)temp).setPojectorAvil(proj_t.isSelected());
+				((Room)temp).setRoomName(roomname.getText());
+				}
+				
+				
+				
+				//if equipment is selected
+				else if(((String)menun.getSelectedItem()).equals("Equipment")){
+					temp=new Equipment();
+					//common attributes
+					temp.setID(Integer.parseInt(ID.getText()));
+					temp.setResource_UserType(userType.values()[type-1]);
+					temp.setStart_date(startdate_l.getDate());
+					temp.setEnd_date(enddate_l.getDate());
+					temp.setStart_Time(starttime_l.getTime());
+					temp.setEnd_Time(endtime_l.getTime());
+					temp.setResourceLocation(loc.getText());
+					int equiptype=0;
+					if(pr.isSelected())
+						equiptype=0;
+					else if (co.isSelected())
+						equiptype=1;
+					else if (sp.isSelected())
+						equiptype=2;
+					else if (te.isSelected())
+						equiptype=3;
+					else if (bi.isSelected())
+						equiptype=4;
+					((Equipment)temp).setEquipmentType(equipmentType.values()[equiptype]);
+				}
+				
+				JOptionPane prompt = new JOptionPane("Resource Created Successfully");
+				prompt.createDialog(frame, "Success").setVisible(true);
+				system.add_resource_to_array(temp);
+				
+			}
+			
+			
+		});
+		
+		//initial display of fields for room
+		addRoom.add(menu);
+		addRoom.add(ID_p);
+		addRoom.add(roomname_p);
+		addRoom.add(loc_p);
+		addRoom.add(Allowance_p);
+		addRoom.add(seatsnum_p);
+		addRoom.add(proj_p);
+		addRoom.add(type_p);
+		addRoom.add(Room_p);
+		addRoom.add(startdate);
+		addRoom.add(starttime);
+		addRoom.add(enddate);
+		addRoom.add(endtime);				
+		addRoom.add(submit);
+		
+		
+	
+		
+		
+		
+		//adding cards to addCards
+		addcards.add(addRoom,"Room");
+		addcards.add(addEquipment,"Equipment");
+		addcards.add(addCourt,"Sports_Courts");
+		
+		menun.setSelectedItem("Room");
+		menun.addItemListener(new ItemListener(){
+			
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				CardLayout cl = (CardLayout)(addcards.getLayout());
+				if(((String)evt.getItem()).equals("Room")){
+						
+					addRoom.add(menu);
+					addRoom.add(ID_p);
+					addRoom.add(roomname_p);
+					addRoom.add(loc_p);
+					addRoom.add(Allowance_p);
+					addRoom.add(seatsnum_p);
+					addRoom.add(proj_p);
+					addRoom.add(type_p);
+					addRoom.add(Room_p);
+					addRoom.add(startdate);
+					addRoom.add(starttime);
+					addRoom.add(enddate);
+					addRoom.add(endtime);				
+					addRoom.add(submit);
+
+				}
+				else if (((String)evt.getItem()).equals("Equipment")){
+					//adding panels to addEquipment
+	
+					addEquipment.add(menu);
+					addEquipment.add(ID_p);
+					addEquipment.add(loc_p);
+					addEquipment.add(Allowance_p);
+					addEquipment.add(type_p);
+					addEquipment.add(equip_p);
+					addEquipment.add(startdate);
+					addEquipment.add(starttime);
+					addEquipment.add(enddate);
+					addEquipment.add(endtime);				
+					addEquipment.add(submit);
+
+				}
+		        cl.show(addcards, (String)evt.getItem());
+				}
+		
+		});
+		
+		return addcards;
+	}
 	
 }
