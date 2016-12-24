@@ -109,7 +109,7 @@ public class GUI extends JFrame{
 					AdminGUI();
 				}
 				
-				else if(s instanceof User){ System.out.println("USER");
+				else if(s instanceof User){ 
 					u= (User) s;
 					UserGUI();
 				
@@ -130,7 +130,23 @@ public class GUI extends JFrame{
 	}
 	
 	void UserGUI(){
-		frame=new JFrame();
+		frame= new JFrame();
+		frame.setLocation(340, 90);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		JPanel panel= new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(frame, 
+		            "Are you sure to close this window?", "Really Closing?", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		        	system.closeSystem();
+		            System.exit(0);
+		        }
+		    }
+		});
 		TimePickerSettings s= new TimePickerSettings();
 		DateTimePicker d = new DateTimePicker(null,s);
 		//to set a policy for allowed times
@@ -161,8 +177,17 @@ public class GUI extends JFrame{
 		nine.setEnabled(false);
 		nine.setBackground(Color.RED);
 		//nine.setDisabledSelectedIcon(new ImageIcon(ReservationPanel.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-light.png")));
-		JToggleButton ten = new JToggleButton("10:00am");
-		frame.add(nine);
+		for (int i=0;i<10;i++){
+			JToggleButton temp=new JToggleButton(""+i);
+			if(i%2==0){
+				temp.setBackground(Color.red);
+				temp.setEnabled(false);
+			}
+			panel.add(temp);
+			
+		
+		}
+		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
 		
@@ -171,8 +196,8 @@ public class GUI extends JFrame{
 	
 	void AdminGUI(){
 		frame= new JFrame();
-	//	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(340, 90);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -196,6 +221,7 @@ public class GUI extends JFrame{
 		frame.add(cards, BorderLayout.CENTER);
 		cards.add(u,"User settings");
 		cards.add(s,"Resources settings");
+		cards.add(AdminSettings(),"Admins settings");
 		menu.addItemListener(new ItemListener(){
 			
 			@Override
@@ -209,7 +235,64 @@ public class GUI extends JFrame{
 		frame.setSize(600, 600);
 		frame.setVisible(true);
 	}
-	
+	JPanel AdminSettings(){
+		JPanel addadmin= new JPanel();
+		addadmin.setLayout(new BoxLayout(addadmin, BoxLayout.Y_AXIS));
+		//ID
+		JLabel ID_l=new JLabel("ID                ");
+		JTextField ID= new JTextField();
+		ID.setColumns(15);
+		JPanel ID_p=new JPanel();
+		ID_p.add(ID_l);
+		ID_p.add(ID);
+		ID_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//password
+		JLabel pass_l=new JLabel("Password  ");
+		JTextField pass= new JTextField();
+		pass.setColumns(15);
+		JPanel pass_p=new JPanel();	
+		pass_p.add(pass_l);
+		pass_p.add(pass);
+		pass_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JButton submit=new JButton("Submit");
+		submit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		submit.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Admin temp;
+				temp=new Admin();
+				try{
+				temp.setLog_in_ID(Integer.parseInt(ID.getText()));
+				temp.setPassword(Integer.parseInt(pass.getText()));
+				}
+				catch(NumberFormatException s){
+					JOptionPane prompt = new JOptionPane("ID,password,age should be an integer");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+					}
+					system.addAdmin_to_system(temp);
+					JOptionPane success = new JOptionPane("Admin Created");
+					success.createDialog(frame, "Success").setVisible(true);
+				
+			}
+			
+		});
+		
+		addadmin.add(new JLabel("\n\n"));
+		JLabel title =new JLabel("Add another adminstrator:");
+		title.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addadmin.add(title);
+		addadmin.add(new JLabel("\n\n"));
+		addadmin.add(ID_p);
+		addadmin.add(pass_p);
+		addadmin.add(submit);
+		addadmin.add(new JLabel("\n\n\n\n\n\n\n\n"));
+		
+		
+		return addadmin;
+		
+	}
 	
 	void UserSettingsGUI() {
 		UserSettings=new JPanel();
@@ -289,6 +372,7 @@ public class GUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int type=0;
+				User temp;
 				if(p.isSelected() && s.isSelected() && st.isSelected())
 					type=7;
 				else if(st.isSelected() && s.isSelected())
@@ -302,8 +386,15 @@ public class GUI extends JFrame{
 				else if(st.isSelected() )
 					type=2;	
 				else if(p.isSelected() )
-					type=1;	
-				User temp=new User(first.getText(),last.getText(),Integer.parseInt(age.getText()),userType.values()[type-1],Integer.parseInt(ID.getText()),Integer.parseInt(pass.getText()));					
+					type=1;
+				try{
+				 temp=new User(first.getText(),last.getText(),Integer.parseInt(age.getText()),userType.values()[type-1],Integer.parseInt(ID.getText()),Integer.parseInt(pass.getText()));			
+				}
+			catch(NumberFormatException s){
+				JOptionPane prompt = new JOptionPane("ID,password,age should be an integer");
+				prompt.createDialog(frame, "Fail").setVisible(true);
+				return;
+				}
 				system.addUser_to_system(temp);
 				JOptionPane error = new JOptionPane("User Created");
 				error.createDialog(frame, "Success").setVisible(true);
@@ -413,14 +504,14 @@ public class GUI extends JFrame{
 		JPanel cards = new JPanel(new CardLayout());
 		
 		//adding different card to cards
-		cards.add(AddUserSettings(),"Add Resource");
+		cards.add(AddResourceSettings(),"Add Resource");
 		
 		ResourceSettings.add(menu);
 		ResourceSettings.add(cards);
 		
 	}
 	
-	JPanel AddUserSettings() {
+	JPanel AddResourceSettings() {
 		//adding a resource panel
 		JPanel addcards= new JPanel(new CardLayout());
 		//There are 3 different cards addRoom, addEquipment and addCourt each will have different contents 
@@ -452,20 +543,23 @@ public class GUI extends JFrame{
 		JPanel ID_p=new JPanel();
 		ID_p.add(ID_l);
 		ID_p.add(ID);
+		ID_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//RoomName
 		JLabel roomname_l=new JLabel("Room Name");
 		JTextField roomname= new JTextField();
 		roomname.setColumns(15);
 		JPanel roomname_p=new JPanel();
 		roomname_p.add(roomname_l);
-		roomname_p.add(roomname);		
+		roomname_p.add(roomname);	
+		roomname_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//number of seats
 		JLabel seatsnum_l=new JLabel("Number of Seats");
 		JTextField seatsnum= new JTextField();
 		seatsnum.setColumns(15);
 		JPanel seatsnum_p=new JPanel();
 		seatsnum_p.add(seatsnum_l);
-		seatsnum_p.add(seatsnum);		
+		seatsnum_p.add(seatsnum);	
+		seatsnum_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//Location
 		JLabel loc_l=new JLabel("Location  ");
 		JTextField loc= new JTextField();
@@ -473,12 +567,14 @@ public class GUI extends JFrame{
 		JPanel loc_p=new JPanel();
 		loc_p.add(loc_l);
 		loc_p.add(loc);		
+		loc_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//projector availability
 		JLabel proj_l=new JLabel("Is projector available?");
 		JToggleButton proj_t = new JToggleButton("Yes");
 		JPanel proj_p = new JPanel();
 		proj_p.add(proj_l);
 		proj_p.add(proj_t);
+		proj_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//User_Type 
 		JLabel type_l=new JLabel("User type:");
 		JCheckBox p =new JCheckBox("Professor");
@@ -490,6 +586,7 @@ public class GUI extends JFrame{
 		type_p.add(p);
 		type_p.add(s);			
 		type_p.add(st);
+		type_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//Room_Type 
 		JLabel Room_l=new JLabel("Room type:               ");
 		JRadioButton cr =new JRadioButton("Conferance Room");
@@ -514,26 +611,31 @@ public class GUI extends JFrame{
 		Room_p.add(cl);	
 		Room_p.add(el);	
 		Room_p.add(ml);	
+		Room_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//start Date
 		DatePicker startdate_l = new DatePicker();
 		JPanel startdate=new JPanel();
 		startdate.add(new JLabel("Start Date: "));
 		startdate.add(startdate_l);
+		startdate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//end Date
 		DatePicker enddate_l = new DatePicker();
 		JPanel enddate=new JPanel();
 		enddate.add(new JLabel("End Date: "));
 		enddate.add(enddate_l);
+		enddate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//start Time
 		TimePicker starttime_l = new TimePicker();
 		JPanel starttime=new JPanel();
 		starttime.add(new JLabel("Start Time: "));
 		starttime.add(starttime_l);
+		starttime.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//end Date
 		TimePicker endtime_l = new TimePicker();
 		JPanel endtime=new JPanel();
 		endtime.add(new JLabel("End Time: "));
 		endtime.add(endtime_l);		
+		endtime.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		
 		//Allowance Time
@@ -543,7 +645,7 @@ public class GUI extends JFrame{
 		JPanel Allowance_p=new JPanel();
 		Allowance_p.add(Allowance_l);
 		Allowance_p.add(Allowance);		
-		
+		Allowance_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		//Equipment Fields
 		//Equipment_Type 
@@ -567,7 +669,7 @@ public class GUI extends JFrame{
 		equip_p.add(sp);	
 		equip_p.add(te);	
 		equip_p.add(bi);			
-
+		equip_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		//Court Fields 
 		//Court name
@@ -577,6 +679,7 @@ public class GUI extends JFrame{
 		JPanel courtname_p=new JPanel();
 		courtname_p.add(courtname_l);
 		courtname_p.add(courtname);	
+		courtname_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//Court_Type 
 		JLabel court_l=new JLabel("Court type:               ");
 		JRadioButton ba =new JRadioButton("BasketBall");
@@ -594,25 +697,28 @@ public class GUI extends JFrame{
 		court_p.add(ba);
 		court_p.add(tee);	
 		court_p.add(fo);			
-		court_p.add(sq);	
+		court_p.add(sq);
+		court_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//lights available
 		JLabel light_l=new JLabel("Are lights available?");
 		JToggleButton light_t = new JToggleButton("Yes");
 		JPanel light_p = new JPanel();
 		light_p.add(light_l);
 		light_p.add(light_t);
+		light_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//indoorcourt
 		JLabel indoor_l=new JLabel("Is it Indoor?");
 		JToggleButton indoor_t = new JToggleButton("Yes");
 		JPanel indoor_p = new JPanel();
 		indoor_p.add(indoor_l);
 		indoor_p.add(indoor_t);
-		
+		indoor_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//submit button
-		JButton submit=new JButton("Submit");		
+		JButton submit=new JButton("Submit");	
+		submit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//submit action
 		submit.addActionListener(new ActionListener(){
-
+		
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Resource temp = null;
@@ -633,12 +739,14 @@ public class GUI extends JFrame{
 					type=1;	
 				
 
-				
+				try{
 				//setting specific fields for each class type
 				if(((String)menun.getSelectedItem()).equals("Room")){
 				temp=new Room();
 				//setting common attributes
+				
 				temp.setID(Integer.parseInt(ID.getText()));
+				
 				temp.setResource_UserType(userType.values()[type-1]);
 				temp.setStart_date(startdate_l.getDate());
 				temp.setEnd_date(enddate_l.getDate());
@@ -720,6 +828,12 @@ public class GUI extends JFrame{
 					((Sports_Courts)temp).setIndoorCourt(indoor_t.isSelected());
 					((Sports_Courts)temp).setCourt_Type(courtType.values()[courttype]);
 				}
+				}
+				catch(NumberFormatException s){
+					JOptionPane prompt = new JOptionPane("ID,number of seats should be an integer");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
 				JOptionPane prompt = new JOptionPane("Resource Created Successfully");
 				prompt.createDialog(frame, "Success").setVisible(true);
 				system.add_resource_to_array(temp);
@@ -737,12 +851,12 @@ public class GUI extends JFrame{
 		addRoom.add(Allowance_p);
 		addRoom.add(seatsnum_p);
 		addRoom.add(proj_p);
-		addRoom.add(type_p);
-		addRoom.add(Room_p);
 		addRoom.add(startdate);
 		addRoom.add(enddate);
 		addRoom.add(starttime);
-		addRoom.add(endtime);				
+		addRoom.add(endtime);
+		addRoom.add(type_p);
+		addRoom.add(Room_p);				
 		addRoom.add(submit);
 		
 		
@@ -770,12 +884,12 @@ public class GUI extends JFrame{
 					addRoom.add(Allowance_p);
 					addRoom.add(seatsnum_p);
 					addRoom.add(proj_p);
-					addRoom.add(type_p);
-					addRoom.add(Room_p);
 					addRoom.add(startdate);
 					addRoom.add(enddate);
 					addRoom.add(starttime);
-					addRoom.add(endtime);				
+					addRoom.add(endtime);	
+					addRoom.add(type_p);
+					addRoom.add(Room_p);			
 					addRoom.add(submit);
 
 				}
@@ -786,12 +900,12 @@ public class GUI extends JFrame{
 					addEquipment.add(ID_p);
 					addEquipment.add(loc_p);
 					addEquipment.add(Allowance_p);
-					addEquipment.add(type_p);
-					addEquipment.add(equip_p);
 					addEquipment.add(startdate);
 					addEquipment.add(enddate);
 					addEquipment.add(starttime);					
-					addEquipment.add(endtime);				
+					addEquipment.add(endtime);
+					addEquipment.add(type_p);
+					addEquipment.add(equip_p);				
 					addEquipment.add(submit);
 
 				}
@@ -805,12 +919,12 @@ public class GUI extends JFrame{
 					addCourt.add(light_p);
 					addCourt.add(indoor_p);
 					addCourt.add(Allowance_p);
-					addCourt.add(type_p);
-					addCourt.add(court_p);
 					addCourt.add(startdate);
 					addCourt.add(enddate);
 					addCourt.add(starttime);					
 					addCourt.add(endtime);				
+					addCourt.add(type_p);
+					addCourt.add(court_p);
 					addCourt.add(submit);
 					
 					

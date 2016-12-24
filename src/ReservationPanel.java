@@ -16,6 +16,16 @@ import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.ImageIcon;
+import java.awt.GridLayout;
+import javax.swing.SwingConstants;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpringLayout;
+import java.awt.Component;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JButton;
 
 public class ReservationPanel extends JPanel {
 
@@ -23,15 +33,15 @@ public class ReservationPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public ReservationPanel() {
-		setLayout(new MigLayout("", "[69px][121px]", "[23px][][]"));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		JToggleButton nine = new JToggleButton("9:00am");
-		nine.setForeground(Color.BLACK);
-		add(nine, "cell 0 0,alignx left,aligny center");
-		nine.setBackground(Color.RED);
-		nine.setDisabledSelectedIcon(new ImageIcon(ReservationPanel.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-light.png")));
-		JToggleButton ten = new JToggleButton("10:00am");
-		add(ten, "cell 0 1,alignx left,aligny center");
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
+		rdbtnNewRadioButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("New radio button");
+		rdbtnNewRadioButton_1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		add(rdbtnNewRadioButton_1);
 
 	}
 
