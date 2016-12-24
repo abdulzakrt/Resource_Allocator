@@ -567,12 +567,46 @@ public class GUI extends JFrame{
 		equip_p.add(sp);	
 		equip_p.add(te);	
 		equip_p.add(bi);			
-		
-		
-		
+
 		
 		//Court Fields 
-		
+		//Court name
+		JLabel courtname_l=new JLabel("Court Name");
+		JTextField courtname= new JTextField();
+		courtname.setColumns(15);
+		JPanel courtname_p=new JPanel();
+		courtname_p.add(courtname_l);
+		courtname_p.add(courtname);	
+		//Court_Type 
+		JLabel court_l=new JLabel("Court type:               ");
+		JRadioButton ba =new JRadioButton("BasketBall");
+		JRadioButton tee =new JRadioButton("Tennis");
+		JRadioButton fo =new JRadioButton("FootBall");
+		JRadioButton sq =new JRadioButton("Squash");
+		ButtonGroup g2= new ButtonGroup();
+		g2.add(ba);
+		g2.add(fo);	
+		g2.add(tee);
+		g2.add(sq);	
+		JPanel court_p=new JPanel();
+		court_p.setLayout(new BoxLayout(court_p, BoxLayout.Y_AXIS));
+		court_p.add(court_l);
+		court_p.add(ba);
+		court_p.add(tee);	
+		court_p.add(fo);			
+		court_p.add(sq);	
+		//lights available
+		JLabel light_l=new JLabel("Are lights available?");
+		JToggleButton light_t = new JToggleButton("Yes");
+		JPanel light_p = new JPanel();
+		light_p.add(light_l);
+		light_p.add(light_t);
+		//indoorcourt
+		JLabel indoor_l=new JLabel("Is it Indoor?");
+		JToggleButton indoor_t = new JToggleButton("Yes");
+		JPanel indoor_p = new JPanel();
+		indoor_p.add(indoor_l);
+		indoor_p.add(indoor_t);
 		
 		//submit button
 		JButton submit=new JButton("Submit");		
@@ -661,7 +695,31 @@ public class GUI extends JFrame{
 						equiptype=4;
 					((Equipment)temp).setEquipmentType(equipmentType.values()[equiptype]);
 				}
-				
+				else if(((String)menun.getSelectedItem()).equals("Sports_Courts")){
+					temp=new Sports_Courts();
+					
+					//common attributes
+					temp.setID(Integer.parseInt(ID.getText()));
+					temp.setResource_UserType(userType.values()[type-1]);
+					temp.setStart_date(startdate_l.getDate());
+					temp.setEnd_date(enddate_l.getDate());
+					temp.setStart_Time(starttime_l.getTime());
+					temp.setEnd_Time(endtime_l.getTime());
+					temp.setResourceLocation(loc.getText());
+					int courttype=0;
+					if(ba.isSelected())
+						courttype=0;
+					else if (tee.isSelected())
+						courttype=1;
+					else if (fo.isSelected())
+						courttype=2;
+					else if (sq.isSelected())
+						courttype=3;
+					((Sports_Courts)temp).setCourtName(courtname.getText());
+					((Sports_Courts)temp).setLightAvailable(light_t.isSelected());
+					((Sports_Courts)temp).setIndoorCourt(indoor_t.isSelected());
+					((Sports_Courts)temp).setCourt_Type(courtType.values()[courttype]);
+				}
 				JOptionPane prompt = new JOptionPane("Resource Created Successfully");
 				prompt.createDialog(frame, "Success").setVisible(true);
 				system.add_resource_to_array(temp);
@@ -682,8 +740,8 @@ public class GUI extends JFrame{
 		addRoom.add(type_p);
 		addRoom.add(Room_p);
 		addRoom.add(startdate);
-		addRoom.add(starttime);
 		addRoom.add(enddate);
+		addRoom.add(starttime);
 		addRoom.add(endtime);				
 		addRoom.add(submit);
 		
@@ -715,8 +773,8 @@ public class GUI extends JFrame{
 					addRoom.add(type_p);
 					addRoom.add(Room_p);
 					addRoom.add(startdate);
-					addRoom.add(starttime);
 					addRoom.add(enddate);
+					addRoom.add(starttime);
 					addRoom.add(endtime);				
 					addRoom.add(submit);
 
@@ -731,10 +789,31 @@ public class GUI extends JFrame{
 					addEquipment.add(type_p);
 					addEquipment.add(equip_p);
 					addEquipment.add(startdate);
-					addEquipment.add(starttime);
 					addEquipment.add(enddate);
+					addEquipment.add(starttime);					
 					addEquipment.add(endtime);				
 					addEquipment.add(submit);
+
+				}
+				else if (((String)evt.getItem()).equals("Sports_Courts")){
+					//adding panels to addEquipment
+	
+					addCourt.add(menu);
+					addCourt.add(ID_p);
+					addCourt.add(courtname_p);
+					addCourt.add(loc_p);
+					addCourt.add(light_p);
+					addCourt.add(indoor_p);
+					addCourt.add(Allowance_p);
+					addCourt.add(type_p);
+					addCourt.add(court_p);
+					addCourt.add(startdate);
+					addCourt.add(enddate);
+					addCourt.add(starttime);					
+					addCourt.add(endtime);				
+					addCourt.add(submit);
+					
+					
 
 				}
 		        cl.show(addcards, (String)evt.getItem());
