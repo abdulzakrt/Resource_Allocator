@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
+
 import com.github.lgooddatepicker.optionalusertools.DateChangeListener;
 import com.github.lgooddatepicker.zinternaltools.DateChangeEvent;
 import com.github.lgooddatepicker.components.DatePicker;
@@ -195,13 +197,16 @@ public class userPanel extends JPanel {
 						LocalDate x = event.getNewDate();
 						//System.out.println(x);
 						date_of_res= x;
+						Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
 						LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), x);
 						
-						if(system.get_resource_of_id(Integer.parseInt(resource_name)).getStart_date().isAfter(x)){
+						if(r.getStart_date().isAfter(x) || r.getend_date().isBefore(x)){
 							for(int j =0; j<24;j++)
 							{
 								Calendar[j].setEnabled(false);
 							}
+							JOptionPane success = new JOptionPane("Resource not available on Selected Date");
+							success.createDialog("Fail").setVisible(true);
 						}
 						else{
 							for(int i=0; i<24;i++)
@@ -213,7 +218,9 @@ public class userPanel extends JPanel {
 									temp = LocalTime.parse((i+1)+":00");
 								else 
 									temp = LocalTime.parse("00:00");
+								if (r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
 								Calendar[i].setEnabled(true);
+								Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
 								for(int j=0;j<24;j++)
 								{
 									if(times_reserved[j]!=null)

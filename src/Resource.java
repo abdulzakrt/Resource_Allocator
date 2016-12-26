@@ -38,8 +38,8 @@ public abstract class Resource implements Serializable{
                 this.startTime = startTime;
 	}
 
-	public LocalDate getEnd_Time() {
-		return this.endDate;
+	public LocalTime getEnd_Time() {
+		return this.endTime;
 	}
 	public void setEnd_Time(LocalTime end) {
 		this.endTime = end;
