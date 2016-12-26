@@ -295,9 +295,15 @@ public class GUI extends JFrame{
 					prompt.createDialog(frame, "Fail").setVisible(true);
 					return;
 					}
-					system.addAdmin_to_system(temp);
-					JOptionPane success = new JOptionPane("Admin Created");
-					success.createDialog(frame, "Success").setVisible(true);
+					try {
+						system.addAdmin_to_system(temp);
+						JOptionPane success = new JOptionPane("Admin Created");
+						success.createDialog(frame, "Success").setVisible(true);
+					} catch (IDexisterror e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				
 			}
 			
@@ -419,9 +425,16 @@ public class GUI extends JFrame{
 				prompt.createDialog(frame, "Fail").setVisible(true);
 				return;
 				}
-				system.addUser_to_system(temp);
-				JOptionPane error = new JOptionPane("User Created");
-				error.createDialog(frame, "Success").setVisible(true);
+				try {
+					system.addUser_to_system(temp);
+					JOptionPane error = new JOptionPane("User Created");
+					error.createDialog(frame, "Success").setVisible(true);
+					
+				} catch (IDexisterror e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				
 			}
 			
@@ -868,9 +881,15 @@ public class GUI extends JFrame{
 					prompt.createDialog(frame, "Fail").setVisible(true);
 					return;
 				}
-				JOptionPane prompt = new JOptionPane("Resource Created Successfully");
-				prompt.createDialog(frame, "Success").setVisible(true);
-				system.add_resource_to_array(temp);
+				
+				try {
+					system.add_resource_to_array(temp);
+					JOptionPane prompt = new JOptionPane("Resource Created Successfully");
+					prompt.createDialog(frame, "Success").setVisible(true);
+				} catch (IDexisterror e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 			

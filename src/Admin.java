@@ -9,75 +9,75 @@ public class Admin extends Member {
 	public Admin() {
 		// TODO Auto-generated constructor stub
 	}
-	public void add_admin(Resource_Management_System system){
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter ID>");
-		int id=in.nextInt();
-		System.out.println("Enter Password>");
-		int pass=in.nextInt();
-		Admin temp=new Admin();
-		temp.setLog_in_ID(id);
-		temp.setPassword(pass);
-		system.addAdmin_to_system(temp);
-		
-		
-		
-	}
-	public void modify_user(Resource_Management_System system){
-		Scanner in = new Scanner(System.in);
-		int option=0;
-		while(option!=3){
-			System.out.println("1-Add User ");
-			System.out.println("2-Modify A user ");
-			System.out.println("3-No more users ");
-			System.out.println("Enter An option>");
-			option=in.nextInt();
-			switch(option){
-			case 1:{
-				System.out.println("Enter ID>");
-				int id=in.nextInt();
-				System.out.println("Enter Password>");
-				int pass=in.nextInt();
-				System.out.println("Enter First Name>");
-				String First=in.next();
-				System.out.println("Enter Last Name>");
-				String Last=in.next();
-				System.out.println("Enter Age>");
-				int age=in.nextInt();			
-                System.out.println("1-Professor");
-                System.out.println("2-Staff");
-                System.out.println("3-Student");
-                
-                System.out.println("Enter User_type(1....3)>");
-				int type=  in.nextInt();
-				User temp=new User(First,Last,age,userType.values()[type-1],id,pass);					
-				system.addUser_to_system(temp);
-				break;
-			}
-			case 2:{
-				System.out.println("Enter User ID to Modify>");
-				int id=in.nextInt();
-				User temp= system.searchUser(id);
-				if(temp!=null){
-				System.out.println("Enter new ID>");
-				int id2=in.nextInt();
-				temp.setLog_in_ID(id2);
-				System.out.println("Enter new password>");
-				temp.setPassword(in.nextInt());
-				}
-				else{
-					System.out.println("No Such User Found!");
-				}
-				break;
-			}
-			case 3:{break;}
-			default:{
-				System.out.println("Wrong Input!");
-			}
-			}
-			
-		}
-	}
+//	public void add_admin(Resource_Management_System system){
+//		Scanner in = new Scanner(System.in);
+//		System.out.println("Enter ID>");
+//		int id=in.nextInt();
+//		System.out.println("Enter Password>");
+//		int pass=in.nextInt();
+//		Admin temp=new Admin();
+//		temp.setLog_in_ID(id);
+//		temp.setPassword(pass);
+//		system.addAdmin_to_system(temp);
+//		
+//		
+//		
+//	}
+//	public void modify_user(Resource_Management_System system){
+//		Scanner in = new Scanner(System.in);
+//		int option=0;
+//		while(option!=3){
+//			System.out.println("1-Add User ");
+//			System.out.println("2-Modify A user ");
+//			System.out.println("3-No more users ");
+//			System.out.println("Enter An option>");
+//			option=in.nextInt();
+//			switch(option){
+//			case 1:{
+//				System.out.println("Enter ID>");
+//				int id=in.nextInt();
+//				System.out.println("Enter Password>");
+//				int pass=in.nextInt();
+//				System.out.println("Enter First Name>");
+//				String First=in.next();
+//				System.out.println("Enter Last Name>");
+//				String Last=in.next();
+//				System.out.println("Enter Age>");
+//				int age=in.nextInt();			
+//                System.out.println("1-Professor");
+//                System.out.println("2-Staff");
+//                System.out.println("3-Student");
+//                
+//                System.out.println("Enter User_type(1....3)>");
+//				int type=  in.nextInt();
+//				User temp=new User(First,Last,age,userType.values()[type-1],id,pass);					
+//				system.addUser_to_system(temp);
+//				break;
+//			}
+//			case 2:{
+//				System.out.println("Enter User ID to Modify>");
+//				int id=in.nextInt();
+//				User temp= system.searchUser(id);
+//				if(temp!=null){
+//				System.out.println("Enter new ID>");
+//				int id2=in.nextInt();
+//				temp.setLog_in_ID(id2);
+//				System.out.println("Enter new password>");
+//				temp.setPassword(in.nextInt());
+//				}
+//				else{
+//					System.out.println("No Such User Found!");
+//				}
+//				break;
+//			}
+//			case 3:{break;}
+//			default:{
+//				System.out.println("Wrong Input!");
+//			}
+//			}
+//			
+//		}
+//	}
 	boolean modify_user_password(int id, int pass,Resource_Management_System system){
 		User temp= system.searchUser(id);
 		if(temp!=null){
@@ -156,7 +156,7 @@ public class Admin extends Member {
 	                input = in.next();  
 	                LocalTime endTime = LocalTime.parse(input);
 	                temp.setEnd_Time(endTime);
-	                system.add_resource_to_array(temp);                  
+	                //system.add_resource_to_array(temp);                  
 	                    
 	
 					break;
@@ -206,7 +206,7 @@ public class Admin extends Member {
 	                LocalTime endTime = LocalTime.parse(input);
 	                temp.setEnd_Time(endTime);                 
 	                    
-	                system.add_resource_to_array(temp);   
+	                //system.add_resource_to_array(temp);   
 	                break;
 	                     }
 	            case 3:{
@@ -261,7 +261,7 @@ public class Admin extends Member {
 	                input = in.next();  
 	                LocalTime endTime = LocalTime.parse(input);
 	                temp.setEnd_Time(endTime);
-	                system.add_resource_to_array(temp);                  
+	                //system.add_resource_to_array(temp);                  
 	                    
 	
 	            	break;}

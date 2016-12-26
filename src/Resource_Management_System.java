@@ -38,7 +38,10 @@ public class Resource_Management_System implements Serializable{
 		return null;
 		
 	}
-	public void add_resource_to_array(Resource temp){
+	public void add_resource_to_array(Resource temp) throws IDexisterror{
+		if(this.Does_resourse_exist(temp.getID())){
+			throw new IDexisterror();
+		}
 		Resources[resourcecount]=temp;
 		resourcecount++;
 		
@@ -63,6 +66,27 @@ public class Resource_Management_System implements Serializable{
 			System.out.println(Admins[i].getLog_in_ID());
 			
 		}
+	}
+	public boolean Does_admin_exist(int id){
+		for (int i=0;i<admincount;i++){
+			if (Admins[i].getLog_in_ID()==id)
+				return true;
+		}
+		return false;
+	}
+	public boolean Does_user_exist(int id){
+		for (int i=0;i<usercount;i++){
+			if (Users[i].getLog_in_ID()==id)
+				return true;
+		}
+		return false;
+	}
+	public boolean Does_resourse_exist(int id){
+		for (int i=0;i<resourcecount;i++){
+			if (Resources[i].getID()==id)
+				return true;
+		}
+		return false;
 	}
         public void Display_reservation(){
 		System.out.println("reservations :");
@@ -175,12 +199,16 @@ public class Resource_Management_System implements Serializable{
        	}
        	return 1;
     }
-	public void addUser_to_system(User temp){
+	public void addUser_to_system(User temp) throws IDexisterror{
+			if (this.Does_user_exist(temp.getLog_in_ID()))
+				throw new IDexisterror();
 			Users[usercount]=temp;
 			usercount++;
 			
 	}
-	public void addAdmin_to_system(Admin temp){
+	public void addAdmin_to_system(Admin temp) throws IDexisterror{
+		if (this.Does_admin_exist(temp.getLog_in_ID()))
+			throw new IDexisterror();
 		Admins[admincount]=temp;
 		admincount++;
 		
@@ -410,6 +438,9 @@ public class Resource_Management_System implements Serializable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IDexisterror e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
