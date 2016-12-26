@@ -150,18 +150,22 @@ public class userPanel extends JPanel {
 					if(system.get_resource_of_index(i) instanceof Room)
 					{
 						Room temp1 = (Room)system.get_resource_of_index(i);
-						if(temp1.getRoomName().equals(resource_name))
+						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
 							system.Reserve(u, temp1, t1, t2, date_of_res);
+							JOptionPane success = new JOptionPane("Reservation Successful");
+							success.createDialog("Success").setVisible(true);
 						}
 						
 					}
 					else if(system.get_resource_of_index(i) instanceof Sports_Courts)
 					{
 						Sports_Courts temp1 = (Sports_Courts)system.get_resource_of_index(i);
-						if(temp1.getCourtName().equals(resource_name))
+						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
 							system.Reserve(u, temp1, t1, t2, date_of_res);
+							JOptionPane success = new JOptionPane("Reservation Successful");
+							success.createDialog("Success").setVisible(true);
 						}
 					}/*BA3BOOOOOS MNAYYAK
 					else if(system.get_resource_of_index(i) instanceof Room)
@@ -169,8 +173,7 @@ public class userPanel extends JPanel {
 						//to be continued
 					}*/
 				}
-				/*JOptionPane success = new JOptionPane("Admin Created");
-				success.createDialog(frame, "Success").setVisible(true);*/
+				
 			}
 			
 			
@@ -187,34 +190,47 @@ public class userPanel extends JPanel {
 
 					@Override
 					public void dateChanged(DateChangeEvent event) {
+					
 						// TODO Auto-generated method stub
 						LocalDate x = event.getNewDate();
+						//System.out.println(x);
 						date_of_res= x;
-						LocalTime[] times_reserved = system.check_source(resource_name, x);
-						for(int j =0; j<24;j++)
-						{
-							Calendar[j].setEnabled(true);
-						}
-						for(int i=0; i<24;i++)
-						{
-							LocalTime temp;
-							if(i<9)
-								temp = LocalTime.parse("0"+(i+1)+":00");
-							else if(i<23)
-								temp = LocalTime.parse((i+1)+":00");
-							else 
-								temp = LocalTime.parse("00:00");
-							for(int j=0;j<24;j++)
+						LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), x);
+						
+						if(system.get_resource_of_id(Integer.parseInt(resource_name)).getStart_date().isAfter(x)){
+							for(int j =0; j<24;j++)
 							{
-								if(times_reserved[j]!=null)
+								Calendar[j].setEnabled(false);
+							}
+						}
+						else{
+							for(int i=0; i<24;i++)
+							{
+								LocalTime temp;
+								if(i<9)
+									temp = LocalTime.parse("0"+(i+1)+":00");
+								else if(i<23)
+									temp = LocalTime.parse((i+1)+":00");
+								else 
+									temp = LocalTime.parse("00:00");
+								Calendar[i].setEnabled(true);
+								for(int j=0;j<24;j++)
 								{
-									if(times_reserved[j].equals(temp))
+									if(times_reserved[j]!=null)
 									{
-										Calendar[i].setEnabled(false);
+										if(times_reserved[j].equals(temp))
+										{
+											Calendar[i].setEnabled(false);
+											Calendar[i].setBackground(Color.red);
+										}
+										
+											
 									}
 								}
+								
+								System.out.println(temp);
+								
 							}
-							
 						}
 						
 						
@@ -238,13 +254,14 @@ public class userPanel extends JPanel {
 				Room temp = (Room)system.get_resource_of_index(i);
 				if(temp.getResource_UserType(u.getUser_type())==u.getUser_type())
 				{
-					menuitems[j] = temp.getRoomName()/*+" "+temp.getID()*/;
+					menuitems[j] = temp.getID()+""/*+" "+temp.getID()*/;
 					j++;
 				}
 			}
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		roomCards.add(menun);
+		resource_name=(String)menun.getSelectedItem();
 		//menun.setMaximumSize(new Dimension(150,30));
 		menun.addItemListener(new ItemListener(){
 			
@@ -270,7 +287,7 @@ public class userPanel extends JPanel {
 				Equipment temp = (Equipment)system.get_resource_of_index(i);
 				if(temp.getResource_UserType(u.getUser_type())==u.getUser_type())
 				{
-					menuitems[j] =(temp.getEquipmnetType())+" "/*+temp.getID()*/;
+					menuitems[j] =(temp.getID())+""/*+temp.getID()*/;
 					j++;
 				}
 			}
@@ -303,7 +320,7 @@ public class userPanel extends JPanel {
 				Sports_Courts temp = (Sports_Courts)system.get_resource_of_index(i);
 				if(temp.getResource_UserType(u.getUser_type())==u.getUser_type())
 				{
-					menuitems[j] = temp.getID()+" "/*+temp.getID()*/;
+					menuitems[j] = temp.getID()+""/*+temp.getID()*/;
 					j++;
 				}
 			}
