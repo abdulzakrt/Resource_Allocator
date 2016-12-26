@@ -90,7 +90,6 @@ public abstract class Resource implements Serializable{
 		Allowance_time = allowance_time;
 	}     
 
- 
 
         
 }

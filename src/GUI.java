@@ -110,6 +110,7 @@ public class GUI extends JFrame{
 				}
 				
 				else if(s instanceof User){ 
+					login.dispose();
 					u= (User) s;
 					UserGUI();
 				
@@ -133,8 +134,9 @@ public class GUI extends JFrame{
 		frame= new JFrame();
 		frame.setLocation(340, 90);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		JPanel panel= new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		//JPanel panel= new JPanel();
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -147,6 +149,23 @@ public class GUI extends JFrame{
 		        }
 		    }
 		});
+		userPanel panel = new userPanel(system, u);
+		
+		//panel.setLocation(200,200);
+	/*DatePicker startdate_l = new DatePicker();
+		TimePicker starTime_l = new TimePicker();
+		TimePicker endTime_l = new TimePicker();
+		JPanel date=new JPanel();
+		//User will enter start date
+		date.add(new JLabel("Start Date: "));
+		date.add(startdate_l);
+		date.setAlignmentX(Component.CENTER_ALIGNMENT);
+		date.add(new JLabel("Start Time: "));
+		date.add(starTime_l);
+		panel.add(date);*/
+		
+		
+		
 		TimePickerSettings s= new TimePickerSettings();
 		DateTimePicker d = new DateTimePicker(null,s);
 		//to set a policy for allowed times
@@ -169,6 +188,7 @@ public class GUI extends JFrame{
 		        	return false;
 		        }
 		    }
+		
 		s.setVetoPolicy(new SampleTimeVetoPolicy());
 	//	s.setColor(area, color);
 		JToggleButton nine = new JToggleButton("9:00am");
@@ -187,10 +207,14 @@ public class GUI extends JFrame{
 			
 		
 		}
+		
+		
+		
 		frame.add(panel);
 		frame.pack();
+		frame.setSize(600, 600);
 		frame.setVisible(true);
-		
+	
 	}
 	
 	
@@ -502,9 +526,19 @@ public class GUI extends JFrame{
 		JComboBox menu = new JComboBox(menuitems);
 		menu.setMaximumSize(new Dimension(250,30));
 		JPanel cards = new JPanel(new CardLayout());
+		menu.addItemListener(new ItemListener(){
+			
+			@Override
+			public void itemStateChanged(ItemEvent evt) {
+				CardLayout cl = (CardLayout)(cards.getLayout());
+		        cl.show(cards, (String)evt.getItem());
+				}
+		
+		});
 		
 		//adding different card to cards
 		cards.add(AddResourceSettings(),"Add Resource");
+		cards.add(modifyResource(),"Modify Resource");
 		
 		ResourceSettings.add(menu);
 		ResourceSettings.add(cards);
@@ -773,7 +807,7 @@ public class GUI extends JFrame{
 
 				((Room)temp).setRoomType(RoomType.values()[roomtype]);
 				((Room)temp).setNumberOfSeats(Integer.parseInt(seatsnum.getText()));
-				((Room)temp).setPojectorAvil(proj_t.isSelected());
+				((Room)temp).setPojectorAvil(proj_t.isSelected()); 
 				((Room)temp).setRoomName(roomname.getText());
 				}
 				
@@ -936,6 +970,72 @@ public class GUI extends JFrame{
 		});
 		
 		return addcards;
+	}
+	
+	JPanel modifyResource(){
+
+		JPanel modify= new JPanel();
+		//modify.setLayout(new BoxLayout(modify, BoxLayout.Y_AXIS));
+		//ID
+		JLabel ID_lm=new JLabel("ID to change");
+		JTextField IDm= new JTextField();
+		IDm.setColumns(15);
+		JPanel ID_pm=new JPanel();
+		ID_pm.add(ID_lm);
+		ID_pm.add(IDm);
+		
+		JButton submitm = new JButton("Submit");
+		submitm.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (system.searchUser(Integer.parseInt(IDm.getText()))!=null){
+					//password
+					
+					JLabel pass_lm=new JLabel("New Password");
+					JTextField passm= new JTextField();
+					passm.setColumns(15);
+					JPanel pass_pm=new JPanel();
+					pass_pm.add(pass_lm);
+					pass_pm.add(passm);
+					JDialog d= new JDialog(frame,"New Password");
+					d.setLocationRelativeTo(frame);
+					JButton submitms = new JButton("Submit");
+					submitms.addActionListener(new ActionListener(){
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							a.modify_user_password(Integer.parseInt(IDm.getText()), Integer.parseInt(passm.getText()), system);
+							JOptionPane error = new JOptionPane("Password Changed Successfully");
+							error.createDialog(frame, "Success").setVisible(true);
+						 
+						}
+						
+					});
+					d.add(pass_pm,BorderLayout.PAGE_START);
+					d.add(submitms,BorderLayout.AFTER_LAST_LINE);
+					d.setSize(300, 200);
+					d.setVisible(true);
+					
+					
+				}
+				else{
+					JOptionPane error = new JOptionPane("User Not Found");
+					error.createDialog(frame, "Fail").setVisible(true);
+				}
+				
+				
+			}
+			
+			
+		});		
+		//adding panels to card
+		modify.add(new JLabel(" "));
+		modify.add(ID_pm);
+		modify.add(submitm);
+		
+		modify.add(new JLabel(" "));
+
+		return modify;	
 	}
 	
 }

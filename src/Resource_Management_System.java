@@ -130,6 +130,26 @@ public class Resource_Management_System implements Serializable{
                 return ;
 				
 	}
+	public void Reserve(User u, Resource x, LocalTime strt, LocalTime end, LocalDate strtdte )
+	{
+		Reservation temp= new Reservation(x,strtdte,strt, end,u);	                  
+        Reservations[reservationcount]=temp;
+        reservationcount++;
+	}
+	public LocalTime[] check_source(String x,LocalDate sdate)
+    {
+		LocalTime[] times_reserved = new LocalTime[24];
+		int j=0;
+    	for(int i = 0;i<reservationcount;i++)
+        {
+    		if(Reservations[i].getStartDate().equals(sdate))
+    		{
+    			times_reserved[j] = Reservations[i].getStartTime();
+    			j++;
+    		}
+       	}
+       	return times_reserved;
+    }
     public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
     {
     	for(int i = 0;i<reservationcount;i++)
@@ -159,7 +179,14 @@ public class Resource_Management_System implements Serializable{
 		admincount++;
 		
         }
-	
+	public int get_resource_count()
+	{
+		return this.resourcecount;
+	}
+	public Resource get_resource_of_index(int i)
+	{
+		return Resources[i];
+	}
 /*	public void login(Resource_Management_System system){
 		int ID,pass;
 		Admin a;
