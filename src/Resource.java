@@ -81,7 +81,7 @@ public abstract class Resource implements Serializable{
 	}
 
 	public String toString(){
-		return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate +" End Date: "+this.endDate+" Start Time: "+this.startTime + " End Time: "+ this.endTime +" User Type: " + this.resourceUserType);
+		return ("id: "+this.ID + " Location: "+ this.location + " Start Date: " + this.startDate +" End Date: "+this.endDate+" Start Time: "+this.startTime + " End Time: "+ this.endTime +" User Type: " + this.resourceUserType +" Allowance time="+ this.Allowance_time);
   	}
 	public long getAllowance_time() {
 		return Allowance_time;
