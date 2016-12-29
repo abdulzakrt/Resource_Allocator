@@ -6,4 +6,6 @@ public class IDexisterror extends Exception {
 		JOptionPane error = new JOptionPane("ID already exists");
 		error.createDialog("Fail").setVisible(true);
 	}
+	
+	
 }

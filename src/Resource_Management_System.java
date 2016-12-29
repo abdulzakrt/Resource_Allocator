@@ -154,8 +154,11 @@ public class Resource_Management_System implements Serializable{
                 return ;
 				
 	}
-	public void Reserve(User u, Resource x, LocalTime strt, LocalTime end, LocalDate strtdte )
+	public void Reserve(User u, Resource x, LocalTime[] hours, LocalDate strtdte )
 	{
+		LocalTime strt, end;
+		strt = hours[0];
+		end = hours[hours.length - 1];
 		Reservation temp= new Reservation(x,strtdte,strt, end,u);	                  
         Reservations[reservationcount]=temp;
         reservationcount++;
@@ -163,7 +166,7 @@ public class Resource_Management_System implements Serializable{
 	public LocalTime[] check_source(int x,LocalDate sdate)
     {
 		LocalTime[] times_reserved = new LocalTime[24];
-		for(int i = 0;i<reservationcount;i++)
+		for(int i = 0;i<24;i++)
         {
     		times_reserved[i]=null;
        	}

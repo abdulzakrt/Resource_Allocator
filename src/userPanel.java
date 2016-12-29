@@ -30,7 +30,7 @@ public class userPanel extends JPanel {
 
 	Resource_Management_System system;
 	User u;
-	String resource_name;
+	String resource_name, equip_name, room_name, court_name;
 	LocalDate date_of_res;
 	/**
 	 * Create the panel.
@@ -121,32 +121,10 @@ public class userPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//give feed back on the reservation
-				Resource temp;
+				Resource temp=null;
 				int t1_flag=0;
 				LocalTime t1=LocalTime.parse("00:00"), t2=LocalTime.parse("00:00");
-				for(int j=0; j<24;j++)
-				{
-					if(Calendar[j].isSelected())
-					{
-						if(t1_flag==0)
-						{
-							if(j<9)
-								t1 = LocalTime.parse("0"+(j+1)+":00");
-							else 
-								t1 = LocalTime.parse((j+1)+":00");
-							t1_flag=1;
-						}
-						else if(t1_flag==1)
-						{
-							if(j<9)
-								t2 = LocalTime.parse("0"+(j+1)+":00");
-							else 
-								t2 = LocalTime.parse((j+1)+":00");
-							t1_flag=1;
-							break;
-						}
-					}
-				}
+				
 				for(int i=0; i<system.get_resource_count();i++)
 				{
 					if(system.get_resource_of_index(i) instanceof Room)
@@ -154,9 +132,12 @@ public class userPanel extends JPanel {
 						Room temp1 = (Room)system.get_resource_of_index(i);
 						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
-							system.Reserve(u, temp1, t1, t2, date_of_res);
+							System.out.println("fucking "+"and "+ temp1.getAllowance_time());
+							temp=temp1;
+							System.out.println("fucking "+"and "+ temp1.getAllowance_time());
+							/*system.Reserve(u, temp1, t1, t2, date_of_res);
 							JOptionPane success = new JOptionPane("Reservation Successful");
-							success.createDialog("Success").setVisible(true);
+							success.createDialog("Success").setVisible(true);*/
 						}
 						
 					}
@@ -165,16 +146,74 @@ public class userPanel extends JPanel {
 						Sports_Courts temp1 = (Sports_Courts)system.get_resource_of_index(i);
 						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
-							system.Reserve(u, temp1, t1, t2, date_of_res);
+							temp=temp1;
+							/*system.Reserve(u, temp1, t1, t2, date_of_res);
 							JOptionPane success = new JOptionPane("Reservation Successful");
-							success.createDialog("Success").setVisible(true);
+							success.createDialog("Success").setVisible(true);*/
 						}
-					}/*BA3BOOOOOS MNAYYAK
-					else if(system.get_resource_of_index(i) instanceof Room)
+					}
+					else if(system.get_resource_of_index(i) instanceof Equipment)
 					{
-						//to be continued
-					}*/
+						Equipment temp1 = (Equipment)system.get_resource_of_index(i);
+						if(temp1.getID()==(Integer.parseInt(resource_name)))
+						{
+							temp=temp1;
+							/*system.Reserve(u, temp1, t1, t2, date_of_res);
+							JOptionPane success = new JOptionPane("Reservation Successful");
+							success.createDialog("Success").setVisible(true);*/
+						}
+					}
 				}
+				if(temp==null)
+				{
+					System.out.println("fuck you ");
+				}
+				int num_of_hours = (int)temp.getAllowance_time();
+				System.out.println("fucking "+num_of_hours+"and "+ temp.getAllowance_time());
+				num_of_hours/=60;
+				LocalTime[] hours_to_reserve = new LocalTime[num_of_hours];
+				int hours_selected=0;
+				try{
+					for(int j=0; j<24;j++)
+					{
+						if(Calendar[j].isSelected())
+						{
+							hours_selected++;
+						}
+					}
+					if(hours_selected>num_of_hours)
+					{
+						throw new Exception();
+					}
+				}
+				catch (Exception e){
+					
+					JOptionPane error = new JOptionPane("number of hours has to be less than or equal to "+num_of_hours);
+					
+					error.createDialog("error").setVisible(true);
+					return;
+				}
+				int i=0;
+				for(int j=0; j<24;j++)
+				{
+					if(Calendar[j].isSelected())
+					{
+						if(j<9)
+						{
+							hours_to_reserve[i]= LocalTime.parse("0"+(j+1)+":00");
+							i++;
+						}
+						else 
+						{
+							hours_to_reserve[i] = LocalTime.parse((j+1)+":00");
+							i++;
+						}
+						
+					}
+				}
+				system.Reserve(u, temp, hours_to_reserve, date_of_res);
+				JOptionPane success = new JOptionPane("Reservation Successful");
+				success.createDialog("Success").setVisible(true);
 				
 			}
 			
@@ -197,10 +236,22 @@ public class userPanel extends JPanel {
 						LocalDate x = event.getNewDate();
 						//System.out.println(x);
 						date_of_res= x;
+						if(menu.getSelectedItem()=="Equipments")
+						{
+							resource_name=equip_name;
+						}
+						else if(menu.getSelectedItem()=="Room")
+						{
+							resource_name=room_name;
+						}
+						else if(menu.getSelectedItem()=="Court")
+						{
+							resource_name=court_name;
+						}
 						Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
-						LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), x);
+						LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), date_of_res);
 						
-						if(r.getStart_date().isAfter(x) || r.getend_date().isBefore(x)){
+						if(r.getStart_date().isAfter(date_of_res) || r.getend_date().isBefore(date_of_res)){
 							for(int j =0; j<24;j++)
 							{
 								Calendar[j].setEnabled(false);
@@ -218,9 +269,11 @@ public class userPanel extends JPanel {
 									temp = LocalTime.parse((i+1)+":00");
 								else 
 									temp = LocalTime.parse("00:00");
-								if (r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
-								Calendar[i].setEnabled(true);
-								Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
+								if ((r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp)) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
+								{	
+									Calendar[i].setEnabled(true);
+									Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
+								}
 								for(int j=0;j<24;j++)
 								{
 									if(times_reserved[j]!=null)
@@ -246,7 +299,7 @@ public class userPanel extends JPanel {
 				});
 
 	}
-	//To display all resources of type Room
+	//To display all resources of type Room in JcomboBox
 	JPanel DisplayRooms(){
 		
 		//JPanel roomCards= new JPanel(new CardLayout());
@@ -268,7 +321,7 @@ public class userPanel extends JPanel {
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		roomCards.add(menun);
-		resource_name=(String)menun.getSelectedItem();
+		room_name=(String)menun.getSelectedItem();
 		//menun.setMaximumSize(new Dimension(150,30));
 		menun.addItemListener(new ItemListener(){
 			
@@ -280,7 +333,7 @@ public class userPanel extends JPanel {
 		});
 		return roomCards;
 	}
-	//To display all resources of type Equipment
+	//To display all resources of type Equipment in JcomboBox
 	JPanel DisplayEquipments(){
 		
 		//JPanel roomCards= new JPanel(new CardLayout());
@@ -301,6 +354,7 @@ public class userPanel extends JPanel {
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		EquipmentsCards.add(menun);
+		equip_name=(String)menun.getSelectedItem();
 		menun.addItemListener(new ItemListener(){
 			
 			@Override
@@ -313,7 +367,7 @@ public class userPanel extends JPanel {
 		
 		return EquipmentsCards;
 	}
-	//To display all resources of type Court
+	//To display all resources of type Court in JcomboBox
 	JPanel DisplayCourts(){
 		
 		//JPanel roomCards= new JPanel(new CardLayout());
@@ -335,6 +389,8 @@ public class userPanel extends JPanel {
 		JComboBox menun = new JComboBox(menuitems);
 		CourtsCards.add(menun);
 		//menun.setMaximumSize(new Dimension(150,30));
+		//if(system.get_resource_count()!=0)
+			court_name=(String)menun.getSelectedItem();
 		menun.addItemListener(new ItemListener(){
 			
 			@Override

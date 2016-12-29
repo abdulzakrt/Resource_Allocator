@@ -149,8 +149,9 @@ public class GUI extends JFrame{
 		        }
 		    }
 		});
-		userPanel panel = new userPanel(system, u);
-		
+		//userPanel panel = new userPanel(system, u);
+		userMenu user = new userMenu(system,u);
+
 		//panel.setLocation(200,200);
 	/*DatePicker startdate_l = new DatePicker();
 		TimePicker starTime_l = new TimePicker();
@@ -203,18 +204,17 @@ public class GUI extends JFrame{
 				temp.setBackground(Color.red);
 				temp.setEnabled(false);
 			}
-			panel.add(temp);
+			//user.add(temp);
 			
 		
 		}
 		
 		
 		
-		frame.add(panel);
+		frame.add(user);
 		frame.pack();
-		frame.setSize(600, 600);
+		frame.setSize(300, 300);
 		frame.setVisible(true);
-	
 	}
 	
 	
