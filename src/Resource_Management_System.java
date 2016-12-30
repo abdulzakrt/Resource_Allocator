@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Duration;
 import java.time.temporal.ChronoUnit;//New
 public class Resource_Management_System implements Serializable{
 	private Resource[] Resources;
@@ -94,6 +95,41 @@ public class Resource_Management_System implements Serializable{
 			System.out.println(Reservations[i]);
 		}
 	}
+        public int get_reservation_count(){
+    		return reservationcount;
+    	}
+        public int get_reservation_count(User x){
+        	int res_count=0;
+    		for(int i=0;i<reservationcount;i++)
+    		{
+    			if(Reservations[i].get_user_ID()==x.getLog_in_ID())
+    			{
+    				res_count++;
+    			}
+    		}
+    		return res_count;
+    	}
+        public Reservation[] get_reservations_of_user(User x){
+        	int res_count=0;
+    		for(int i=0;i<reservationcount;i++)
+    		{
+    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCanceled()==false))
+    			{
+    				res_count++;
+    			}
+    		}
+    		Reservation[] array_of_res= new Reservation[res_count];
+    		int j=0;
+    		for(int i=0;i<reservationcount;i++)
+    		{
+    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCanceled()==false))
+    			{
+    				array_of_res[j]=Reservations[i];
+    				j++;
+    			}
+    		}
+    		return array_of_res;
+    	}
         //todo list:
         //a person can't reserve two resources at the same time,//
         //unique ID for users, resources should have a unique id
@@ -158,10 +194,22 @@ public class Resource_Management_System implements Serializable{
 	{
 		LocalTime strt, end;
 		strt = hours[0];
-		end = hours[hours.length - 1];
+		int hour = 1;
+		end = hours[hours.length - 1].plusHours((long)hour);
 		Reservation temp= new Reservation(x,strtdte,strt, end,u);	                  
         Reservations[reservationcount]=temp;
         reservationcount++;
+	}
+	public void Cancel_reservation( Reservation x)
+	{
+		int i=0;
+		for(i=0;i<reservationcount;i++)
+		{
+			if(Reservations[i].equals(x))
+			{
+				Reservations[i].setCancelled();
+			}
+		}
 	}
 	public LocalTime[] check_source(int x,LocalDate sdate)
     {
@@ -173,10 +221,28 @@ public class Resource_Management_System implements Serializable{
 		int j=0;
     	for(int i = 0;i<reservationcount;i++)
         {
-    		if(Reservations[i].getStartDate().equals(sdate) && Reservations[i].getResource().getID()==x)
+    		if((Reservations[i].getStartDate().equals(sdate) && Reservations[i].getResource().getID()==x)&&(Reservations[i].isCanceled()==false))
     		{
-    			times_reserved[j] = Reservations[i].getStartTime();
-    			j++;
+    			//ChronoUnit.MINUTES.between(startT, endT);
+    			if(ChronoUnit.MINUTES.between(Reservations[i].getStartTime(), Reservations[i].getEndTime())>60)
+    			{
+    				int mins = (int)ChronoUnit.MINUTES.between(Reservations[i].getStartTime(), Reservations[i].getEndTime());
+    				times_reserved[j] =Reservations[i].getStartTime();
+    				j++;
+    				int hours = (mins/60);
+    				for(int k=0; k<hours; k++)
+    				{
+    					
+    					times_reserved[j] = Reservations[i].getStartTime().plusHours((long)k);
+    					j++;
+    				}
+    			}
+    			else
+    			{
+	    			times_reserved[j] = Reservations[i].getStartTime();
+	    			j++;
+    			}
+    			
     		}
        	}
        	return times_reserved;

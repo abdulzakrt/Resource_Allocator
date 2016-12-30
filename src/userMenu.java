@@ -12,6 +12,9 @@ import java.time.LocalTime;
 
 public class userMenu extends JPanel {
 	JFrame frame;
+	JFrame reserve_frame;
+	JFrame display_frame;
+	JFrame cancel_frame;
 	/**
 	 * Create the panel.
 	 */
@@ -40,53 +43,81 @@ public class userMenu extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
-		
-		
-		JButton btnMakeAReservation = new JButton("Make a Reservation");
-		GridBagConstraints gbc_btnMakeAReservation = new GridBagConstraints();
-		gbc_btnMakeAReservation.insets = new Insets(0, 0, 5, 5);
-		gbc_btnMakeAReservation.gridx = 3;
-		gbc_btnMakeAReservation.gridy = 2;
-		add(btnMakeAReservation, gbc_btnMakeAReservation);
-		
-		
-		btnMakeAReservation.addActionListener(new ActionListener() {
+				
+				
+				
+				JButton btnMakeAReservation = new JButton("Make a Reservation");
+				GridBagConstraints gbc_btnMakeAReservation = new GridBagConstraints();
+				gbc_btnMakeAReservation.insets = new Insets(0, 0, 5, 5);
+				gbc_btnMakeAReservation.gridx = 4;
+				gbc_btnMakeAReservation.gridy = 2;
+				add(btnMakeAReservation, gbc_btnMakeAReservation);
+				
+				
+				btnMakeAReservation.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-					userPanel panel = new userPanel(system, user);
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+							userPanel panel = new userPanel(system, user);
+							//frame.getContentPane().add(panel);
+							//frame.pack();
+							//frame.setSize(600, 600);
+							//frame.setVisible(true);
+					}
 					
-					frame.add(panel);
-					frame.pack();
-					frame.setSize(600, 600);
-					frame.setVisible(true);
-			}
-			
-			
-		});
+					
+				});
+		
+				
+				JButton btnDisplayReservation = new JButton("Display Reservation");
+				GridBagConstraints gbc_btnDisplayReservation = new GridBagConstraints();
+				gbc_btnDisplayReservation.insets = new Insets(0, 0, 5, 5);
+				gbc_btnDisplayReservation.gridx = 4;
+				gbc_btnDisplayReservation.gridy = 4;
+				add(btnDisplayReservation, gbc_btnDisplayReservation);
+		
+				JButton btnCancelReservation = new JButton("Cancel Reservation");
+				GridBagConstraints gbc_btnCancelReservation = new GridBagConstraints();
+				gbc_btnCancelReservation.insets = new Insets(0, 0, 5, 5);
+				gbc_btnCancelReservation.gridx = 4;
+				gbc_btnCancelReservation.gridy = 6;
+				add(btnCancelReservation, gbc_btnCancelReservation);
+				btnCancelReservation.addActionListener(new ActionListener() {
 
-		
-		JButton btnDisplayReservation = new JButton("Display Reservation");
-		GridBagConstraints gbc_btnDisplayReservation = new GridBagConstraints();
-		gbc_btnDisplayReservation.insets = new Insets(0, 0, 5, 5);
-		gbc_btnDisplayReservation.gridx = 3;
-		gbc_btnDisplayReservation.gridy = 4;
-		add(btnDisplayReservation, gbc_btnDisplayReservation);
-		
-		JButton btnCancelReservation = new JButton("Cancel Reservation");
-		GridBagConstraints gbc_btnCancelReservation = new GridBagConstraints();
-		gbc_btnCancelReservation.insets = new Insets(0, 0, 5, 5);
-		gbc_btnCancelReservation.gridx = 3;
-		gbc_btnCancelReservation.gridy = 6;
-		add(btnCancelReservation, gbc_btnCancelReservation);
-		
-		JButton btnLogout = new JButton("Logout");
-		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
-		gbc_btnLogout.insets = new Insets(0, 0, 0, 5);
-		gbc_btnLogout.gridx = 7;
-		gbc_btnLogout.gridy = 8;
-		add(btnLogout, gbc_btnLogout);
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+							CancelReservationPanel panel = new CancelReservationPanel(system, user);
+							
+							//frame.getContentPane().add(panel);
+							//frame.pack();
+							//frame.setSize(600, 600);
+							//frame.setVisible(true);
+					}
+					
+					
+				});
+				
+				JButton btnLogout = new JButton("Logout");
+				GridBagConstraints gbc_btnLogout = new GridBagConstraints();
+				gbc_btnLogout.insets = new Insets(0, 0, 0, 5);
+				gbc_btnLogout.gridx = 4;
+				gbc_btnLogout.gridy = 8;
+				add(btnLogout, gbc_btnLogout);
+				btnLogout.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						 if (JOptionPane.showConfirmDialog(frame, 
+						            "Are you sure you want to quit?", "Logout ", 
+						            JOptionPane.YES_NO_OPTION,
+						            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+						        	system.closeSystem();
+						            System.exit(0);
+						        }
+					}
+					
+					
+				});
 
 	}
 
