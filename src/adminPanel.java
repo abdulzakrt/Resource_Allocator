@@ -472,40 +472,27 @@ public class adminPanel extends JFrame {
 		JTextField ID= new JTextField();
 		ID.setColumns(15);
 		JPanel ID_p=new JPanel();
-		ID_p.add(ID_l);
-		ID_p.add(ID);
-		ID_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//RoomName
 		JLabel roomname_l=new JLabel("Room Name");
 		JTextField roomname= new JTextField();
 		roomname.setColumns(15);
 		JPanel roomname_p=new JPanel();
-		roomname_p.add(roomname_l);
-		roomname_p.add(roomname);	
-		roomname_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//number of seats
 		JLabel seatsnum_l=new JLabel("Number of Seats");
 		JTextField seatsnum= new JTextField();
 		seatsnum.setColumns(15);
-		JPanel seatsnum_p=new JPanel();
-		seatsnum_p.add(seatsnum_l);
-		seatsnum_p.add(seatsnum);	
-		seatsnum_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//Location
 		JLabel loc_l=new JLabel("Location  ");
 		JTextField loc= new JTextField();
 		loc.setColumns(15);
-		JPanel loc_p=new JPanel();
-		loc_p.add(loc_l);
-		loc_p.add(loc);		
-		loc_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//projector availability
 		JLabel proj_l=new JLabel("Is projector available?");
 		JToggleButton proj_t = new JToggleButton("Yes");
-		JPanel proj_p = new JPanel();
-		proj_p.add(proj_l);
-		proj_p.add(proj_t);
-		proj_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//User_Type 
 		JLabel type_l=new JLabel("User type:");
 		JCheckBox p =new JCheckBox("Professor");
@@ -582,10 +569,7 @@ public class adminPanel extends JFrame {
 		JLabel Allowance_l=new JLabel("Allowance Time");
 		JTextField Allowance= new JTextField();
 		Allowance.setColumns(15);
-		JPanel Allowance_p=new JPanel();
-		Allowance_p.add(Allowance_l);
-		Allowance_p.add(Allowance);		
-		Allowance_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
 		//Equipment Fields
 		//Equipment_Type 
@@ -616,10 +600,7 @@ public class adminPanel extends JFrame {
 		JLabel courtname_l=new JLabel("Court Name");
 		JTextField courtname= new JTextField();
 		courtname.setColumns(15);
-		JPanel courtname_p=new JPanel();
-		courtname_p.add(courtname_l);
-		courtname_p.add(courtname);	
-		courtname_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//Court_Type 
 		JLabel court_l=new JLabel("Court type:               ");
 		JRadioButton ba =new JRadioButton("BasketBall");
@@ -642,17 +623,11 @@ public class adminPanel extends JFrame {
 		//lights available
 		JLabel light_l=new JLabel("Are lights available?");
 		JToggleButton light_t = new JToggleButton("Yes");
-		JPanel light_p = new JPanel();
-		light_p.add(light_l);
-		light_p.add(light_t);
-		light_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//indoorcourt
 		JLabel indoor_l=new JLabel("Is it Indoor?");
 		JToggleButton indoor_t = new JToggleButton("Yes");
-		JPanel indoor_p = new JPanel();
-		indoor_p.add(indoor_l);
-		indoor_p.add(indoor_t);
-		indoor_p.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		//submit button
 		JButton submit=new JButton("Submit");	
 		submit.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -75,7 +75,18 @@ public class userMenu extends JPanel {
 				gbc_btnDisplayReservation.gridx = 4;
 				gbc_btnDisplayReservation.gridy = 4;
 				add(btnDisplayReservation, gbc_btnDisplayReservation);
-		
+				btnDisplayReservation.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						JFrame f= new DisplayReservationFrame(system,user);
+						
+					}
+					
+				});
+				
+				
+				
 				JButton btnCancelReservation = new JButton("Cancel Reservation");
 				GridBagConstraints gbc_btnCancelReservation = new GridBagConstraints();
 				gbc_btnCancelReservation.insets = new Insets(0, 0, 5, 5);
