@@ -1,46 +1,19 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.Group;
 
-public class DisplayReservationFrame extends JFrame {
-	User u;
-	JFrame frame=this;
+public class DisplayAllReservationsPanel extends JPanel {
+	
 	Resource_Management_System system;
-	DisplayReservationFrame(Resource_Management_System system_obj, User x){
+	
+	DisplayAllReservationsPanel(Resource_Management_System system_obj){
 		system = system_obj;
-		u = x;
-		this.setLocation(340, 90);
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-		//JPanel panel= new JPanel();
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        if (JOptionPane.showConfirmDialog(frame, 
-		            "Are you sure to close this window?", "Really Closing?", 
-		            JOptionPane.YES_NO_OPTION,
-		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		        	frame.dispose();
-		        	//system.closeSystem();
-		            //System.exit(0);
-		        }
-		    }
-		});
 		Display_Reservations();
-		frame.setSize(600, 600);
-		frame.setVisible(true);
 	}
 	//Display Reservations
 	void Display_Reservations(){
@@ -50,13 +23,14 @@ public class DisplayReservationFrame extends JFrame {
 	
 		
 		Reservation[] reservations;
-		reservations= system.get_reservations_of_user(u);	
-		int numofreservations= system.get_reservation_count(u);
-		GridLayout layout = new GridLayout(numofreservations+1,4);
+		reservations= system.get_reservations();	
+		int numofreservations= system.get_reservation_count();
+		GridLayout layout = new GridLayout(numofreservations+1,6);
 		layout.setHgap(10);
 		layout.setVgap(10);
 		ReservationPanel.setLayout(layout);
 		ReservationPanel.add(new JLabel("Reservation"));
+		ReservationPanel.add(new JLabel("User Booked"));
 		ReservationPanel.add(new JLabel("Resource Booked"));
 		ReservationPanel.add(new JLabel("Date Booked"));
 		ReservationPanel.add(new JLabel("Start Time"));
@@ -66,13 +40,15 @@ public class DisplayReservationFrame extends JFrame {
 			JPanel Res_Details = new JPanel();
 			JTextField resourcename = new JTextField("Resource: "+reservations[i].getResource().getID());
 			resourcename.setForeground(Color.GRAY);
-			resourcename.setColumns(20);
+			resourcename.setColumns(15);
 			resourcename.setEnabled(false);
-			
+			JTextField User = new JTextField(""+reservations[i].get_user_ID());
+			User.setForeground(Color.GRAY);
+			User.setColumns(15);
+			User.setEnabled(false);
 			JTextField Date = new JTextField("Date");
 			Date.setForeground(Color.GRAY);
 			Date.setColumns(15);
-			Date.setMaximumSize(new Dimension(50,50));
 			Date.setEnabled(false);
 			String datedetails = reservations[i].getStartDate()+"";
 			Date.setText(datedetails);
@@ -90,12 +66,13 @@ public class DisplayReservationFrame extends JFrame {
 			eTime.setText(eTimedetails);
 			JLabel reservationname =new JLabel("Reservation "+(i+1));
 			ReservationPanel.add(reservationname);
+			ReservationPanel.add(User);
 			ReservationPanel.add(resourcename);
 			ReservationPanel.add(Date);
 			ReservationPanel.add(sTime);
 			ReservationPanel.add(eTime);
 		}
 
-		frame.add(new JScrollPane(ReservationPanel));
+		add(ReservationPanel);
 	}
 }

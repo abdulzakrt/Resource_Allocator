@@ -57,7 +57,7 @@ public class adminPanel extends JFrame {
 		        }
 		    }
 		});
-		String[] menuitems={"User settings","Resources settings","Admins settings"};
+		String[] menuitems={"User settings","Resources settings","Admins settings","View Reservations"};
 		JComboBox menu = new JComboBox(menuitems);
 		menu.setSelectedIndex(0);
 		JPanel cards = new JPanel(new CardLayout());
@@ -69,12 +69,18 @@ public class adminPanel extends JFrame {
 		cards.add(u,"User settings");
 		cards.add(s,"Resources settings");
 		cards.add(AdminSettings(),"Admins settings");
+		cards.add(new JScrollPane(new DisplayAllReservationsPanel(system)),"View Reservations");
 		menu.addItemListener(new ItemListener(){
 			
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
 				CardLayout cl = (CardLayout)(cards.getLayout());
 		        cl.show(cards, (String)evt.getItem());
+		        if(((String)evt.getItem()).equals("View Reservations")){
+		        	frame.setSize(900, 600);
+		        }
+		        else
+		        	frame.setSize(600, 600);
 				}
 		
 		});

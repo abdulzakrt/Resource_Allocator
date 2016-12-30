@@ -613,4 +613,8 @@ public class Resource_Management_System implements Serializable{
 			e.printStackTrace();                    
                 }*/
 	}
+	public Reservation[] get_reservations() {
+		// TODO Auto-generated method stub
+		return Reservations;
+	}
 }
