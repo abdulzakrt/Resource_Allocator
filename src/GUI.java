@@ -131,25 +131,25 @@ public class GUI extends JFrame{
 	}
 	
 	void UserGUI(){
-		frame= new JFrame();
-		frame.setLocation(340, 90);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-		//JPanel panel= new JPanel();
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		frame.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        if (JOptionPane.showConfirmDialog(frame, 
-		            "Are you sure to close this window?", "Really Closing?", 
-		            JOptionPane.YES_NO_OPTION,
-		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		        	system.closeSystem();
-		            System.exit(0);
-		        }
-		    }
-		});
-		//userPanel panel = new userPanel(system, u);
+//		frame= new JFrame();
+//		frame.setLocation(340, 90);
+//		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//
+//		//JPanel panel= new JPanel();
+//		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+//		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+//		    @Override
+//		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+//		        if (JOptionPane.showConfirmDialog(frame, 
+//		            "Are you sure to close this window?", "Really Closing?", 
+//		            JOptionPane.YES_NO_OPTION,
+//		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+//		        	system.closeSystem();
+//		            System.exit(0);
+//		        }
+//		    }
+//		});
+//		//userPanel panel = new userPanel(system, u);
 		userMenu user = new userMenu(system,u);
 
 		//panel.setLocation(200,200);

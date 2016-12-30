@@ -1,5 +1,7 @@
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -10,8 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
 
-public class userMenu extends JPanel {
-	JFrame frame;
+public class userMenu extends JFrame {
+	JFrame frame=this;
 	JFrame reserve_frame;
 	JFrame display_frame;
 	JFrame cancel_frame;
@@ -19,10 +21,7 @@ public class userMenu extends JPanel {
 	 * Create the panel.
 	 */
 	public userMenu(Resource_Management_System system, User user) {
-		frame= new JFrame();
-		frame.setLocation(340, 90);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		//JPanel panel= new JPanel();
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -37,21 +36,22 @@ public class userMenu extends JPanel {
 		        }
 		    }
 		});		
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-				
-				
+//		GridBagLayout gridBagLayout = new GridBagLayout();
+//		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+//		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		GridLayout layout= new GridLayout(4,1);		
+		setLayout(layout);
+		layout.setVgap(10);		
+		layout.setHgap(10);	
 				
 				JButton btnMakeAReservation = new JButton("Make a Reservation");
-				GridBagConstraints gbc_btnMakeAReservation = new GridBagConstraints();
-				gbc_btnMakeAReservation.insets = new Insets(0, 0, 5, 5);
-				gbc_btnMakeAReservation.gridx = 4;
-				gbc_btnMakeAReservation.gridy = 2;
-				add(btnMakeAReservation, gbc_btnMakeAReservation);
+//				GridBagConstraints gbc_btnMakeAReservation = new GridBagConstraints();
+//				gbc_btnMakeAReservation.insets = new Insets(0, 0, 5, 5);
+//				gbc_btnMakeAReservation.gridx = 4;
+//				gbc_btnMakeAReservation.gridy = 2;
+				add(btnMakeAReservation);
 				
 				
 				btnMakeAReservation.addActionListener(new ActionListener() {
@@ -70,11 +70,11 @@ public class userMenu extends JPanel {
 		
 				
 				JButton btnDisplayReservation = new JButton("Display Reservation");
-				GridBagConstraints gbc_btnDisplayReservation = new GridBagConstraints();
-				gbc_btnDisplayReservation.insets = new Insets(0, 0, 5, 5);
-				gbc_btnDisplayReservation.gridx = 4;
-				gbc_btnDisplayReservation.gridy = 4;
-				add(btnDisplayReservation, gbc_btnDisplayReservation);
+//				GridBagConstraints gbc_btnDisplayReservation = new GridBagConstraints();
+//				gbc_btnDisplayReservation.insets = new Insets(0, 0, 5, 5);
+//				gbc_btnDisplayReservation.gridx = 4;
+//				gbc_btnDisplayReservation.gridy = 4;
+				add(btnDisplayReservation);
 				btnDisplayReservation.addActionListener(new ActionListener(){
 
 					@Override
@@ -88,11 +88,11 @@ public class userMenu extends JPanel {
 				
 				
 				JButton btnCancelReservation = new JButton("Cancel Reservation");
-				GridBagConstraints gbc_btnCancelReservation = new GridBagConstraints();
-				gbc_btnCancelReservation.insets = new Insets(0, 0, 5, 5);
-				gbc_btnCancelReservation.gridx = 4;
-				gbc_btnCancelReservation.gridy = 6;
-				add(btnCancelReservation, gbc_btnCancelReservation);
+//				GridBagConstraints gbc_btnCancelReservation = new GridBagConstraints();
+//				gbc_btnCancelReservation.insets = new Insets(0, 0, 5, 5);
+//				gbc_btnCancelReservation.gridx = 4;
+//				gbc_btnCancelReservation.gridy = 6;
+				add(btnCancelReservation);
 				btnCancelReservation.addActionListener(new ActionListener() {
 
 					@Override
@@ -109,11 +109,11 @@ public class userMenu extends JPanel {
 				});
 				
 				JButton btnLogout = new JButton("Logout");
-				GridBagConstraints gbc_btnLogout = new GridBagConstraints();
-				gbc_btnLogout.insets = new Insets(0, 0, 0, 5);
-				gbc_btnLogout.gridx = 4;
-				gbc_btnLogout.gridy = 8;
-				add(btnLogout, gbc_btnLogout);
+//				GridBagConstraints gbc_btnLogout = new GridBagConstraints();
+//				gbc_btnLogout.insets = new Insets(0, 0, 0, 5);
+//				gbc_btnLogout.gridx = 4;
+//				gbc_btnLogout.gridy = 8;
+				add(btnLogout);
 				btnLogout.addActionListener(new ActionListener() {
 
 					@Override
@@ -129,7 +129,9 @@ public class userMenu extends JPanel {
 					
 					
 				});
-
+				this.setVisible(true);
+				this.setSize(200,200);
+				this.setResizable(false);
 	}
 
 }
