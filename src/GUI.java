@@ -46,7 +46,7 @@ public class GUI extends JFrame{
 		username.setColumns(15);
 		username.addFocusListener(new FocusListener() {
 
-		    @Override
+		    @Override 
 		    public void focusGained(FocusEvent e) {
 		    	username.setForeground(Color.BLACK);
 		        username.setText(null); // Empty the text field when it receives focus

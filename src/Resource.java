@@ -76,6 +76,18 @@ public abstract class Resource implements Serializable{
     		return x;
     	else return resourceUserType;
 	}
+    //new method to fix the usertype error
+    public userType getUser_ResourceType(userType x) {
+    	if((userType.values()[3]==x)&&((resourceUserType==userType.values()[0])||(resourceUserType==userType.values()[1])||(resourceUserType==userType.values()[4])||(resourceUserType==userType.values()[5])))
+    		return x;
+    	else if((userType.values()[4]==x)&&((resourceUserType==userType.values()[0])||(resourceUserType==userType.values()[2])||(resourceUserType==userType.values()[3])||(resourceUserType==userType.values()[5])))
+    		return x;
+    	else if((userType.values()[5]==x)&&((resourceUserType==userType.values()[1])||(resourceUserType==userType.values()[2])||(resourceUserType==userType.values()[3])||(resourceUserType==userType.values()[4])))
+    		return x;
+    	else if(userType.values()[6]==x)
+    		return x;
+    	else return resourceUserType;
+	}
 	public void setResource_UserType(userType resource_userType) {
 		resourceUserType = resource_userType;
 	}
