@@ -58,7 +58,7 @@ public class DisplayAllReservationsPanel extends JPanel {
 			sTime.setEnabled(false);
 			String sTimedetails = reservations[i].getStartTime()+"";
 			sTime.setText(sTimedetails);
-			JTextField eTime = new JTextField("Start Time");
+			JTextField eTime = new JTextField("End Time");
 			eTime.setForeground(Color.GRAY);
 			eTime.setColumns(15);
 			eTime.setEnabled(false);

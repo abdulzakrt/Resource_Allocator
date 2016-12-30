@@ -617,4 +617,9 @@ public class Resource_Management_System implements Serializable{
 		// TODO Auto-generated method stub
 		return Reservations;
 	}
+	public Resource[] get_resources() {
+		// TODO Auto-generated method stub
+		return Resources;
+	}
+
 }
