@@ -577,7 +577,7 @@ public class TimePicker
 
     /**
      * setEnabled, This enables or disables the time picker. When the time picker is enabled, times
-     * can be selected by the user using any methods that are allowed by the current . When
+     * can be selected by the user using any methods that are allowed by the current settings. When
      * the time picker is disabled, there is no way for the user to interact with the component.
      * More specifically, times cannot be selected with the mouse, or with the keyboard, and the
      * time picker components change their color scheme to indicate the disabled state. Any

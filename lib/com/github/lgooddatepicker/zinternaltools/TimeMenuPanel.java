@@ -167,13 +167,13 @@ public class TimeMenuPanel extends JPanel {
         DateTimeFormatter formatForMenuTimes = settings.getFormatForMenuTimes();
         ArrayList<LocalTime> menuTimes = settings.getPotentialMenuTimes();
         for (LocalTime localTime : menuTimes) {
-           // if (!InternalUtilities.isTimeVetoed(settings.getVetoPolicy(), localTime)) {
+            if (!InternalUtilities.isTimeVetoed(settings.getVetoPolicy(), localTime)) {
                 String localizedTime = formatForMenuTimes.format(localTime);
                 if (settings.useLowercaseForMenuTimes) {
                     localizedTime = localizedTime.toLowerCase(settings.getLocale());
                 }
                 timeListModel.addElement(localizedTime);
-            //}
+            }
         }
     }
 

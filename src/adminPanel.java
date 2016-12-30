@@ -6,9 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.time.LocalTime;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -24,6 +27,8 @@ import javax.swing.JToggleButton;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.optionalusertools.TimeVetoPolicy;
 
 public class adminPanel extends JFrame {
 	JFrame frame=this;
@@ -77,6 +82,8 @@ public class adminPanel extends JFrame {
 		this.setSize(600, 600);
 		this.setVisible(true);
 	}
+	
+	
 	JPanel AdminSettings(){
 		JPanel addadmin= new JPanel();
 		addadmin.setLayout(new BoxLayout(addadmin, BoxLayout.Y_AXIS));
@@ -143,7 +150,10 @@ public class adminPanel extends JFrame {
 	}
 	
 	void UserSettingsGUI() {
+		
+		
 		UserSettings=new JPanel();
+		
 		UserSettings.setLayout(new BoxLayout(UserSettings, BoxLayout.Y_AXIS));
 		String[] menuitems={"Add User","Modify A user"};
 		JComboBox menu = new JComboBox(menuitems);
@@ -158,14 +168,18 @@ public class adminPanel extends JFrame {
 				}
 		
 		});
-		
-		
-		
-		
-		
+			
 		//adding a user panel
 		JPanel add= new JPanel();
-		add.setLayout(new BoxLayout(add, BoxLayout.Y_AXIS));
+		//add.setLayout(new BoxLayout(add, BoxLayout.Y_AXIS));
+		 GroupLayout layout = new GroupLayout(add);
+		 add.setLayout(layout);
+		// Turn on automatically adding gaps between components
+		   layout.setAutoCreateGaps(true);
+
+		   // Turn on automatically creating gaps between components that touch
+		   // the edge of the container and the container.
+		   layout.setAutoCreateContainerGaps(true);
 		//ID
 		JLabel ID_l=new JLabel("ID                ");
 		JTextField ID= new JTextField();
@@ -195,7 +209,7 @@ public class adminPanel extends JFrame {
 		last_p.add(last_l);
 		last_p.add(last);	
 		//Age 
-		JLabel age_l=new JLabel("  Age                ");
+		JLabel age_l=new JLabel("Age");
 		JTextField age= new JTextField();
 		age.setColumns(15);
 		JPanel age_p=new JPanel();
@@ -219,7 +233,12 @@ public class adminPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int type=0;
+				if(first.getText().isEmpty()|| last.getText().isEmpty()){
+					JOptionPane prompt = new JOptionPane("First or Last name can't be empty");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
+				int type=-1;
 				User temp;
 				if(p.isSelected() && s.isSelected() && st.isSelected())
 					type=7;
@@ -235,6 +254,11 @@ public class adminPanel extends JFrame {
 					type=2;	
 				else if(p.isSelected() )
 					type=1;
+				if(type==-1){
+					JOptionPane prompt = new JOptionPane("You have to select a user type");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
 				try{
 				 temp=new User(first.getText(),last.getText(),Integer.parseInt(age.getText()),userType.values()[type-1],Integer.parseInt(ID.getText()),Integer.parseInt(pass.getText()));			
 				}
@@ -256,17 +280,55 @@ public class adminPanel extends JFrame {
 			}
 			
 		});
-		//adding panels to add
-		add.add(new JLabel(" "));
-		add.add(ID_p);
-		add.add(pass_p);
-		add.add(first_p);
-		add.add(last_p);
-		add.add(age_p);
-		add.add(type_p);
-		add.add(new JLabel(" "));
-		add.add(submit);
-		add.add(new JLabel(" "));
+
+		
+		
+		//with grouping
+		// Create a sequential group for the horizontal axis.
+
+		   GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+
+		   // The sequential group in turn contains two parallel groups.
+		   // One parallel group contains the labels, the other the text fields.
+		   // Putting the labels in a parallel group along the horizontal axis
+		   // positions them at the same x location.
+		   //
+		   // Variable indentation is used to reinforce the level of grouping.
+		   hGroup.addGroup(layout.createParallelGroup().
+		            addComponent(ID_l).addComponent(pass_l).addComponent(first_l).addComponent(last_l).addComponent(age_l).addComponent(type_l));
+		   hGroup.addGroup(layout.createParallelGroup().
+		            addComponent(ID).addComponent(pass).addComponent(first).addComponent(last).addComponent(age).addComponent(type_p).addComponent(submit));
+		   layout.setHorizontalGroup(hGroup);
+
+		   // Create a sequential group for the vertical axis.
+		   GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+
+		   // The sequential group contains two parallel groups that align
+		   // the contents along the baseline. The first parallel group contains
+		   // the first label and text field, and the second parallel group contains
+		   // the second label and text field. By using a sequential group
+		   // the labels and text fields are positioned vertically after one another.
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(ID_l).addComponent(ID));
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(pass_l).addComponent(pass));
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(first_l).addComponent(first));
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(last_l).addComponent(last));
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(age_l).addComponent(age));
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(type_l).addComponent(type_p));
+		   vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(submit));
+		   layout.setVerticalGroup(vGroup);
+		  
+		
+		
+		
+		
+		
 		//Modify a user Panel
 		JPanel modify= new JPanel();
 		modify.setLayout(new BoxLayout(modify, BoxLayout.Y_AXIS));
@@ -381,21 +443,26 @@ public class adminPanel extends JFrame {
 		//There are 3 different cards addRoom, addEquipment and addCourt each will have different contents 
 		//and will show based on the selected option
 		//some fields are used commonly like ID that are the general resource resources
+		
 		JPanel addRoom = new JPanel();
-		addRoom.setLayout(new BoxLayout(addRoom, BoxLayout.Y_AXIS));
+		//addRoom.setLayout(new BoxLayout(addRoom, BoxLayout.Y_AXIS));
+		 GroupLayout roomlayout = new GroupLayout(addRoom);
+		 addRoom.setLayout(roomlayout);
+		 roomlayout.setAutoCreateGaps(true);
+		 roomlayout.setAutoCreateContainerGaps(true);
 		JPanel addEquipment = new JPanel();
-		addEquipment.setLayout(new BoxLayout(addEquipment, BoxLayout.Y_AXIS));
+		//addEquipment.setLayout(new BoxLayout(addEquipment, BoxLayout.Y_AXIS));
+		
 		JPanel addCourt = new JPanel();
-		addCourt.setLayout(new BoxLayout(addCourt, BoxLayout.Y_AXIS));
+
+		//addCourt.setLayout(new BoxLayout(addCourt, BoxLayout.Y_AXIS));
 		
 		String[] menuitems={"Room","Equipment","Sports_Courts"};
 		JComboBox menun = new JComboBox(menuitems);
 		menun.setMaximumSize(new Dimension(150,30));
 		
-		JPanel menu =new JPanel();
-		menu.add(new JLabel("Choose a Resource Type: "));
-		menu.add(menun);
-		
+		JLabel menu =new JLabel("Choose a Resource Type: ");
+
 	
 		
 		//Room fields
@@ -478,28 +545,37 @@ public class adminPanel extends JFrame {
 		Room_p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//start Date
 		DatePicker startdate_l = new DatePicker();
-		JPanel startdate=new JPanel();
-		startdate.add(new JLabel("Start Date: "));
-		startdate.add(startdate_l);
-		startdate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel startdate=new JLabel("startDate");
+
 		//end Date
 		DatePicker enddate_l = new DatePicker();
-		JPanel enddate=new JPanel();
-		enddate.add(new JLabel("End Date: "));
-		enddate.add(enddate_l);
-		enddate.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel enddate=new JLabel("End Date");
+		class SampleTimeVetoPolicy implements TimeVetoPolicy {
+
+	        /**
+	         * isTimeAllowed, Return true if a time should be allowed, or false if a time should be
+	         * vetoed.
+	         */
+	        @Override
+	        public boolean isTimeAllowed(LocalTime time) {
+	        	
+	        	if (time.getMinute()==30){
+	        		return false;
+	        	}
+	        	return true;
+	        }
+	    }
+		TimePickerSettings timesetting= new TimePickerSettings();
+		
 		//start Time
-		TimePicker starttime_l = new TimePicker();
-		JPanel starttime=new JPanel();
-		starttime.add(new JLabel("Start Time: "));
-		starttime.add(starttime_l);
-		starttime.setAlignmentX(Component.CENTER_ALIGNMENT);
-		//end Date
-		TimePicker endtime_l = new TimePicker();
-		JPanel endtime=new JPanel();
-		endtime.add(new JLabel("End Time: "));
-		endtime.add(endtime_l);		
-		endtime.setAlignmentX(Component.CENTER_ALIGNMENT);
+		TimePicker starttime_l = new TimePicker(timesetting);
+		JLabel starttime=new JLabel("Start Time");
+		
+		
+		//end Time
+		TimePicker endtime_l = new TimePicker(timesetting);
+		JLabel endtime=new JLabel("End Time");
+		timesetting.setVetoPolicy(new SampleTimeVetoPolicy());
 		
 		
 		//Allowance Time
@@ -585,8 +661,23 @@ public class adminPanel extends JFrame {
 		
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(loc.getText().isEmpty()|| startdate_l.getDate()==null || enddate_l.getDate()==null ||starttime_l.getTime()==null ||endtime_l.getTime()==null){
+					JOptionPane prompt = new JOptionPane("Chosen date, time and location can't be empty");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
+				if(startdate_l.getDate().isAfter(enddate_l.getDate())){
+					JOptionPane prompt = new JOptionPane("End Date can't be before Start Date");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
+				if(starttime_l.getTime().isAfter(endtime_l.getTime())){
+					JOptionPane prompt = new JOptionPane("End Time can't be before Start Time");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
 				Resource temp = null;
-				int type=1;
+				int type=-1;
 				if(p.isSelected() && s.isSelected() && st.isSelected())
 					type=7;
 				else if(st.isSelected() && s.isSelected())
@@ -601,11 +692,20 @@ public class adminPanel extends JFrame {
 					type=2;	
 				else if(p.isSelected() )
 					type=1;	
-				
+				if(type==-1){
+					JOptionPane prompt = new JOptionPane("Please choose a correct user type");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
 
 				try{
 				//setting specific fields for each class type
 				if(((String)menun.getSelectedItem()).equals("Room")){
+					if(roomname.getText().isEmpty()){
+						JOptionPane prompt = new JOptionPane("Room name can't be empty");
+						prompt.createDialog(frame, "Fail").setVisible(true);
+						return;
+					}	
 				temp=new Room();
 				//setting common attributes
 				
@@ -619,7 +719,7 @@ public class adminPanel extends JFrame {
 				temp.setResourceLocation(loc.getText());
 				temp.setAllowance_time(Long.parseLong(Allowance.getText()));
 				//finding the room type
-				int roomtype=0;
+				int roomtype=-1;
 				if(cr.isSelected())
 					roomtype=0;
 				else if (clr.isSelected())
@@ -634,7 +734,11 @@ public class adminPanel extends JFrame {
 					roomtype=4;
 				else if (ml.isSelected())
 					roomtype=5;
-
+				if(roomtype==-1){
+					JOptionPane prompt = new JOptionPane("Please choose a correct room type");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
 
 				((Room)temp).setRoomType(RoomType.values()[roomtype]);
 				((Room)temp).setNumberOfSeats(Integer.parseInt(seatsnum.getText()));
@@ -656,7 +760,7 @@ public class adminPanel extends JFrame {
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
 					temp.setAllowance_time(Long.parseLong(Allowance.getText()));
-					int equiptype=0;
+					int equiptype=-1;
 					if(pr.isSelected())
 						equiptype=0;
 					else if (co.isSelected())
@@ -667,9 +771,19 @@ public class adminPanel extends JFrame {
 						equiptype=3;
 					else if (bi.isSelected())
 						equiptype=4;
+					if(equiptype==-1){
+						JOptionPane prompt = new JOptionPane("Please choose a correct equipment type");
+						prompt.createDialog(frame, "Fail").setVisible(true);
+						return;
+					}
 					((Equipment)temp).setEquipmentType(equipmentType.values()[equiptype]);
 				}
 				else if(((String)menun.getSelectedItem()).equals("Sports_Courts")){
+					if(courtname.getText().isEmpty()){
+						JOptionPane prompt = new JOptionPane("Court name can't be empty");
+						prompt.createDialog(frame, "Fail").setVisible(true);
+						return;
+					}	
 					temp=new Sports_Courts();
 					
 					//common attributes
@@ -681,7 +795,7 @@ public class adminPanel extends JFrame {
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
 					temp.setAllowance_time(Long.parseLong(Allowance.getText()));
-					int courttype=0;
+					int courttype=-1;
 					if(ba.isSelected())
 						courttype=0;
 					else if (tee.isSelected())
@@ -690,6 +804,11 @@ public class adminPanel extends JFrame {
 						courttype=2;
 					else if (sq.isSelected())
 						courttype=3;
+					if(courttype==-1){
+						JOptionPane prompt = new JOptionPane("Please choose a correct court type");
+						prompt.createDialog(frame, "Fail").setVisible(true);
+						return;
+					}
 					((Sports_Courts)temp).setCourtName(courtname.getText());
 					((Sports_Courts)temp).setLightAvailable(light_t.isSelected());
 					((Sports_Courts)temp).setIndoorCourt(indoor_t.isSelected());
@@ -715,21 +834,89 @@ public class adminPanel extends JFrame {
 		});
 		
 		//initial display of fields for room
-		addRoom.add(menu);
-		addRoom.add(ID_p);
-		addRoom.add(roomname_p);
-		addRoom.add(loc_p);
-		addRoom.add(Allowance_p);
-		addRoom.add(seatsnum_p);
-		addRoom.add(proj_p);
-		addRoom.add(startdate);
-		addRoom.add(enddate);
-		addRoom.add(starttime);
-		addRoom.add(endtime);
-		addRoom.add(type_p);
-		addRoom.add(Room_p);				
-		addRoom.add(submit);
+//		addRoom.add(menu);
+//		addRoom.add(ID_p);
+//		addRoom.add(roomname_p);
+//		addRoom.add(loc_p);
+//		addRoom.add(Allowance_p);
+//		addRoom.add(seatsnum_p);
+//		addRoom.add(proj_p);
+//		addRoom.add(startdate);
+//		addRoom.add(enddate);
+//		addRoom.add(starttime);
+//		addRoom.add(endtime);
+//		addRoom.add(type_p);
+//		addRoom.add(Room_p);				
+//		addRoom.add(submit);
 		
+		// Create a sequential group for the horizontal axis.
+
+		   GroupLayout.SequentialGroup hGroup = roomlayout.createSequentialGroup();
+
+		   // The sequential group in turn contains two parallel groups.
+		   // One parallel group contains the labels, the other the text fields.
+		   // Putting the labels in a parallel group along the horizontal axis
+		   // positions them at the same x location.
+		   //
+		   // Variable indentation is used to reinforce the level of grouping.
+		   hGroup.addGroup(roomlayout.createParallelGroup().addComponent(menu).
+		            addComponent(ID_l).addComponent(roomname_l)
+		            .addComponent(loc_l).addComponent(Allowance_l)
+		            .addComponent(seatsnum_l).addComponent(proj_l)
+		            .addComponent(startdate).addComponent(enddate)
+		            .addComponent(starttime).addComponent(endtime)
+		            .addComponent(type_l).addComponent(Room_l)
+				   
+				   
+				   );
+		   hGroup.addGroup(roomlayout.createParallelGroup().addComponent(menun).
+				   addComponent(ID).addComponent(roomname)
+		            .addComponent(loc).addComponent(Allowance)
+		            .addComponent(seatsnum).addComponent(proj_t)
+		            .addComponent(startdate_l).addComponent(enddate_l)
+		            .addComponent(starttime_l).addComponent(endtime_l)
+		            .addComponent(type_p).addComponent(Room_p)
+		            .addComponent(submit));
+		   
+		   roomlayout.setHorizontalGroup(hGroup);
+
+		   // Create a sequential group for the vertical axis.
+		   GroupLayout.SequentialGroup vGroup = roomlayout.createSequentialGroup();
+
+		   // The sequential group contains two parallel groups that align
+		   // the contents along the baseline. The first parallel group contains
+		   // the first label and text field, and the second parallel group contains
+		   // the second label and text field. By using a sequential group
+		   // the labels and text fields are positioned vertically after one another.
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		           addComponent(menu).addComponent(menun));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(ID_l).addComponent(ID));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(roomname_l).addComponent(roomname));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(loc_l).addComponent(loc));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(Allowance_l).addComponent(Allowance));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(seatsnum_l).addComponent(seatsnum));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(proj_l).addComponent(proj_t));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(startdate).addComponent(startdate_l));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(enddate).addComponent(enddate_l));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(starttime).addComponent(starttime_l));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(endtime).addComponent(endtime_l));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(type_l).addComponent(type_p));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(Room_l).addComponent(Room_p));
+		   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+		            addComponent(submit));
+		   roomlayout.setVerticalGroup(vGroup);
 		
 	
 		
@@ -746,58 +933,230 @@ public class adminPanel extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
 				CardLayout cl = (CardLayout)(addcards.getLayout());
+				addRoom.setLayout(null);
+				addEquipment.setLayout(null);
+				addCourt.setLayout(null);
 				if(((String)evt.getItem()).equals("Room")){
-						
-					addRoom.add(menu);
-					addRoom.add(ID_p);
-					addRoom.add(roomname_p);
-					addRoom.add(loc_p);
-					addRoom.add(Allowance_p);
-					addRoom.add(seatsnum_p);
-					addRoom.add(proj_p);
-					addRoom.add(startdate);
-					addRoom.add(enddate);
-					addRoom.add(starttime);
-					addRoom.add(endtime);	
-					addRoom.add(type_p);
-					addRoom.add(Room_p);			
-					addRoom.add(submit);
+					GroupLayout roomlayout=new GroupLayout(addRoom);
+					 addRoom.setLayout(roomlayout);
+					 roomlayout.setAutoCreateGaps(true);
+					 roomlayout.setAutoCreateContainerGaps(true);
+					// Create a sequential group for the horizontal axis.
+					   
+					   GroupLayout.SequentialGroup hGroup = roomlayout.createSequentialGroup();
+
+					   // The sequential group in turn contains two parallel groups.
+					   // One parallel group contains the labels, the other the text fields.
+					   // Putting the labels in a parallel group along the horizontal axis
+					   // positions them at the same x location.
+					   //
+					   // Variable indentation is used to reinforce the level of grouping.
+					   hGroup.addGroup(roomlayout.createParallelGroup().addComponent(menu).
+					            addComponent(ID_l).addComponent(roomname_l)
+					            .addComponent(loc_l).addComponent(Allowance_l)
+					            .addComponent(seatsnum_l).addComponent(proj_l)
+					            .addComponent(startdate).addComponent(enddate)
+					            .addComponent(starttime).addComponent(endtime)
+					            .addComponent(type_l).addComponent(Room_l)
+							   
+							   
+							   );
+					   hGroup.addGroup(roomlayout.createParallelGroup().addComponent(menun).
+							   addComponent(ID).addComponent(roomname)
+					            .addComponent(loc).addComponent(Allowance)
+					            .addComponent(seatsnum).addComponent(proj_t)
+					            .addComponent(startdate_l).addComponent(enddate_l)
+					            .addComponent(starttime_l).addComponent(endtime_l)
+					            .addComponent(type_p).addComponent(Room_p)
+					            .addComponent(submit));
+					   
+					   roomlayout.setHorizontalGroup(hGroup);
+
+					   // Create a sequential group for the vertical axis.
+					   GroupLayout.SequentialGroup vGroup = roomlayout.createSequentialGroup();
+
+					   // The sequential group contains two parallel groups that align
+					   // the contents along the baseline. The first parallel group contains
+					   // the first label and text field, and the second parallel group contains
+					   // the second label and text field. By using a sequential group
+					   // the labels and text fields are positioned vertically after one another.
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					           addComponent(menu).addComponent(menun));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(ID_l).addComponent(ID));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(roomname_l).addComponent(roomname));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(loc_l).addComponent(loc));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(Allowance_l).addComponent(Allowance));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(seatsnum_l).addComponent(seatsnum));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(proj_l).addComponent(proj_t));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(startdate).addComponent(startdate_l));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(enddate).addComponent(enddate_l));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(starttime).addComponent(starttime_l));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(endtime).addComponent(endtime_l));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(type_l).addComponent(type_p));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(Room_l).addComponent(Room_p));
+					   vGroup.addGroup(roomlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(submit));
+					   roomlayout.setVerticalGroup(vGroup);
+					   
 
 				}
 				else if (((String)evt.getItem()).equals("Equipment")){
+					 GroupLayout equiplayout = new GroupLayout(addEquipment);
+					 addEquipment.setLayout(equiplayout);
+					 equiplayout.setAutoCreateGaps(true);
+					 equiplayout.setAutoCreateContainerGaps(true);
 					//adding panels to addEquipment
 	
-					addEquipment.add(menu);
-					addEquipment.add(ID_p);
-					addEquipment.add(loc_p);
-					addEquipment.add(Allowance_p);
-					addEquipment.add(startdate);
-					addEquipment.add(enddate);
-					addEquipment.add(starttime);					
-					addEquipment.add(endtime);
-					addEquipment.add(type_p);
-					addEquipment.add(equip_p);				
-					addEquipment.add(submit);
+					// Create a sequential group for the horizontal axis.
+
+					   GroupLayout.SequentialGroup hGroup = equiplayout.createSequentialGroup();
+
+					   // The sequential group in turn contains two parallel groups.
+					   // One parallel group contains the labels, the other the text fields.
+					   // Putting the labels in a parallel group along the horizontal axis
+					   // positions them at the same x location.
+					   //
+					   // Variable indentation is used to reinforce the level of grouping.
+					   hGroup.addGroup(equiplayout.createParallelGroup().addComponent(menu).
+					            addComponent(ID_l)
+					            .addComponent(loc_l).addComponent(Allowance_l)
+					            .addComponent(startdate).addComponent(enddate)
+					            .addComponent(starttime).addComponent(endtime)
+					            .addComponent(type_l).addComponent(equip_l)
+							   
+							   
+							   );
+					   hGroup.addGroup(equiplayout.createParallelGroup().addComponent(menun).
+							   addComponent(ID)
+					            .addComponent(loc).addComponent(Allowance)					           
+					            .addComponent(startdate_l).addComponent(enddate_l)
+					            .addComponent(starttime_l).addComponent(endtime_l)
+					            .addComponent(type_p).addComponent(equip_p)
+					            .addComponent(submit));
+					   
+					   equiplayout.setHorizontalGroup(hGroup);
+
+					   // Create a sequential group for the vertical axis.
+					   GroupLayout.SequentialGroup vGroup = equiplayout.createSequentialGroup();
+
+					   // The sequential group contains two parallel groups that align
+					   // the contents along the baseline. The first parallel group contains
+					   // the first label and text field, and the second parallel group contains
+					   // the second label and text field. By using a sequential group
+					   // the labels and text fields are positioned vertically after one another.
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					           addComponent(menu).addComponent(menun));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(ID_l).addComponent(ID));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(loc_l).addComponent(loc));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(Allowance_l).addComponent(Allowance));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(startdate).addComponent(startdate_l));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(enddate).addComponent(enddate_l));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(starttime).addComponent(starttime_l));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(endtime).addComponent(endtime_l));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(type_l).addComponent(type_p));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(equip_l).addComponent(equip_p));
+					   vGroup.addGroup(equiplayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(submit));
+					   equiplayout.setVerticalGroup(vGroup);
 
 				}
 				else if (((String)evt.getItem()).equals("Sports_Courts")){
-					//adding panels to addEquipment
-	
-					addCourt.add(menu);
-					addCourt.add(ID_p);
-					addCourt.add(courtname_p);
-					addCourt.add(loc_p);
-					addCourt.add(light_p);
-					addCourt.add(indoor_p);
-					addCourt.add(Allowance_p);
-					addCourt.add(startdate);
-					addCourt.add(enddate);
-					addCourt.add(starttime);					
-					addCourt.add(endtime);				
-					addCourt.add(type_p);
-					addCourt.add(court_p);
-					addCourt.add(submit);
+					//setting layout of sports court
+					 GroupLayout courtlayout = new GroupLayout(addCourt);
+					 addCourt.setLayout(courtlayout);
+					 courtlayout.setAutoCreateGaps(true);
+					 courtlayout.setAutoCreateContainerGaps(true);
 					
+					// Create a sequential group for the horizontal axis.
+					   
+					   GroupLayout.SequentialGroup hGroup = courtlayout.createSequentialGroup();
+
+					   // The sequential group in turn contains two parallel groups.
+					   // One parallel group contains the labels, the other the text fields.
+					   // Putting the labels in a parallel group along the horizontal axis
+					   // positions them at the same x location.
+					   //
+					   // Variable indentation is used to reinforce the level of grouping.
+					   hGroup.addGroup(courtlayout.createParallelGroup().addComponent(menu).
+					            addComponent(ID_l).addComponent(courtname_l)
+					            .addComponent(loc_l).addComponent(Allowance_l)
+					            .addComponent(light_l).addComponent(indoor_l)
+					            .addComponent(startdate).addComponent(enddate)
+					            .addComponent(starttime).addComponent(endtime)
+					            .addComponent(type_l).addComponent(court_l)
+							   
+							   
+							   );
+					   hGroup.addGroup(courtlayout.createParallelGroup().addComponent(menun).
+							   addComponent(ID).addComponent(courtname)
+					            .addComponent(loc).addComponent(Allowance)
+					            .addComponent(light_t).addComponent(indoor_t)
+					            .addComponent(startdate_l).addComponent(enddate_l)
+					            .addComponent(starttime_l).addComponent(endtime_l)
+					            .addComponent(type_p).addComponent(court_p)
+					            .addComponent(submit));
+					   
+					   courtlayout.setHorizontalGroup(hGroup);
+
+					   // Create a sequential group for the vertical axis.
+					   GroupLayout.SequentialGroup vGroup = courtlayout.createSequentialGroup();
+
+					   // The sequential group contains two parallel groups that align
+					   // the contents along the baseline. The first parallel group contains
+					   // the first label and text field, and the second parallel group contains
+					   // the second label and text field. By using a sequential group
+					   // the labels and text fields are positioned vertically after one another.
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					           addComponent(menu).addComponent(menun));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(ID_l).addComponent(ID));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(courtname_l).addComponent(courtname));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(loc_l).addComponent(loc));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(Allowance_l).addComponent(Allowance));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(light_l).addComponent(light_t));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(indoor_l).addComponent(indoor_t));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(startdate).addComponent(startdate_l));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(enddate).addComponent(enddate_l));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(starttime).addComponent(starttime_l));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(endtime).addComponent(endtime_l));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(type_l).addComponent(type_p));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(court_l).addComponent(court_p));
+					   vGroup.addGroup(courtlayout.createParallelGroup(Alignment.BASELINE).
+					            addComponent(submit));
+					   courtlayout.setVerticalGroup(vGroup);
+					   
 					
 
 				}
