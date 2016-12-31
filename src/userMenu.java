@@ -93,6 +93,7 @@ public class userMenu extends JFrame {
 						JFrame frame= new JFrame(user.getFirst_Name()+"'s available resources");
 						frame.add(new DisplayAllResources(user,system));
 						frame.pack();
+						frame.setLocationRelativeTo(null);
 						frame.setVisible(true);
 					}
 					

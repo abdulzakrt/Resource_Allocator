@@ -8,25 +8,22 @@ import javax.swing.JTextField;
 public class DisplayAllResources extends JPanel {
 	Resource_Management_System system;
 	User u;
-	JPanel ReservationPanel;
+	
 	int numofresources;
+
 	Resource[] resources;
 	public DisplayAllResources(Resource_Management_System system_obj) {
 		system = system_obj;
-		setup();
 		Display_Resources();
 	}
 	public DisplayAllResources(User u,Resource_Management_System system_obj) {
 		system = system_obj;
 		this.u=u;
-		setup();
 		Display_User_Resources();
 	}
-	void setup(){
-		ReservationPanel=new JPanel();
-	
-		
-		
+
+	void Display_User_Resources(){
+		JPanel ReservationPanel=new JPanel();
 		ReservationPanel.add(new JLabel("Resource ID"));
 		ReservationPanel.add(new JLabel("Status"));
 		ReservationPanel.add(new JLabel("Start Date"));
@@ -35,8 +32,6 @@ public class DisplayAllResources extends JPanel {
 		ReservationPanel.add(new JLabel("End Time"));
 		ReservationPanel.add(new JLabel("User Type"));
 		ReservationPanel.add(new JLabel("Allowance Time"));
-	}
-	void Display_User_Resources(){
 		resources= system.get_user_resources(u);
 		numofresources=system.get_user_resources_count(u);
 		GridLayout layout = new GridLayout(numofresources+1,8);
@@ -110,6 +105,15 @@ public class DisplayAllResources extends JPanel {
 	}
 	
 	void Display_Resources(){
+		JPanel ReservationPanel=new JPanel();
+		ReservationPanel.add(new JLabel("Resource ID"));
+		ReservationPanel.add(new JLabel("Status"));
+		ReservationPanel.add(new JLabel("Start Date"));
+		ReservationPanel.add(new JLabel("End Date"));
+		ReservationPanel.add(new JLabel("Start Time"));
+		ReservationPanel.add(new JLabel("End Time"));
+		ReservationPanel.add(new JLabel("User Type"));
+		ReservationPanel.add(new JLabel("Allowance Time"));
 		resources= system.get_resources();	
 		numofresources= system.get_resource_count();
 		GridLayout layout = new GridLayout(numofresources+1,8);

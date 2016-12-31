@@ -18,13 +18,13 @@ public class DisplayReservationFrame extends JFrame {
 	JFrame frame=this;
 	Resource_Management_System system;
 	DisplayReservationFrame(Resource_Management_System system_obj, User x){
+		this.setTitle(x.getFirst_Name()+"'s reservations are");
 		system = system_obj;
 		u = x;
 		this.setLocation(340, 90);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		//JPanel panel= new JPanel();
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -33,22 +33,18 @@ public class DisplayReservationFrame extends JFrame {
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
 		        	frame.dispose();
-		        	//system.closeSystem();
-		            //System.exit(0);
 		        }
 		    }
 		});
 		Display_Reservations();
-		frame.setSize(600, 600);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 	//Display Reservations
 	void Display_Reservations(){
-		JLabel lblReservations = new JLabel("Reservations: ");
-		lblReservations.setBounds(20, 28, 88, 22);		
-		JPanel ReservationPanel=new JPanel();
-	
-		
+
+		JPanel ReservationPanel=new JPanel();		
 		Reservation[] reservations;
 		reservations= system.get_reservations_of_user(u);	
 		int numofreservations= system.get_reservation_count(u);
@@ -58,16 +54,26 @@ public class DisplayReservationFrame extends JFrame {
 		ReservationPanel.setLayout(layout);
 		ReservationPanel.add(new JLabel("Reservation"));
 		ReservationPanel.add(new JLabel("Resource Booked"));
+		ReservationPanel.add(new JLabel("Reservation Date"));
 		ReservationPanel.add(new JLabel("Date Booked"));
 		ReservationPanel.add(new JLabel("Start Time"));
 		ReservationPanel.add(new JLabel("End Time"));
 		for(int i=0; i<numofreservations;i++)
 		{
-			JPanel Res_Details = new JPanel();
+
 			JTextField resourcename = new JTextField("Resource: "+reservations[i].getResource().getID());
 			resourcename.setForeground(Color.GRAY);
 			resourcename.setColumns(20);
 			resourcename.setEnabled(false);
+			
+			JTextField resDate = new JTextField("Date");
+			resDate.setForeground(Color.GRAY);
+			resDate.setColumns(15);
+			resDate.setMaximumSize(new Dimension(50,50));
+			resDate.setEnabled(false);
+			String resdatedetails = reservations[i].getDate_of_Reservation()+"";
+			resDate.setText(resdatedetails);
+			
 			
 			JTextField Date = new JTextField("Date");
 			Date.setForeground(Color.GRAY);
@@ -91,6 +97,7 @@ public class DisplayReservationFrame extends JFrame {
 			JLabel reservationname =new JLabel("Reservation "+(i+1));
 			ReservationPanel.add(reservationname);
 			ReservationPanel.add(resourcename);
+			ReservationPanel.add(resDate);
 			ReservationPanel.add(Date);
 			ReservationPanel.add(sTime);
 			ReservationPanel.add(eTime);
