@@ -57,7 +57,7 @@ public class userMenu extends JFrame {
 				});
 				
 				
-				JButton btnDisplayReservation = new JButton("Display Reservation");
+				JButton btnDisplayReservation = new JButton("Display Reservations");
 				add(btnDisplayReservation);
 				btnDisplayReservation.addActionListener(new ActionListener(){
 
@@ -71,7 +71,7 @@ public class userMenu extends JFrame {
 				
 				
 				
-				JButton btnCancelReservation = new JButton("Cancel Reservation");
+				JButton btnCancelReservation = new JButton("Cancel Reservations");
 				add(btnCancelReservation);
 				btnCancelReservation.addActionListener(new ActionListener() {
 
