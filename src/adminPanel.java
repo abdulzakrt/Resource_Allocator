@@ -573,10 +573,14 @@ public class adminPanel extends JFrame {
 		
 		
 		//Allowance Time
-		JLabel Allowance_l=new JLabel("Allowance Time");
-		JTextField Allowance= new JTextField();
-		Allowance.setColumns(15);
-
+		JLabel Allowance_l=new JLabel("Allowance Time ( in minutes)");
+		//JTextField Allowance= new JTextField();
+		//Allowance.setColumns(15);
+		String allowanceTimes[]={"60","120","180","240","300"};
+		JComboBox Allowance=new JComboBox(allowanceTimes);
+		Allowance.setSelectedIndex(0);
+		
+		
 		
 		//Equipment Fields
 		//Equipment_Type 
@@ -699,7 +703,7 @@ public class adminPanel extends JFrame {
 				temp.setStart_Time(starttime_l.getTime());
 				temp.setEnd_Time(endtime_l.getTime());
 				temp.setResourceLocation(loc.getText());
-				temp.setAllowance_time(Long.parseLong(Allowance.getText()));
+				temp.setAllowance_time(Long.parseLong((String)Allowance.getSelectedItem()));
 				//finding the room type
 				int roomtype=-1;
 				if(cr.isSelected())
@@ -741,7 +745,7 @@ public class adminPanel extends JFrame {
 					temp.setStart_Time(starttime_l.getTime());
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
-					temp.setAllowance_time(Long.parseLong(Allowance.getText()));
+					temp.setAllowance_time(Long.parseLong((String)Allowance.getSelectedItem()));
 					int equiptype=-1;
 					if(pr.isSelected())
 						equiptype=0;
@@ -776,7 +780,7 @@ public class adminPanel extends JFrame {
 					temp.setStart_Time(starttime_l.getTime());
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
-					temp.setAllowance_time(Long.parseLong(Allowance.getText()));
+					temp.setAllowance_time(Long.parseLong((String)Allowance.getSelectedItem()));
 					int courttype=-1;
 					if(ba.isSelected())
 						courttype=0;

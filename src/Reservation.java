@@ -35,9 +35,7 @@ public class Reservation implements Serializable{
 	public int get_user_ID(){
 		return User_Who_Made_Reservation.getLog_in_ID();
 	}
-	public boolean isCanceled(){
-		return Reservation_Cancelled;
-	}
+
 	public void setCancelled(){
 		Reservation_Cancelled = true;
 	}

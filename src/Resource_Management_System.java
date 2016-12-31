@@ -1,5 +1,5 @@
-import java.io.BufferedInputStream;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.File;
@@ -102,7 +102,7 @@ public class Resource_Management_System implements Serializable{
         	int res_count=0;
     		for(int i=0;i<reservationcount;i++)
     		{
-    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCanceled()==false))
+    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCancelled()==false))
     			{
     				res_count++;
     			}
@@ -113,7 +113,7 @@ public class Resource_Management_System implements Serializable{
         	int res_count=0;
     		for(int i=0;i<reservationcount;i++)
     		{
-    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCanceled()==false))
+    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCancelled()==false))
     			{
     				res_count++;
     			}
@@ -122,7 +122,7 @@ public class Resource_Management_System implements Serializable{
     		int j=0;
     		for(int i=0;i<reservationcount;i++)
     		{
-    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCanceled()==false))
+    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCancelled()==false))
     			{
     				array_of_res[j]=Reservations[i];
     				j++;
@@ -221,7 +221,7 @@ public class Resource_Management_System implements Serializable{
 		int j=0;
     	for(int i = 0;i<reservationcount;i++)
         {
-    		if((Reservations[i].getStartDate().equals(sdate) && Reservations[i].getResource().getID()==x)&&(Reservations[i].isCanceled()==false))
+    		if((Reservations[i].getStartDate().equals(sdate) && Reservations[i].getResource().getID()==x)&&(Reservations[i].isCancelled()==false))
     		{
     			//ChronoUnit.MINUTES.between(startT, endT);
     			if(ChronoUnit.MINUTES.between(Reservations[i].getStartTime(), Reservations[i].getEndTime())>60)
@@ -251,7 +251,7 @@ public class Resource_Management_System implements Serializable{
     {
 		for(int i=0; i<reservationcount; i++)
 		{
-			if((Reservations[i].get_user_ID()==uid)&&(id==Reservations[i].getResource().getID())&&(Reservations[i].getStartDate().equals(sdate))&&(Reservations[i].isCanceled()==false))
+			if((Reservations[i].get_user_ID()==uid)&&(id==Reservations[i].getResource().getID())&&(Reservations[i].getStartDate().equals(sdate))&&(Reservations[i].isCancelled()==false))
 				return true;
 			
 		}

@@ -142,7 +142,7 @@ public class CancelReservationPanel extends JFrame {
 				 Date.setText(reservations[index].getStartDate()+"");
 				 sTime.setText(reservations[index].getStartTime()+"");
 				 eTime.setText(reservations[index].getEndTime()+"");
-				 System.out.println(reservations[index].getStartDate()+" "+reservations[index].getStartTime()+" "+reservations[index].isCanceled());
+				 System.out.println(reservations[index].getStartDate()+" "+reservations[index].getStartTime()+" "+reservations[index].isCancelled());
 				 //selected=1;//remember to use this later 
 				 String[] menuitems=new String[system.get_reservation_count(u)];
 					int j=0;
@@ -214,9 +214,7 @@ public class CancelReservationPanel extends JFrame {
 						j++;
 					}
 				}
-				for(int i = 0; i < system.get_reservation_count() ; i++)
-					if(menuitems[i] == (res_to_cancel.get_user_ID()+""))
-						menuitems[i] = null;
+				
 				menu = menuitems;
 				
 				//user_reservations.removeAllItems();

@@ -25,7 +25,7 @@ public class DisplayAllReservationsPanel extends JPanel {
 		Reservation[] reservations;
 		reservations= system.get_reservations();	
 		int numofreservations= system.get_reservation_count();
-		GridLayout layout = new GridLayout(numofreservations+1,6);
+		GridLayout layout = new GridLayout(numofreservations+1,7);
 		layout.setHgap(10);
 		layout.setVgap(10);
 		ReservationPanel.setLayout(layout);
@@ -35,6 +35,7 @@ public class DisplayAllReservationsPanel extends JPanel {
 		ReservationPanel.add(new JLabel("Date Booked"));
 		ReservationPanel.add(new JLabel("Start Time"));
 		ReservationPanel.add(new JLabel("End Time"));
+		ReservationPanel.add(new JLabel("Cancelled"));
 		for(int i=0; i<numofreservations;i++)
 		{
 			JPanel Res_Details = new JPanel();
@@ -65,12 +66,19 @@ public class DisplayAllReservationsPanel extends JPanel {
 			String eTimedetails = reservations[i].getEndTime()+"";
 			eTime.setText(eTimedetails);
 			JLabel reservationname =new JLabel("Reservation "+(i+1));
+			
+			JTextField cancelled = new JTextField(""+reservations[i].isCancelled());
+			cancelled.setForeground(Color.GRAY);
+			cancelled.setColumns(15);
+			cancelled.setEnabled(false);
+			
 			ReservationPanel.add(reservationname);
 			ReservationPanel.add(User);
 			ReservationPanel.add(resourcename);
 			ReservationPanel.add(Date);
 			ReservationPanel.add(sTime);
 			ReservationPanel.add(eTime);
+			ReservationPanel.add(cancelled);
 		}
 
 		add(ReservationPanel);
