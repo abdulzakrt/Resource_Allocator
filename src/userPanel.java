@@ -470,21 +470,23 @@ public class userPanel extends JFrame{
 		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel roomCards = new JPanel();		
 		//roomCards.setToolTipText("choose the resource u want");
-		String[] menuitems=new String[system.get_resource_count()];
+		//String[] menuitems=new String[system.get_resource_count()];
+		String[] menuitems=new String[system.get_user_resources_count(u)];
 		int j=0;
-		for(int i=0; i<system.get_resource_count();i++)
-		{
-			if(system.get_resource_of_index(i) instanceof Room)
-			{
-				Room temp = (Room)system.get_resource_of_index(i);
-				if(temp.getUser_ResourceType(u.getUser_type())==u.getUser_type())
-				{
-					menuitems[j] = temp.getID()+""/*+" "+temp.getID()*/;
+		Resource[] rs = system.get_user_resources(u);
+		for(int i=0; i<rs.length;i++)
+		{//remember to modify the changes in the equip and rooms ;
+			/*if(system.get_resource_of_index(i) instanceof Room)
+			{*/
+				//Room temp = (Room)system.get_resource_of_index(i);
+				//if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
+				//{
+					menuitems[j] = rs[i].getID()+""/*+" "+temp.getID()*/;
 					j++;
 					num_of_rooms++;
 					
-				}
-			}
+				//}
+			//}
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		
@@ -514,14 +516,14 @@ public class userPanel extends JFrame{
 		
 		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel EquipmentsCards = new JPanel();		
-		String[] menuitems=new String[system.get_resource_count()];
+		String[] menuitems=new String[system.get_user_resources_count(u)];
 		int j=0;
 		for(int i=0; i<system.get_resource_count();i++)
 		{
 			if(system.get_resource_of_index(i) instanceof Equipment)
 			{
 				Equipment temp = (Equipment)system.get_resource_of_index(i);
-				if(temp.getUser_ResourceType(u.getUser_type())==u.getUser_type())
+				if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
 				{
 					menuitems[j] =(temp.getID())+""/*+temp.getID()*/;
 					j++;
@@ -557,14 +559,14 @@ public class userPanel extends JFrame{
 		
 		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel CourtsCards = new JPanel();		
-		String[] menuitems=new String[system.get_resource_count()];
+		String[] menuitems=new String[system.get_user_resources_count(u)];
 		int j=0;
 		for(int i=0; i<system.get_resource_count();i++)
 		{
 			if(system.get_resource_of_index(i) instanceof Sports_Courts)
 			{
 				Sports_Courts temp = (Sports_Courts)system.get_resource_of_index(i);
-				if((temp.getUser_ResourceType(u.getUser_type())==u.getUser_type())&&(temp.getResource_Status()==true))
+				if((temp.isUserCompatible(u.getUser_type()))&&(temp.getResource_Status()==true))
 				{
 					menuitems[j] = temp.getID()+"";
 					j++;

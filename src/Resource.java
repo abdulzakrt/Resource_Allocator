@@ -64,7 +64,7 @@ public abstract class Resource implements Serializable{
     }
     public userType getResource_UserType() {
     	return resourceUserType;
-	}
+	}/*
     public userType getResource_UserType(userType x) {
     	if((userType.values()[3]==resourceUserType)&&((x==userType.values()[0])||(x==userType.values()[1])))
     		return x;
@@ -78,15 +78,49 @@ public abstract class Resource implements Serializable{
 	}
     //new method to fix the usertype error
     public userType getUser_ResourceType(userType x) {
-    	if((userType.values()[3]==x)&&((resourceUserType==userType.values()[0])||(resourceUserType==userType.values()[1])||(resourceUserType==userType.values()[4])||(resourceUserType==userType.values()[5])))
+    	if((userType.values()[3]==x)&&((resourceUserType==userType.values()[0])||(resourceUserType==userType.values()[1])||(resourceUserType==userType.values()[4])||(resourceUserType==userType.values()[5])||(resourceUserType==userType.values()[6])||(resourceUserType==userType.values()[3])))
     		return x;
-    	else if((userType.values()[4]==x)&&((resourceUserType==userType.values()[0])||(resourceUserType==userType.values()[2])||(resourceUserType==userType.values()[3])||(resourceUserType==userType.values()[5])))
+    	else if((userType.values()[4]==x)&&((resourceUserType==userType.values()[0])||(resourceUserType==userType.values()[2])||(resourceUserType==userType.values()[3])||(resourceUserType==userType.values()[5])||(resourceUserType==userType.values()[6])||(resourceUserType==userType.values()[4])))
     		return x;
-    	else if((userType.values()[5]==x)&&((resourceUserType==userType.values()[1])||(resourceUserType==userType.values()[2])||(resourceUserType==userType.values()[3])||(resourceUserType==userType.values()[4])))
+    	else if((userType.values()[5]==x)&&((resourceUserType==userType.values()[1])||(resourceUserType==userType.values()[2])||(resourceUserType==userType.values()[3])||(resourceUserType==userType.values()[4])||(resourceUserType==userType.values()[6])||(resourceUserType==userType.values()[5])))
     		return x;
     	else if(userType.values()[6]==x)
     		return x;
     	else return resourceUserType;
+	}*/
+    public boolean isUserCompatible(userType x) {
+    	if(resourceUserType==userType.values()[6])return true;
+    	else if(resourceUserType==userType.values()[5])
+    	{
+    		if(x== userType.values()[0])return false ;
+    		else return true;
+    	}
+    	else if(resourceUserType==userType.values()[4])
+    	{
+    		if(x== userType.values()[1])return false ;
+    		else return true;
+    	}
+    	else if(resourceUserType==userType.values()[3])
+    	{
+    		if(x== userType.values()[2])return false ;
+    		else return true;
+    	}
+    	else if(resourceUserType==userType.values()[2])
+    	{
+    		if(x== userType.values()[0]||(x== userType.values()[1])||x== userType.values()[3])return false ;
+    		else return true;
+    	}
+    	else if(resourceUserType==userType.values()[1])
+    	{
+    		if(x== userType.values()[0]||(x==userType.values()[2])||x== userType.values()[4])return false ;
+    		else return true;
+    	}
+    	else if(resourceUserType==userType.values()[0])
+    	{
+    		if(x== userType.values()[1]||(x==userType.values()[2])||x== userType.values()[5])return false ;
+    		else return true;
+    	}
+    	return false;
 	}
 	public void setResource_UserType(userType resource_userType) {
 		resourceUserType = resource_userType;

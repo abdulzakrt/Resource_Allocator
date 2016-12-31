@@ -178,7 +178,7 @@ public class Resource_Management_System implements Serializable{
                 		System.out.println("error The allowed time is: "+ temp1.getAllowance_time() + " minute(s)");
                 		return;
                 	}
-	                if((check_source(u,ID, stime, etime, sdate)==1)&&(u.getUser_type()==temp1.getResource_UserType(u.getUser_type())))
+	                if((check_source(u,ID, stime, etime, sdate)==1)&&(temp1.isUserCompatible(u.getUser_type())))
 	                {         	 
   	                    temp= new Reservation(temp1,sdate,stime, etime,u);	                  
 	                    Reservations[reservationcount]=temp;
@@ -263,7 +263,7 @@ public class Resource_Management_System implements Serializable{
     	for(int i = 0;i<reservationcount;i++)
         {
     		Reservation temp = Reservations[i];
-    		if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(u.getUser_type()==temp.getResource().getResource_UserType(u.getUser_type())))
+    		if((temp.getResource().getID()==id)&&((temp.getStartDate().equals(sdate)))&&(temp.getResource().isUserCompatible(u.getUser_type())))
     		{
     			if((temp.getStartTime().equals(stime))&&(temp.getEndTime().equals(etime)))
     				return 0;
@@ -634,7 +634,7 @@ public class Resource_Management_System implements Serializable{
 		
 		int numofresource=0;
 		for(int i=0;i<resourcecount;i++){
-			if(Resources[i].getResource_UserType(u.getUser_type())==u.getUser_type()){
+			if(Resources[i].isUserCompatible(u.getUser_type())){
 				numofresource++;
 			}
 		}
@@ -646,7 +646,7 @@ public class Resource_Management_System implements Serializable{
 		temp=new Resource[numofresource];
 		int j=0;
 		for(int i=0;i<resourcecount;i++){
-			if(Resources[i].getResource_UserType(u.getUser_type())==u.getUser_type()){
+			if(Resources[i].isUserCompatible(u.getUser_type())){
 				temp[j]=Resources[i];
 				j++;
 			}
