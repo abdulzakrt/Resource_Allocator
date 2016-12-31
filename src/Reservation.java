@@ -39,6 +39,12 @@ public class Reservation implements Serializable{
 	public void setCancelled(){
 		Reservation_Cancelled = true;
 	}
+	public void setAdmin_Cancelled(Admin x){
+		Admin_Who_Cancelled = x;
+	}
+	public int getAdmin_Cancelled(){
+		return Admin_Who_Cancelled.getLog_in_ID();
+	}
 	
 	public boolean isCancelled(){
 		return Reservation_Cancelled;

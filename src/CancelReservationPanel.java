@@ -185,6 +185,12 @@ public class CancelReservationPanel extends JFrame {
 					error.createDialog("error").setVisible(true);
 					return;
 				}
+					if(res.getSelectedItem()==null)
+					{
+						JOptionPane error = new JOptionPane("No reservations selected to cancel for user ");					
+						error.createDialog("error").setVisible(true);
+						return;
+					}
 				system.Cancel_reservation(res_to_cancel);
 				JOptionPane success = new JOptionPane("reservation cancelled");
 				success.createDialog("Cancelled").setVisible(true);

@@ -34,6 +34,7 @@ import com.github.lgooddatepicker.optionalusertools.TimeVetoPolicy;
 public class adminPanel extends JFrame {
 	JFrame frame=this;
 	Admin a;
+	CancelReservations cnclres;
 	Resource_Management_System system;
 	JPanel UserSettings,ResourceSettings,AdminSettings;
 	public adminPanel(Admin s,Resource_Management_System system) {
@@ -59,7 +60,7 @@ public class adminPanel extends JFrame {
 		        }
 		    }
 		});
-		String[] menuitems={"User settings","Resources settings","Admins settings","View Reservations","View Schedule","Display Users"};
+		String[] menuitems={"User settings","Resources settings","Admins settings","Cancel Reservations","View Reservations","View Schedule","Display Users"};
 		JComboBox menu = new JComboBox(menuitems);
 		menu.setSelectedIndex(0);
 		JPanel cards = new JPanel(new CardLayout());
@@ -67,6 +68,8 @@ public class adminPanel extends JFrame {
 		ResourceSettingsGUI();
 		JScrollPane s= new JScrollPane(ResourceSettings);
 		JScrollPane u= new JScrollPane(UserSettings);
+		CancelReservations cancelreservations = new CancelReservations(system); 
+		cnclres = cancelreservations;
 		DisplayAllResources displayallresources= new DisplayAllResources(system);
 		DisplayAllReservationsPanel displayallreservations =new DisplayAllReservationsPanel(system);
 		DisplayUsers displayusers =new DisplayUsers(system);
@@ -74,6 +77,7 @@ public class adminPanel extends JFrame {
 		cards.add(u,"User settings");
 		cards.add(s,"Resources settings");
 		cards.add(AdminSettings(),"Admins settings");
+		cards.add(new JScrollPane(cnclres),"Cancel Reservations");
 		cards.add(new JScrollPane(displayallreservations),"View Reservations");
 		cards.add(new JScrollPane(displayallresources),"View Schedule");
 		cards.add(new JScrollPane(displayusers),"Display Users");
