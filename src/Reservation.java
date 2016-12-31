@@ -41,20 +41,24 @@ public class Reservation implements Serializable{
 	public void setCancelled(){
 		Reservation_Cancelled = true;
 	}
+	
+	public boolean isCancelled(){
+		return Reservation_Cancelled;
+	}
         
-        public LocalDate getStartDate(){
-            return this.Start_Date;
-        }
+    public LocalDate getStartDate(){
+        return this.Start_Date;
+    }
+            
+    public LocalTime getStartTime(){
+        return this.Start_Time;
+    }
         
-        
-        public LocalTime getStartTime(){
-            return this.Start_Time;
-        }
-        
-        public LocalTime getEndTime(){
-            return this.End_Time;
-        }
-        public String toString(){
-            return ("id: "+this.Resource_Booked.getID() + " Location: "+ this.User_Who_Made_Reservation.getFirst_Name() + " Start Date: " + this.Start_Date.toString()+ " Start time: "+ this.Start_Time.toString());
-        }  
+    public LocalTime getEndTime(){
+        return this.End_Time;
+    }
+    
+    public String toString(){
+    	return ("id: "+this.Resource_Booked.getID() + " Location: "+ this.User_Who_Made_Reservation.getFirst_Name() + " Start Date: " + this.Start_Date.toString()+ " Start time: "+ this.Start_Time.toString());
+    }  
 }
