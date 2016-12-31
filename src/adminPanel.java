@@ -37,6 +37,7 @@ public class adminPanel extends JFrame {
 	Resource_Management_System system;
 	JPanel UserSettings,ResourceSettings,AdminSettings;
 	public adminPanel(Admin s,Resource_Management_System system) {
+		this.setTitle("Adminstrator Settings");
 		a=s;
 		this.system=system;
 		AdminGUI();
@@ -58,7 +59,7 @@ public class adminPanel extends JFrame {
 		        }
 		    }
 		});
-		String[] menuitems={"User settings","Resources settings","Admins settings","View Reservations","View Schedule"};
+		String[] menuitems={"User settings","Resources settings","Admins settings","View Reservations","View Schedule","Display Users"};
 		JComboBox menu = new JComboBox(menuitems);
 		menu.setSelectedIndex(0);
 		JPanel cards = new JPanel(new CardLayout());
@@ -68,21 +69,24 @@ public class adminPanel extends JFrame {
 		JScrollPane u= new JScrollPane(UserSettings);
 		DisplayAllResources displayallresources= new DisplayAllResources(system);
 		DisplayAllReservationsPanel displayallreservations =new DisplayAllReservationsPanel(system);
+		DisplayUsers displayusers =new DisplayUsers(system);
 		this.add(cards, BorderLayout.CENTER);
 		cards.add(u,"User settings");
 		cards.add(s,"Resources settings");
 		cards.add(AdminSettings(),"Admins settings");
 		cards.add(new JScrollPane(displayallreservations),"View Reservations");
 		cards.add(new JScrollPane(displayallresources),"View Schedule");
+		cards.add(new JScrollPane(displayusers),"Display Users");
 		menu.addItemListener(new ItemListener(){
 			
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
 				CardLayout cl = (CardLayout)(cards.getLayout());
 		        cl.show(cards, (String)evt.getItem());
-		        if(((String)evt.getItem()).equals("View Reservations") || ((String)evt.getItem()).equals("View Schedule")){
+		        if(((String)evt.getItem()).equals("View Reservations") || ((String)evt.getItem()).equals("View Schedule") || ((String)evt.getItem()).equals("Display Users")){
 		        	displayallresources.Display_Resources();
 		        	displayallreservations.Display_Reservations();
+		        	displayusers.Display_Users();
 		        	frame.setSize(1000, 600);
 		        }
 		        else

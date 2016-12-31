@@ -630,5 +630,33 @@ public class Resource_Management_System implements Serializable{
 		// TODO Auto-generated method stub
 		return Resources;
 	}
-
+	public int get_user_resources_count(User u) {
+		
+		int numofresource=0;
+		for(int i=0;i<resourcecount;i++){
+			if(Resources[i].getUser_ResourceType(u.getUser_type())==u.getUser_type()){
+				numofresource++;
+			}
+		}
+		return numofresource;
+	}
+	public Resource[] get_user_resources(User u) {
+		Resource[] temp;
+		int numofresource=get_user_resources_count(u);
+		temp=new Resource[numofresource];
+		int j=0;
+		for(int i=0;i<resourcecount;i++){
+			if(Resources[i].getUser_ResourceType(u.getUser_type())==u.getUser_type()){
+				temp[j]=Resources[i];
+				j++;
+			}
+		}
+		return temp;
+	}
+	public User[] get_users(){
+		return Users;
+	}
+	public int get_user_count(){
+		return usercount;
+	}
 }

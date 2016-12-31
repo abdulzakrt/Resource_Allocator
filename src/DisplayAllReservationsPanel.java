@@ -17,11 +17,8 @@ public class DisplayAllReservationsPanel extends JPanel {
 	}
 	//Display Reservations
 	void Display_Reservations(){
-		JLabel lblReservations = new JLabel("Reservations: ");
-		lblReservations.setBounds(20, 28, 88, 22);		
-		JPanel ReservationPanel=new JPanel();
 	
-		
+		JPanel ReservationPanel=new JPanel();		
 		Reservation[] reservations;
 		reservations= system.get_reservations();	
 		int numofreservations= system.get_reservation_count();
@@ -39,7 +36,7 @@ public class DisplayAllReservationsPanel extends JPanel {
 		ReservationPanel.add(new JLabel("Cancelled"));
 		for(int i=0; i<numofreservations;i++)
 		{
-			JPanel Res_Details = new JPanel();
+			
 			JTextField resourcename = new JTextField("Resource: "+reservations[i].getResource().getID());
 			resourcename.setForeground(Color.GRAY);
 			resourcename.setColumns(15);
