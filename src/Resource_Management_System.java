@@ -102,7 +102,7 @@ public class Resource_Management_System implements Serializable{
         	int res_count=0;
     		for(int i=0;i<reservationcount;i++)
     		{
-    			if(Reservations[i].get_user_ID()==x.getLog_in_ID())
+    			if((Reservations[i].get_user_ID()==x.getLog_in_ID())&&(Reservations[i].isCanceled()==false))
     			{
     				res_count++;
     			}
@@ -205,7 +205,7 @@ public class Resource_Management_System implements Serializable{
 		int i=0;
 		for(i=0;i<reservationcount;i++)
 		{
-			if(Reservations[i].equals(x))
+			if((Reservations[i].getStartDate().equals(x.getStartDate()))&&(x.get_user_ID()==Reservations[i].get_user_ID()))
 			{
 				Reservations[i].setCancelled();
 			}
@@ -247,7 +247,16 @@ public class Resource_Management_System implements Serializable{
        	}
        	return times_reserved;
     }
-	
+	public boolean check_user_reserved_on_date(int id, LocalDate sdate,int uid)
+    {
+		for(int i=0; i<reservationcount; i++)
+		{
+			if((Reservations[i].get_user_ID()==uid)&&(id==Reservations[i].getResource().getID())&&(Reservations[i].getStartDate().equals(sdate))&&(Reservations[i].isCanceled()==false))
+				return true;
+			
+		}
+		return false;	
+    }
 	
     public int check_source(User u,int id, LocalTime stime, LocalTime etime, LocalDate sdate)
     {

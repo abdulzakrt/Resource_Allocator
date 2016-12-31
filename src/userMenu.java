@@ -67,7 +67,7 @@ public class userMenu extends JFrame {
 					
 					
 				});
-		
+				
 				
 				JButton btnDisplayReservation = new JButton("Display Reservation");
 //				GridBagConstraints gbc_btnDisplayReservation = new GridBagConstraints();
@@ -97,11 +97,17 @@ public class userMenu extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-							CancelReservationPanel panel = new CancelReservationPanel(system, user);
+						if(system.get_reservation_count() != 0){
+							CancelReservationPanel panel = new CancelReservationPanel(system, user);	
+						}
+						else{
+							JOptionPane error = new JOptionPane("There is no reservation to cancel");
+							error.createDialog("Error").setVisible(true);
+						}
 							
 							//frame.getContentPane().add(panel);
 							//frame.pack();
-							//frame.setSize(600, 600);
+							//frame.setSize(600, 600); 
 							//frame.setVisible(true);
 					}
 					
