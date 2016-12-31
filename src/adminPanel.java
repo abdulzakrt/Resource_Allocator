@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.swing.BoxLayout;
@@ -65,12 +66,14 @@ public class adminPanel extends JFrame {
 		ResourceSettingsGUI();
 		JScrollPane s= new JScrollPane(ResourceSettings);
 		JScrollPane u= new JScrollPane(UserSettings);
+		DisplayAllResources displayallresources= new DisplayAllResources(system);
+		DisplayAllReservationsPanel displayallreservations =new DisplayAllReservationsPanel(system);
 		this.add(cards, BorderLayout.CENTER);
 		cards.add(u,"User settings");
 		cards.add(s,"Resources settings");
 		cards.add(AdminSettings(),"Admins settings");
-		cards.add(new JScrollPane(new DisplayAllReservationsPanel(system)),"View Reservations");
-		cards.add(new JScrollPane(new DisplayAllResources(system)),"View Schedule");
+		cards.add(new JScrollPane(displayallreservations),"View Reservations");
+		cards.add(new JScrollPane(displayallresources),"View Schedule");
 		menu.addItemListener(new ItemListener(){
 			
 			@Override
@@ -78,7 +81,9 @@ public class adminPanel extends JFrame {
 				CardLayout cl = (CardLayout)(cards.getLayout());
 		        cl.show(cards, (String)evt.getItem());
 		        if(((String)evt.getItem()).equals("View Reservations") || ((String)evt.getItem()).equals("View Schedule")){
-		        	frame.setSize(900, 600);
+		        	displayallresources.Display_Resources();
+		        	displayallreservations.Display_Reservations();
+		        	frame.setSize(1000, 600);
 		        }
 		        else
 		        	frame.setSize(600, 600);
@@ -574,9 +579,7 @@ public class adminPanel extends JFrame {
 		
 		//Allowance Time
 		JLabel Allowance_l=new JLabel("Allowance Time ( in minutes)");
-		//JTextField Allowance= new JTextField();
-		//Allowance.setColumns(15);
-		String allowanceTimes[]={"60","120","180","240","300"};
+		String allowanceTimes[]={"1","2","3","4","5"};
 		JComboBox Allowance=new JComboBox(allowanceTimes);
 		Allowance.setSelectedIndex(0);
 		
@@ -648,7 +651,12 @@ public class adminPanel extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(loc.getText().isEmpty()|| startdate_l.getDate()==null || enddate_l.getDate()==null ||starttime_l.getTime()==null ||endtime_l.getTime()==null){
-					JOptionPane prompt = new JOptionPane("Chosen date, time and location can't be empty");
+					JOptionPane prompt = new JOptionPane("Chosen loc,date, time and location can't be empty");
+					prompt.createDialog(frame, "Fail").setVisible(true);
+					return;
+				}
+				if(startdate_l.getDate().isBefore(LocalDate.now())){
+					JOptionPane prompt = new JOptionPane("Start Date should be after Current date");
 					prompt.createDialog(frame, "Fail").setVisible(true);
 					return;
 				}
@@ -657,7 +665,8 @@ public class adminPanel extends JFrame {
 					prompt.createDialog(frame, "Fail").setVisible(true);
 					return;
 				}
-				if(starttime_l.getTime().isAfter(endtime_l.getTime())){
+				
+				if(starttime_l.getTime().isAfter(endtime_l.getTime()) ||starttime_l.getTime().equals(endtime_l.getTime())){
 					JOptionPane prompt = new JOptionPane("End Time can't be before Start Time");
 					prompt.createDialog(frame, "Fail").setVisible(true);
 					return;
@@ -703,7 +712,7 @@ public class adminPanel extends JFrame {
 				temp.setStart_Time(starttime_l.getTime());
 				temp.setEnd_Time(endtime_l.getTime());
 				temp.setResourceLocation(loc.getText());
-				temp.setAllowance_time(Long.parseLong((String)Allowance.getSelectedItem()));
+				temp.setAllowance_time(Integer.parseInt((String)Allowance.getSelectedItem()));
 				//finding the room type
 				int roomtype=-1;
 				if(cr.isSelected())
@@ -745,7 +754,7 @@ public class adminPanel extends JFrame {
 					temp.setStart_Time(starttime_l.getTime());
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
-					temp.setAllowance_time(Long.parseLong((String)Allowance.getSelectedItem()));
+					temp.setAllowance_time(Integer.parseInt((String)Allowance.getSelectedItem()));
 					int equiptype=-1;
 					if(pr.isSelected())
 						equiptype=0;
@@ -780,7 +789,7 @@ public class adminPanel extends JFrame {
 					temp.setStart_Time(starttime_l.getTime());
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
-					temp.setAllowance_time(Long.parseLong((String)Allowance.getSelectedItem()));
+					temp.setAllowance_time(Integer.parseInt((String)Allowance.getSelectedItem()));
 					int courttype=-1;
 					if(ba.isSelected())
 						courttype=0;

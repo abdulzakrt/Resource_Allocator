@@ -25,12 +25,13 @@ public class DisplayAllReservationsPanel extends JPanel {
 		Reservation[] reservations;
 		reservations= system.get_reservations();	
 		int numofreservations= system.get_reservation_count();
-		GridLayout layout = new GridLayout(numofreservations+1,7);
+		GridLayout layout = new GridLayout(numofreservations+1,8);
 		layout.setHgap(10);
 		layout.setVgap(10);
 		ReservationPanel.setLayout(layout);
 		ReservationPanel.add(new JLabel("Reservation"));
 		ReservationPanel.add(new JLabel("User Booked"));
+		ReservationPanel.add(new JLabel("Date of Reservation"));
 		ReservationPanel.add(new JLabel("Resource Booked"));
 		ReservationPanel.add(new JLabel("Date Booked"));
 		ReservationPanel.add(new JLabel("Start Time"));
@@ -47,6 +48,12 @@ public class DisplayAllReservationsPanel extends JPanel {
 			User.setForeground(Color.GRAY);
 			User.setColumns(15);
 			User.setEnabled(false);
+			JTextField resDate = new JTextField("Reservation Date");
+			resDate.setForeground(Color.GRAY);
+			resDate.setColumns(15);
+			resDate.setEnabled(false);
+			String resdatedetails = reservations[i].getDate_of_Reservation()+"";
+			resDate.setText(resdatedetails);
 			JTextField Date = new JTextField("Date");
 			Date.setForeground(Color.GRAY);
 			Date.setColumns(15);
@@ -74,13 +81,14 @@ public class DisplayAllReservationsPanel extends JPanel {
 			
 			ReservationPanel.add(reservationname);
 			ReservationPanel.add(User);
+			ReservationPanel.add(resDate);
 			ReservationPanel.add(resourcename);
 			ReservationPanel.add(Date);
 			ReservationPanel.add(sTime);
 			ReservationPanel.add(eTime);
 			ReservationPanel.add(cancelled);
 		}
-
+		this.removeAll();
 		add(ReservationPanel);
 	}
 }

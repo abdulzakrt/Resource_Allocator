@@ -233,8 +233,8 @@ public class userPanel extends JFrame{
 						}
 					}
 				}
-				int num_of_hours = (int)temp.getAllowance_time();
-				num_of_hours/=60;
+				int num_of_hours = temp.getAllowance_time();
+				//num_of_hours/=60;
 				
 				int hours_selected=0;
 				
@@ -298,7 +298,8 @@ public class userPanel extends JFrame{
 				LocalTime[] hours_to_reserve;
 				if(hours_selected<num_of_hours)
 					hours_to_reserve =  new LocalTime[hours_selected];
-				hours_to_reserve = new LocalTime[num_of_hours];
+				else
+					hours_to_reserve = new LocalTime[num_of_hours];
 				int i=0;
 				for(int j=0; j<24;j++)
 				{
@@ -317,7 +318,7 @@ public class userPanel extends JFrame{
 					}
 				}//two last cases that causes errors is when he selects two hours with space in between or multiple hours with space in between 
 				try{//and we need to check if the user booked in this day or not previously
-					if(ChronoUnit.MINUTES.between(hours_to_reserve[0], hours_to_reserve[hours_to_reserve.length-1])>temp.getAllowance_time())
+					if(ChronoUnit.HOURS.between(hours_to_reserve[0], hours_to_reserve[hours_to_reserve.length-1])>temp.getAllowance_time())
 						throw new Exception();
 				}
 				catch (Exception e)

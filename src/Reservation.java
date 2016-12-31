@@ -14,10 +14,10 @@ public class Reservation implements Serializable{
 	private Resource Resource_Booked;
 	private boolean Reservation_Cancelled;
 	private Admin Admin_Who_Cancelled;
-        private static int reservationCount;
+
         
 	public Reservation(Resource c,LocalDate Start,LocalTime stime, LocalTime etime,User u) {
-	//	Date_of_Reservation = LocalDate.now();
+		setDate_of_Reservation(LocalDate.now());
 		Resource_Booked=c;
 		Start_Date=Start;
 		
@@ -26,7 +26,7 @@ public class Reservation implements Serializable{
 		User_Who_Made_Reservation=u;
 		Reservation_Cancelled=false;
 		Admin_Who_Cancelled=null;
-                reservationCount++;
+            
 	}
         
 	public Resource getResource(){
@@ -58,5 +58,13 @@ public class Reservation implements Serializable{
     
     public String toString(){
     	return ("id: "+this.Resource_Booked.getID() + " Location: "+ this.User_Who_Made_Reservation.getFirst_Name() + " Start Date: " + this.Start_Date.toString()+ " Start time: "+ this.Start_Time.toString());
-    }  
+    }
+
+	public LocalDate getDate_of_Reservation() {
+		return Date_of_Reservation;
+	}
+
+	public void setDate_of_Reservation(LocalDate date_of_Reservation) {
+		Date_of_Reservation = date_of_Reservation;
+	}  
 }

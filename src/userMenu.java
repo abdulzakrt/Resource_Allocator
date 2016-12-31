@@ -97,13 +97,13 @@ public class userMenu extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						if(system.get_reservation_count() != 0){
+						//if(system.get_reservation_count() != 0){
 							CancelReservationPanel panel = new CancelReservationPanel(system, user);	
-						}
-						else{
-							JOptionPane error = new JOptionPane("There is no reservation to cancel");
-							error.createDialog("Error").setVisible(true);
-						}
+						//}
+						//else{
+						//	JOptionPane error = new JOptionPane("There is no reservation to cancel");
+						//	error.createDialog("Error").setVisible(true);
+						//}
 							
 							//frame.getContentPane().add(panel);
 							//frame.pack();

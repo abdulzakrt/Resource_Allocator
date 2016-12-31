@@ -64,38 +64,36 @@ public class CancelReservationPanel extends JFrame {
 		        	frame.dispose();
 		        }
 		    }
-		});//////////////////////////////////////////////////////////////////////////////////////
+		});
+		//////////////////////////////////////////////////////////////////////////////////////
 		//To fill the menuitems list with reservation which a specific user reserved  
 		
 		String[] menuitems=new String[system.get_reservation_count(u)];
 		menu=menuitems;
 		int j=0;
-		try{
-			if(system.get_reservation_count(u)==0)
-				throw new Exception();
-		}
-		catch(Exception e)
-		{
+		if(system.get_reservation_count(u)==0){
 			JOptionPane error = new JOptionPane("No reservations to cancel for user "+u.getLog_in_ID()+" "+u.getFirst_Name());
-			
 			error.createDialog("error").setVisible(true);
+			//to exit since there are no reservations to cancel
 			return;
 		}
+
 		reservations= system.get_reservations_of_user(u);
 		for(int i=0; i<system.get_reservation_count(u);i++)
 		{
 			if( (reservations[i].getResource() instanceof Room)){
 				menuitems[j] = (j+1)+"Room "+((Room)reservations[i].getResource()).getRoomName()+" "+reservations[i].getResource().getID();
-				j++;
+				
 			}
 			else if( (reservations[i].getResource() instanceof Equipment)){
 				menuitems[j] = (j+1)+""+((Equipment)reservations[i].getResource()).getEquipmnetType()+" "+reservations[i].getResource().getID();
-				j++;
+				
 			}
 			else if( (reservations[i].getResource() instanceof Sports_Courts)){
 				menuitems[j] = (j+1)+""+((Sports_Courts)reservations[i].getResource()).getCourtName()+" Court "+reservations[i].getResource().getID();
-				j++;
+				
 			}
+			j++;
 		}
 		JLabel lblReservationslist = new JLabel("Reservations list: ");
 		lblReservationslist.setBounds(20, 28, 88, 22);
@@ -138,34 +136,35 @@ public class CancelReservationPanel extends JFrame {
 				int ID = Integer.parseInt(((String)evt.getItem()).substring(((String)evt.getItem()).lastIndexOf(" ")+1));
 				 index = user_reservations.getSelectedIndex();
 				 if(user_reservations.getSelectedIndex()>=0){
-				 res_to_cancel= reservations[index];
-				 Date.setText(reservations[index].getStartDate()+"");
-				 sTime.setText(reservations[index].getStartTime()+"");
-				 eTime.setText(reservations[index].getEndTime()+"");
-				 System.out.println(reservations[index].getStartDate()+" "+reservations[index].getStartTime()+" "+reservations[index].isCancelled());
-				 //selected=1;//remember to use this later 
-				 String[] menuitems=new String[system.get_reservation_count(u)];
-					int j=0;
-					reservations= system.get_reservations_of_user(u);
-					for(int i=0; i<system.get_reservation_count(u);i++)
-					{
-						if( (reservations[i].getResource() instanceof Room) && (reservations[i].isCancelled() == false) ){
-							menuitems[j] = (j+1)+"Room "+((Room)reservations[i].getResource()).getRoomName()+" "+reservations[i].getResource().getID();
-							j++;
+					 res_to_cancel= reservations[index];
+					 Date.setText(reservations[index].getStartDate()+"");
+					 sTime.setText(reservations[index].getStartTime()+"");
+					 eTime.setText(reservations[index].getEndTime()+"");
+					 System.out.println(reservations[index].getStartDate()+" "+reservations[index].getStartTime()+" "+reservations[index].isCancelled());
+					 //selected=1;//remember to use this later 
+					 String[] menuitems=new String[system.get_reservation_count(u)];
+						int j=0;
+						reservations= system.get_reservations_of_user(u);
+						for(int i=0; i<system.get_reservation_count(u);i++)
+						{
+							if( (reservations[i].getResource() instanceof Room) && (reservations[i].isCancelled() == false) ){
+								menuitems[j] = (j+1)+"Room "+((Room)reservations[i].getResource()).getRoomName()+" "+reservations[i].getResource().getID();
+								j++;
+							}
+							if( (reservations[i].getResource() instanceof Equipment) && (reservations[i].isCancelled() == false)  ){
+								menuitems[j] = (j+1)+""+((Equipment)reservations[i].getResource()).getEquipmnetType()+" "+reservations[i].getResource().getID();
+								j++;
+							}
+							if( (reservations[i].getResource() instanceof Sports_Courts) && (reservations[i].isCancelled() == false) ){
+								menuitems[j] = (j+1)+""+((Sports_Courts)reservations[i].getResource()).getCourtName()+" Court "+reservations[i].getResource().getID();
+								j++;
+							}
 						}
-						if( (reservations[i].getResource() instanceof Equipment) && (reservations[i].isCancelled() == false)  ){
-							menuitems[j] = (j+1)+""+((Equipment)reservations[i].getResource()).getEquipmnetType()+" "+reservations[i].getResource().getID();
-							j++;
-						}
-						if( (reservations[i].getResource() instanceof Sports_Courts) && (reservations[i].isCancelled() == false) ){
-							menuitems[j] = (j+1)+""+((Sports_Courts)reservations[i].getResource()).getCourtName()+" Court "+reservations[i].getResource().getID();
-							j++;
-						}
-					}
-					menu=menuitems;
-					index=-1;
-					res.setSelectedItem(index);
-				}else {
+						menu=menuitems;
+						index=-1;
+						res.setSelectedItem(index);
+				}
+				else {
 					frame.dispose();
 				}
 			}
@@ -181,14 +180,8 @@ public class CancelReservationPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-					if(system.get_reservation_count(u)==0)
-						throw new Exception();
-				}
-				catch(Exception e)
-				{
-					JOptionPane error = new JOptionPane("No reservations to cancel for user "+u.getLog_in_ID()+" "+u.getFirst_Name());
-					
+					if(system.get_reservation_count(u)==0){				
+					JOptionPane error = new JOptionPane("No reservations to cancel for user "+u.getLog_in_ID()+" "+u.getFirst_Name());					
 					error.createDialog("error").setVisible(true);
 					return;
 				}

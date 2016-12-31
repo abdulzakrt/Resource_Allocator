@@ -93,7 +93,8 @@ public class DisplayAllResources extends JPanel {
 			ReservationPanel.add(usertype);
 			ReservationPanel.add(AllowanceTime);
 		}
-
+		
+		this.removeAll();
 		add(ReservationPanel);
 		
 		
