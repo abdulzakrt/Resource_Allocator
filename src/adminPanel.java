@@ -717,6 +717,8 @@ public class adminPanel extends JFrame {
 				temp.setEnd_Time(endtime_l.getTime());
 				temp.setResourceLocation(loc.getText());
 				temp.setAllowance_time(Integer.parseInt((String)Allowance.getSelectedItem()));
+				temp.setResource_Status(false);//by default a resource is running i.e. not under maintenance
+
 				//finding the room type
 				int roomtype=-1;
 				if(cr.isSelected())
@@ -759,6 +761,8 @@ public class adminPanel extends JFrame {
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
 					temp.setAllowance_time(Integer.parseInt((String)Allowance.getSelectedItem()));
+					temp.setResource_Status(false);//by default a resource is running i.e. not under maintenance
+
 					int equiptype=-1;
 					if(pr.isSelected())
 						equiptype=0;
@@ -794,6 +798,7 @@ public class adminPanel extends JFrame {
 					temp.setEnd_Time(endtime_l.getTime());
 					temp.setResourceLocation(loc.getText());
 					temp.setAllowance_time(Integer.parseInt((String)Allowance.getSelectedItem()));
+					temp.setResource_Status(false);//by default a resource is running i.e. not under maintenance
 					int courttype=-1;
 					if(ba.isSelected())
 						courttype=0;
@@ -1172,7 +1177,7 @@ public class adminPanel extends JFrame {
 		JPanel modify= new JPanel();
 		//modify.setLayout(new BoxLayout(modify, BoxLayout.Y_AXIS));
 		//ID
-		JLabel ID_lm=new JLabel("ID to change");
+		JLabel ID_lm=new JLabel("ID of resource to change");
 		JTextField IDm= new JTextField();
 		IDm.setColumns(15);
 		JPanel ID_pm=new JPanel();
@@ -1184,29 +1189,38 @@ public class adminPanel extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (system.searchUser(Integer.parseInt(IDm.getText()))!=null){
+				if (system.Does_resourse_exist(Integer.parseInt(IDm.getText()))!=false){
 					//password
 					
-					JLabel pass_lm=new JLabel("New Password");
-					JTextField passm= new JTextField();
-					passm.setColumns(15);
-					JPanel pass_pm=new JPanel();
-					pass_pm.add(pass_lm);
-					pass_pm.add(passm);
+					JLabel Maintenance=new JLabel("Under Maintenance?");
+					JToggleButton MaintenancebtnYes= new JToggleButton("Yes");
+					JPanel Maintenance_pn=new JPanel();
+					Maintenance_pn.add(Maintenance);
+					Maintenance_pn.add(MaintenancebtnYes);
 					JDialog d= new JDialog(frame,"New Password");
 					d.setLocationRelativeTo(frame);
 					JButton submitms = new JButton("Submit");
 					submitms.addActionListener(new ActionListener(){
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							a.modify_user_password(Integer.parseInt(IDm.getText()), Integer.parseInt(passm.getText()), system);
-							JOptionPane error = new JOptionPane("Password Changed Successfully");
-							error.createDialog(frame, "Success").setVisible(true);
-						 
-						}
-						
+							Resource temp;
+							temp=system.get_resource_of_id(Integer.parseInt(IDm.getText()));
+							if(MaintenancebtnYes.isSelected() == true){
+								temp.setResource_Status(true);
+								JOptionPane error = new JOptionPane("Resource under maintanece");
+								error.createDialog(frame, "Success").setVisible(true);
+							}
+							else 
+							{
+								temp.setResource_Status(false);
+								JOptionPane error = new JOptionPane("Resource is not under maintanece");
+								error.createDialog(frame, "Success").setVisible(true);
+								
+							}
+							d.dispose();
+						}	
 					});
-					d.add(pass_pm,BorderLayout.PAGE_START);
+					d.add(Maintenance_pn,BorderLayout.PAGE_START);
 					d.add(submitms,BorderLayout.AFTER_LAST_LINE);
 					d.setSize(300, 200);
 					d.setVisible(true);
@@ -1214,7 +1228,7 @@ public class adminPanel extends JFrame {
 					
 				}
 				else{
-					JOptionPane error = new JOptionPane("User Not Found");
+					JOptionPane error = new JOptionPane("Rresource Not Found");
 					error.createDialog(frame, "Fail").setVisible(true);
 				}
 				

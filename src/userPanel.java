@@ -172,7 +172,17 @@ public class userPanel extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+				try {
+					if(strtdte.getDate()==null)
+						throw new Exception();
+				}
+				catch (Exception e)
+				{
+					JOptionPane error = new JOptionPane("you didnt make a Reservation (empty reservation)!");
+					
+					error.createDialog("error").setVisible(true);
+					return;
+				}
 				try {
 					if(resource_name==null)
 						throw new Exception();
@@ -184,6 +194,7 @@ public class userPanel extends JFrame{
 					error.createDialog("error").setVisible(true);
 					return;
 				}
+				//The user can not reserve a resource more than once on the same date
 				try{
 				
 					if(system.check_user_reserved_on_date(Integer.parseInt(resource_name), date_of_res, u.getLog_in_ID())==true)
@@ -233,9 +244,7 @@ public class userPanel extends JFrame{
 						}
 					}
 				}
-				int num_of_hours = temp.getAllowance_time();
-				//num_of_hours/=60;
-				
+				int num_of_hours = temp.getAllowance_time();				
 				int hours_selected=0;
 				
 				try{
@@ -310,29 +319,17 @@ public class userPanel extends JFrame{
 							hours_to_reserve[i]= LocalTime.parse("0"+(j+1)+":00");
 							i++;
 						}
+						else if(j==23) 
+						{
+							hours_to_reserve[i] = LocalTime.parse(("00:00"));
+							i++;
+						}
 						else 
 						{
 							hours_to_reserve[i] = LocalTime.parse((j+1)+":00");
 							i++;
 						}
 					}
-				}//two last cases that causes errors is when he selects two hours with space in between or multiple hours with space in between 
-				try{//and we need to check if the user booked in this day or not previously
-					if(ChronoUnit.HOURS.between(hours_to_reserve[0], hours_to_reserve[hours_to_reserve.length-1])>temp.getAllowance_time())
-						throw new Exception();
-				}
-				catch (Exception e)
-				{
-					JOptionPane error = new JOptionPane("number of hours has to be less than or equal to "+num_of_hours);
-					
-					error.createDialog("error").setVisible(true);
-					for(int j=0;j<24;j++)
-					{
-						Calendar[j].setSelected(false);
-						Calendar[j].setEnabled(false);
-					}
-					strtdte.setDate(null);
-					return;
 				}
 				system.Reserve(u, temp, hours_to_reserve, date_of_res);
 				JOptionPane success = new JOptionPane("Reservation Successful");
@@ -391,6 +388,23 @@ public class userPanel extends JFrame{
 						}
 						//int not_allowed_flag=0;
 						Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
+						try {
+							if(r.getResource_Status()==true)
+							
+								throw new Exception();
+							}
+							catch (Exception e)
+							{
+								strtdte.setDate(null);
+								JOptionPane success = new JOptionPane("Resource not available on Selected Date");
+								success.createDialog("Fail").setVisible(true);
+								for(int j =0; j<24;j++)
+								{
+									CalendarTimes[j].setEnabled(false);
+								}
+								//menun.setSelectedItem(null);
+								return;
+							}
 						LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), date_of_res);
 						
 						if(r.getStart_date().isAfter(date_of_res) || r.getend_date().isBefore(date_of_res)||(date_of_res.isBefore(LocalDate.now()))){
@@ -530,8 +544,6 @@ public class userPanel extends JFrame{
 				{
 					CalendarTimes[k].setEnabled(false);
 				}
-				
-				
 				strtdte.setDate(null);
 				}
 		
