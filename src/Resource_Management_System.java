@@ -634,7 +634,7 @@ public class Resource_Management_System implements Serializable{
 		
 		int numofresource=0;
 		for(int i=0;i<resourcecount;i++){
-			if(Resources[i].getUser_ResourceType(u.getUser_type())==u.getUser_type()){
+			if(Resources[i].getResource_UserType(u.getUser_type())==u.getUser_type()){
 				numofresource++;
 			}
 		}
@@ -646,7 +646,7 @@ public class Resource_Management_System implements Serializable{
 		temp=new Resource[numofresource];
 		int j=0;
 		for(int i=0;i<resourcecount;i++){
-			if(Resources[i].getUser_ResourceType(u.getUser_type())==u.getUser_type()){
+			if(Resources[i].getResource_UserType(u.getUser_type())==u.getUser_type()){
 				temp[j]=Resources[i];
 				j++;
 			}
