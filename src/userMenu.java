@@ -26,7 +26,7 @@ public class userMenu extends JFrame {
 	JFrame display_frame;
 	JFrame cancel_frame;
 	/**
-	 * Create the panel.
+	 * Create the frame.
 	 */
 	public userMenu(Resource_Management_System system, User user) {
 		//To make sure the user really want to logout
@@ -38,7 +38,7 @@ public class userMenu extends JFrame {
 		            "Are you sure to close this window?", "Really Closing?", 
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		        	//To save before exit the application
+		        	//To save before exiting the application
 		        	system.closeSystem();
 		            System.exit(0);
 		        }
@@ -48,7 +48,7 @@ public class userMenu extends JFrame {
 		GridLayout layout= new GridLayout(5,1);		//the layout of this frame is gridLayout with 5 rows and 1 column
 		setLayout(layout);
 		layout.setVgap(10);							//Set a vertical gap between the elements
-		layout.setHgap(10);							//Set a horizantel gap between the elements
+		layout.setHgap(10);							//Set a horizontal gap between the elements
 		JButton btnMakeAReservation = new JButton("Make a Reservation");
 		add(btnMakeAReservation); //add the button to this "userMenu" frame
 		btnMakeAReservation.addActionListener(new ActionListener() {
@@ -56,7 +56,7 @@ public class userMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 					//To make an object of class userPanel
-					 new userPanel(system, user);
+					 new ReservationFrame(system, user);
 			}	
 		});//end of addActionListener of make a reservation button
 				
@@ -78,7 +78,7 @@ public class userMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				    //To make an object of class CancelReservationPanel
-					new CancelReservationPanel(system, user);	
+					new CancelReservationFrame(system, user);	
 			}
 		});//end of addActionListener of cancel reservation button
 				

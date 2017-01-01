@@ -7,9 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-public class CancelReservations extends JPanel {
+public class AdminCancelReservationsPanel extends JPanel {
 	Resource_Management_System system;
-	CancelReservationPanel users_reservations;
+	CancelReservationFrame users_reservations;
 	User[] users;
 	String[] menuitems;
 	int users_with_res;
@@ -17,7 +17,7 @@ public class CancelReservations extends JPanel {
 	JButton submit;
 	JPanel panel;
 	JComboBox menu;
-	CancelReservations(Resource_Management_System system)
+	AdminCancelReservationsPanel(Resource_Management_System system)
 	{
 		panel = this;
 		this.system=system;
@@ -60,7 +60,7 @@ public class CancelReservations extends JPanel {
 						if(users[i].getLog_in_ID()==user_ID_to_cancel_res)
 						{
 							//CancelReservationPanel x;
-							 new CancelReservationPanel(system, users[i]);
+							 new CancelReservationFrame(system, users[i]);
 							 //users_reservations=x;
 						}
 					}

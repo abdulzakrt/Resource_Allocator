@@ -35,7 +35,7 @@ import javax.swing.JButton;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class CancelReservationPanel extends JFrame {
+public class CancelReservationFrame extends JFrame {
 	JFrame frame = this;
 	Resource_Management_System system;
 	JPanel panel = new JPanel();
@@ -48,7 +48,7 @@ public class CancelReservationPanel extends JFrame {
 	Reservation res_to_cancel;
 	int index=0;
 	int selected=0;
-	public CancelReservationPanel(Resource_Management_System system_obj, User x) {
+	public CancelReservationFrame(Resource_Management_System system_obj, User x) {
 		
 		system = system_obj;
 		u = x;

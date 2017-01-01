@@ -32,9 +32,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-//This panel will help the user to make a new reservation
+//This frame will help the user to make a new reservation
 
-public class userPanel extends JFrame{
+public class ReservationFrame extends JFrame{
 	
 	JFrame frame = this;
 	JPanel Calendar_panel1, Calendar_panel, Resource_panel, startdate_panel; //These three panels are add to the userPanel frame
@@ -47,20 +47,16 @@ public class userPanel extends JFrame{
 	String resource_name, equip_name, room_name, court_name;
 	LocalDate date_of_res;
 	/**
-	 * Create the panel.
+	 * Create the Frame.
 	 */
-	public userPanel(Resource_Management_System system_obj, User x) {
+	public ReservationFrame(Resource_Management_System system_obj, User x) {
 		u = x;
 		system = system_obj;
 		frame.setLocation(340, 90);
-		//frame.setSize(227, 290);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		//Calendar_panel1 = new JPanel(new FlowLayout());
 		Calendar_panel = new JPanel(new FlowLayout());
 		Resource_panel = new JPanel(new FlowLayout());
 		startdate_panel = new JPanel(new FlowLayout());
-		//JPanel panel= new JPanel();
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -68,12 +64,13 @@ public class userPanel extends JFrame{
 		            "Are you sure to close this window?", "Really Closing?", 
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		        	//go back to user menu 
 		        	frame.dispose();
-		        	//system.closeSystem();
-		            //System.exit(0);
+
 		        }
 		    }
-		});	//end of addWindowListener
+		});	
+		//end of addWindowListener
 		//setLayout(null);
 		//Start Date Label
 		JLabel lblStartDate = new JLabel("Start Date: ");
@@ -92,11 +89,11 @@ public class userPanel extends JFrame{
 		String[] menuitems={"Room","Equipments","Court"};
 		JComboBox menu = new JComboBox(menuitems);
 		menu.setSelectedIndex(0);  //so that the first element will be shown in the JComboBox i.e Room in this case
-		//JPanel ResourcesCategory = new JPanel();
+
 		Resource_panel.setToolTipText("choose a resource");
 		Resource_panel.setBounds(77, 26, 116, 30);
 		Resource_panel.add(menu);
-		//Resource_panel.add(ResourcesCategory);
+	
 		cards.setBounds(10, 67, 430, 66);
 		JPanel Room_card = DisplayRooms();
 		JPanel Equipment_card = DisplayEquipments();
@@ -127,14 +124,11 @@ public class userPanel extends JFrame{
 		
 		
 		
-		//JPanel panel_4 = new JPanel();
-		Calendar_panel.setBounds(20, 190, 495, 253);
-		//frame.getContentPane().add(panel_4);
-		//Calendar_panel.setLayout(null);
 		
-		//JLabel lblReservationPanel = DefaultComponentFactory.getInstance().createTitle("Reservation Panel:");
-		//lblReservationPanel.setBounds(10, 0, 116, 14);
-		//frame.getContentPane().add(lblReservationPanel);
+		Calendar_panel.setBounds(20, 190, 495, 253);
+
+		
+
 		int s=0,y=0;
 		JToggleButton[] Calendar = new JToggleButton[24];
 		for(int i=0; i<24; i++) {   //In order to display the calendar buttons in Calender_panel 
@@ -155,11 +149,9 @@ public class userPanel extends JFrame{
 			s+=70;
 		}
 		CalendarTimes = Calendar;
-		//Calendar_panel1.add(Calendar_panel, BorderLayout.CENTER);
-		//Calendar_panel.add(Calendar);
+
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(224, 503, 89, 23);
-		//btnSubmit.setMaximumSize(new Dimension(528, 15));
 		JPanel submitPanel = new JPanel();
 		submitPanel.add(btnSubmit, BorderLayout.AFTER_LAST_LINE);
 		
@@ -167,43 +159,30 @@ public class userPanel extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
+		
 					//If the user make a submission with out choosing any date
-					if(strtdte.getDate()==null)
-						throw new Exception();
-				}
-				catch (Exception e)
-				{
-					//A dialog will appear to show the following message 
-					JOptionPane error = new JOptionPane("you didnt make a Reservation (empty reservation)!"); 
-					error.createDialog("error").setVisible(true);
-					return;
-				}
-				try {
-					//If the user did not choose any our form the calendar array
-					if(resource_name==null)
-						throw new Exception();
-				}
-				catch (Exception e)
-				{
-					JOptionPane error = new JOptionPane("you didnt make a Reservation (empty reservation)!");
-					
-					error.createDialog("error").setVisible(true);
-					return;
-				}
+					if(strtdte.getDate()==null){		
+						JOptionPane error = new JOptionPane("you didnt make a Reservation (empty reservation)!"); 
+						error.createDialog("error").setVisible(true);
+						return;
+					}
+
+					//If the user did not choose any hour from the calendar array
+					if(resource_name==null){
+						JOptionPane error = new JOptionPane("You didn't choose a resource to reserve");						
+						error.createDialog("error").setVisible(true);
+						return;
+					}
 				//The user can not reserve a resource more than once on the same date
-				try{
+		
 					//We go through the reservations and check if the user have a reservation on this date for the same resource
 					if(system.check_user_reserved_on_date(Integer.parseInt(resource_name), date_of_res, u.getLog_in_ID())==true)
-						{throw new Exception();}
-					}
-					catch(Exception e){					
+					{			
 					
 						for(int j=0;j<24;j++)
 						{	
 									Calendar[j].setSelected(false);
 									Calendar[j].setEnabled(false);
-									//Calendar[j].setBackground(Color.red);
 						}
 						//To print an error message on a dialog 
 						JOptionPane success = new JOptionPane("user "+u.getLog_in_ID()+" is not allowed to reserve resource "+resource_name+" on "+date_of_res);
@@ -211,7 +190,7 @@ public class userPanel extends JFrame{
 						strtdte.setDate(null);
 						return;
 						
-					}
+					}	
 				//To find the resource that the user chose form the resources array
 				//and store in temp, where temp is a variable of type Resource
 				Resource temp=null;
@@ -246,26 +225,21 @@ public class userPanel extends JFrame{
 						}
 					}
 				}
-				//Each resource has it allowance time specified by the admin
+				//Each resource has its allowance time specified by the admin
 				int num_of_hours = temp.getAllowance_time();				
 				int hours_selected=0;
-				try{
-					for(int j=0; j<24;j++)
+			
+				for(int j=0; j<24;j++)
+				{
+					if(Calendar[j].isSelected())
 					{
-						if(Calendar[j].isSelected())
-						{
-							hours_selected++;  //Counting how many hours does the user want to reserve the resource he chose 
-						}
-					}
-					//Checking if the number of hours more than the time allowed
-					if(hours_selected>num_of_hours)
-					{
-						throw new Exception();
+						hours_selected++;  //Counting how many hours does the user want to reserve the resource he chose 
 					}
 				}
-				catch (Exception e){
-					
-					JOptionPane error = new JOptionPane("number of hours has to be less than or equal to "+num_of_hours);
+				//Checking if the number of hours more than the time allowed
+				if(hours_selected>num_of_hours || hours_selected == 0)
+				{
+					JOptionPane error = new JOptionPane("number of hours has to be less than or equal to "+num_of_hours+ "and more than 0");
 					error.createDialog("error").setVisible(true);
 					for(int i=0;i<24;i++)
 					{
@@ -347,15 +321,14 @@ public class userPanel extends JFrame{
 				}
 				strtdte.setDate(null);
 			}
-		});//end addActionListener of the button submit
+		});
+		//end addActionListener of the button submit
 		//Start Date Picker inside Start Date Panel
 		DatePicker startdate_l = new DatePicker();
 		strtdte=startdate_l;
-		//JPanel StartDatePanel = new JPanel();
 		startdate_panel.setBounds(77, 140, 162, 39);
 		startdate_panel.add(startdate_l, BorderLayout.EAST);
-		//startdate_panel.add(lblStartDate);
-		//startdate_panel.add(StartDatePanel);
+
 		startdate_l.addDateChangeListener(new DateChangeListener()
 				{
 					@Override
@@ -363,43 +336,38 @@ public class userPanel extends JFrame{
 						
 						// TODO Auto-generated method stub
 						LocalDate x = event.getNewDate();
-						//System.out.println(x);
 						if(x!=null){
-						date_of_res= x;
-						String y = (String)menu.getSelectedItem();
-						try{
-						if(y=="Equipments")
-						{
-							 resource_name=equip_name;
-						}
-						else if(y=="Room")
-						{
-							 resource_name=room_name;
-						}
-						else if(y=="Court")
-						{
-							 resource_name=court_name;
-						}
-						
-						if(resource_name==null)
-							throw new Exception();
-						}
-						catch(Exception e)
-						{
-							JOptionPane error = new JOptionPane("Resource "+y+" is empty!");
+							date_of_res= x;
+							String y = (String)menu.getSelectedItem();
 							
-							error.createDialog("error").setVisible(true);
-							strtdte.setDate(null);
-							return;
-						}
-						//int not_allowed_flag=0;
-						Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
-						try {
-							if(r.getResource_Status()==true)
-							
-								throw new Exception();
+							if(y=="Equipments")
+							{
+								 resource_name=equip_name;
 							}
-							catch (Exception e)
+							else if(y=="Room")
+							{
+								 resource_name=room_name;
+							}
+							else if(y=="Court")
+							{
+								 resource_name=court_name;
+							}
+							
+							if(resource_name==null)
+							{
+								JOptionPane error = new JOptionPane("Resource "+y+" is empty!");
+								
+								error.createDialog("error").setVisible(true);
+								strtdte.setDate(null);
+								return;
+							}
+							
+							
+							
+							//int not_allowed_flag=0;
+							Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
+							
+							if(r.getResource_Status()==true)
 							{
 								strtdte.setDate(null);
 								JOptionPane success = new JOptionPane("Resource not available on Selected Date");
@@ -411,51 +379,54 @@ public class userPanel extends JFrame{
 								//menun.setSelectedItem(null);
 								return;
 							}
-						LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), date_of_res);
-						
-						if(r.getStart_date().isAfter(date_of_res) || r.getend_date().isBefore(date_of_res)||(date_of_res.isBefore(LocalDate.now()))){
-							for(int j =0; j<24;j++)
-							{
-								Calendar[j].setEnabled(false);
-							}
-							strtdte.setDate(null);
-							JOptionPane success = new JOptionPane("Resource not available on Selected Date");
-							success.createDialog("Fail").setVisible(true);
-						}
-						else{
-							
-							for(int i=0; i<24;i++)
-							{
-								LocalTime temp;
-								if(i<9)
-									temp = LocalTime.parse("0"+(i+1)+":00");
-								else if(i<23)
-									temp = LocalTime.parse((i+1)+":00");
-								else 
-									temp = LocalTime.parse("00:00");
-								if ((r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp)) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
-								{	
-									Calendar[i].setEnabled(true);
-									Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
-								}
 								
-								for(int j=0;j<24;j++)
+								
+							LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), date_of_res);
+							
+							if(r.getStart_date().isAfter(date_of_res) || r.getend_date().isBefore(date_of_res)||(date_of_res.isBefore(LocalDate.now()))){
+								for(int j =0; j<24;j++)
 								{
-									if(times_reserved[j]!=null)
-									{
-										if(times_reserved[j].equals(temp))
-										{
-											Calendar[i].setBackground(Color.RED);
-											Calendar[i].setEnabled(false);
-										}	
+									Calendar[j].setEnabled(false);
+								}
+								strtdte.setDate(null);
+								JOptionPane success = new JOptionPane("Resource not available on Selected Date");
+								success.createDialog("Fail").setVisible(true);
+							}
+							else{
+								
+								for(int i=0; i<24;i++)
+								{
+									LocalTime temp;
+									if(i<9)
+										temp = LocalTime.parse("0"+(i+1)+":00");
+									else if(i<23)
+										temp = LocalTime.parse((i+1)+":00");
+									else 
+										temp = LocalTime.parse("00:00");
+									if ((r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp)) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
+									{	
+										Calendar[i].setEnabled(true);
+										Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
 									}
+									
+									for(int j=0;j<24;j++)
+									{
+										if(times_reserved[j]!=null)
+										{
+											if(times_reserved[j].equals(temp))
+											{
+												Calendar[i].setBackground(Color.RED);
+												Calendar[i].setEnabled(false);
+											}	
+										}
+									}
+									
 								}
 								
+								
 							}
-							
-							
+					}
 						}
-					}}
 				});
 		
 		//frame.pack();
@@ -487,10 +458,11 @@ public class userPanel extends JFrame{
 				//Room temp = (Room)system.get_resource_of_index(i);
 				//if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
 				//{
-					menuitems[j] = rs[i].getID()+""/*+" "+temp.getID()*/;
-					j++;
-					num_of_rooms++;
-					
+					if(rs[i] instanceof Room){
+						menuitems[j] = rs[i].getID()+""/*+" "+temp.getID()*/;
+						j++;
+						num_of_rooms++;
+					}
 				//}
 			//}
 		}
@@ -523,19 +495,22 @@ public class userPanel extends JFrame{
 		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel EquipmentsCards = new JPanel();		
 		String[] menuitems=new String[system.get_user_resources_count(u)];
+		Resource[] rs = system.get_user_resources(u);
 		int j=0;
-		for(int i=0; i<system.get_resource_count();i++)
+		for(int i=0; i<rs.length;i++)
 		{
-			if(system.get_resource_of_index(i) instanceof Equipment)
-			{
-				Equipment temp = (Equipment)system.get_resource_of_index(i);
-				if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
-				{
-					menuitems[j] =(temp.getID())+""/*+temp.getID()*/;
-					j++;
-					num_of_equips++;
-				}
-			}
+//			if(system.get_resource_of_index(i) instanceof Equipment)
+//			{
+//				Equipment temp = (Equipment)system.get_resource_of_index(i);
+//				if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
+//				{
+					if(rs[i] instanceof Equipment){
+						menuitems[j] =(rs[i].getID())+""/*+temp.getID()*/;
+						j++;
+						num_of_equips++;
+					}
+//				}
+//			}
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		EquipmentsCards.add(menun);
@@ -566,18 +541,24 @@ public class userPanel extends JFrame{
 		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel CourtsCards = new JPanel();		
 		String[] menuitems=new String[system.get_user_resources_count(u)];
+		Resource[] rs = system.get_user_resources(u);
 		int j=0;
-		for(int i=0; i<system.get_resource_count();i++)
+		for(int i=0; i<rs.length;i++)
 		{
-			if(system.get_resource_of_index(i) instanceof Sports_Courts)
-			{
-				Sports_Courts temp = (Sports_Courts)system.get_resource_of_index(i);
-				if((temp.isUserCompatible(u.getUser_type()))&&(temp.getResource_Status()==true))
-				{
-					menuitems[j] = temp.getID()+"";
-					j++;
-					num_of_courts++;
-				}
+//			if(system.get_resource_of_index(i) instanceof Sports_Courts)
+//			{
+//				Sports_Courts temp = (Sports_Courts)system.get_resource_of_index(i);
+//				if((temp.isUserCompatible(u.getUser_type()))&&(temp.getResource_Status()==true))
+//				{
+//					menuitems[j] = temp.getID()+"";
+//					j++;
+//					num_of_courts++;
+//				}
+//			}
+			if(rs[i] instanceof Sports_Courts){
+				menuitems[j] = rs[i].getID()+"";
+				j++;
+				num_of_courts++;
 			}
 		}
 		JComboBox menun = new JComboBox(menuitems);

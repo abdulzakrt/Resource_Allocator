@@ -34,7 +34,7 @@ import com.github.lgooddatepicker.optionalusertools.TimeVetoPolicy;
 public class adminPanel extends JFrame {
 	JFrame frame=this;
 	Admin a;
-	CancelReservations cnclres;
+	AdminCancelReservationsPanel cnclres;
 	Resource_Management_System system;
 	JPanel UserSettings,ResourceSettings,AdminSettings;
 	public adminPanel(Admin s,Resource_Management_System system) {
@@ -68,7 +68,7 @@ public class adminPanel extends JFrame {
 		ResourceSettingsGUI();
 		JScrollPane s= new JScrollPane(ResourceSettings);
 		JScrollPane u= new JScrollPane(UserSettings);
-		CancelReservations cancelreservations = new CancelReservations(system); 
+		AdminCancelReservationsPanel cancelreservations = new AdminCancelReservationsPanel(system); 
 		cnclres = cancelreservations;
 		DisplayAllResources displayallresources= new DisplayAllResources(system);
 		DisplayAllReservationsPanel displayallreservations =new DisplayAllReservationsPanel(system);

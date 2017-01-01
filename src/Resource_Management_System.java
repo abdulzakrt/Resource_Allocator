@@ -194,8 +194,8 @@ public class Resource_Management_System implements Serializable{
 	{
 		LocalTime strt, end;
 		strt = hours[0];
-		int hour = 1;
-		end = hours[hours.length - 1].plusHours((long)hour);
+		long hour = 1;
+		end = hours[hours.length - 1].plusHours(hour);
 		Reservation temp= new Reservation(x,strtdte,strt, end,u);	                  
         Reservations[reservationcount]=temp;
         reservationcount++;
