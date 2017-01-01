@@ -330,110 +330,107 @@ public class ReservationFrame extends JFrame{
 		startdate_panel.add(startdate_l, BorderLayout.EAST);
 
 		startdate_l.addDateChangeListener(new DateChangeListener()
-				{
-					@Override
-					public void dateChanged(DateChangeEvent event) {
-						
-						// TODO Auto-generated method stub
-						LocalDate x = event.getNewDate();
-						if(x!=null){
-							date_of_res= x;
-							String y = (String)menu.getSelectedItem();
-							
-							if(y=="Equipments")
-							{
-								 resource_name=equip_name;
-							}
-							else if(y=="Room")
-							{
-								 resource_name=room_name;
-							}
-							else if(y=="Court")
-							{
-								 resource_name=court_name;
-							}
-							
-							if(resource_name==null)
-							{
-								JOptionPane error = new JOptionPane("Resource "+y+" is empty!");
-								
-								error.createDialog("error").setVisible(true);
-								strtdte.setDate(null);
-								return;
-							}
-							
-							
-							
-							//int not_allowed_flag=0;
-							Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
-							
-							if(r.getResource_Status()==true)
-							{
-								strtdte.setDate(null);
-								JOptionPane success = new JOptionPane("Resource not available on Selected Date");
-								success.createDialog("Fail").setVisible(true);
-								for(int j =0; j<24;j++)
-								{
-									CalendarTimes[j].setEnabled(false);
-								}
-								//menun.setSelectedItem(null);
-								return;
-							}
-								
-								
-							LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), date_of_res);
-							
-							if(r.getStart_date().isAfter(date_of_res) || r.getend_date().isBefore(date_of_res)||(date_of_res.isBefore(LocalDate.now()))){
-								for(int j =0; j<24;j++)
-								{
-									Calendar[j].setEnabled(false);
-								}
-								strtdte.setDate(null);
-								JOptionPane success = new JOptionPane("Resource not available on Selected Date");
-								success.createDialog("Fail").setVisible(true);
-							}
-							else{
-								
-								for(int i=0; i<24;i++)
-								{
-									LocalTime temp;
-									if(i<9)
-										temp = LocalTime.parse("0"+(i+1)+":00");
-									else if(i<23)
-										temp = LocalTime.parse((i+1)+":00");
-									else 
-										temp = LocalTime.parse("00:00");
-									if ((r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp)) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
-									{	
-										Calendar[i].setEnabled(true);
-										Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
-									}
-									
-									for(int j=0;j<24;j++)
-									{
-										if(times_reserved[j]!=null)
-										{
-											if(times_reserved[j].equals(temp))
-											{
-												Calendar[i].setBackground(Color.RED);
-												Calendar[i].setEnabled(false);
-											}	
-										}
-									}
-									
-								}
-								
-								
-							}
+		{
+			@Override
+			public void dateChanged(DateChangeEvent event) {
+				
+				// TODO Auto-generated method stub
+				LocalDate x = event.getNewDate();
+				if(x!=null){
+					date_of_res= x;
+					String y = (String)menu.getSelectedItem();
+					
+					if(y=="Equipments")
+					{
+						 resource_name=equip_name;
 					}
+					else if(y=="Room")
+					{
+						 resource_name=room_name;
+					}
+					else if(y=="Court")
+					{
+						 resource_name=court_name;
+					}
+					
+					if(resource_name==null)
+					{
+						JOptionPane error = new JOptionPane("Resource "+y+" is empty!");
+						
+						error.createDialog("error").setVisible(true);
+						strtdte.setDate(null);
+						return;
+					}
+					
+					
+					
+					//int not_allowed_flag=0;
+					Resource r= system.get_resource_of_id(Integer.parseInt(resource_name));
+					
+					if(r.getResource_Status()==true)
+					{
+						strtdte.setDate(null);
+						JOptionPane success = new JOptionPane("Resource not available on Selected Date");
+						success.createDialog("Fail").setVisible(true);
+						for(int j =0; j<24;j++)
+						{
+							CalendarTimes[j].setEnabled(false);
 						}
-				});
-		
-		//frame.pack();
+						//menun.setSelectedItem(null);
+						return;
+					}
+						
+						
+					LocalTime[] times_reserved = system.check_source(Integer.parseInt(resource_name), date_of_res);
+					
+					if(r.getStart_date().isAfter(date_of_res) || r.getend_date().isBefore(date_of_res)||(date_of_res.isBefore(LocalDate.now()))){
+						for(int j =0; j<24;j++)
+						{
+							Calendar[j].setEnabled(false);
+						}
+						strtdte.setDate(null);
+						JOptionPane success = new JOptionPane("Resource not available on Selected Date");
+						success.createDialog("Fail").setVisible(true);
+					}
+					else{
+						
+						for(int i=0; i<24;i++)
+						{
+							LocalTime temp;
+							if(i<9)
+								temp = LocalTime.parse("0"+(i+1)+":00");
+							else if(i<23)
+								temp = LocalTime.parse((i+1)+":00");
+							else 
+								temp = LocalTime.parse("00:00");
+							if ((r.getStart_Time().isBefore(temp) && r.getEnd_Time().isAfter(temp)) || r.getEnd_Time().equals(temp) || r.getStart_Time().equals(temp))
+							{	
+								Calendar[i].setEnabled(true);
+								Calendar[i].setBackground(UIManager.getColor ( "Button.background" ));
+							}
+							
+							for(int j=0;j<24;j++)
+							{
+								if(times_reserved[j]!=null)
+								{
+									if(times_reserved[j].equals(temp))
+									{
+										Calendar[i].setBackground(Color.RED);
+										Calendar[i].setEnabled(false);
+									}	
+								}
+							}
+							
+						}
+						
+						
+					}
+			}
+				}
+		});
 		frame.setSize(528, 600);
 		GridLayout grid = new GridLayout(4,0);
 		frame.getContentPane().setLayout(grid);
-		//frame.setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
 		frame.getContentPane().add(Resource_panel);
 		frame.getContentPane().add(startdate_panel);
 		frame.getContentPane().add(Calendar_panel);
@@ -443,37 +440,25 @@ public class ReservationFrame extends JFrame{
 	}
 	//To display all resources of type Room in JcomboBox
 	JPanel DisplayRooms(){
-		
-		//JPanel roomCards= new JPanel(new CardLayout());
+	
 		JPanel roomCards = new JPanel();		
-		//roomCards.setToolTipText("choose the resource u want");
-		//String[] menuitems=new String[system.get_resource_count()];
-		String[] menuitems=new String[system.get_user_resources_count(u)];
+		String[] menuitems=new String[system.get_numberOfRooms(u)];
 		int j=0;
 		Resource[] rs = system.get_user_resources(u);
 		for(int i=0; i<rs.length;i++)
 		{//remember to modify the changes in the equip and rooms ;
-			/*if(system.get_resource_of_index(i) instanceof Room)
-			{*/
-				//Room temp = (Room)system.get_resource_of_index(i);
-				//if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
-				//{
-					if(rs[i] instanceof Room){
-						menuitems[j] = rs[i].getID()+""/*+" "+temp.getID()*/;
-						j++;
-						num_of_rooms++;
-					}
-				//}
-			//}
+			if(rs[i] instanceof Room){
+				menuitems[j] = rs[i].getID()+"";
+				j++;
+				num_of_rooms++;
+			}
 		}
 		JComboBox menun = new JComboBox(menuitems);
-		
 		roomCards.add(menun);
 		if(num_of_rooms!=0)
 			room_name=(String)menun.getSelectedItem();
 		else room_name=null;
 			 
-		//menun.setMaximumSize(new Dimension(150,30));
 		menun.addItemListener(new ItemListener(){
 			
 			@Override
@@ -491,26 +476,17 @@ public class ReservationFrame extends JFrame{
 	}
 	//To display all resources of type Equipment in JcomboBox
 	JPanel DisplayEquipments(){
-		
-		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel EquipmentsCards = new JPanel();		
-		String[] menuitems=new String[system.get_user_resources_count(u)];
+		String[] menuitems=new String[system.get_numberOfEquipments(u)];
 		Resource[] rs = system.get_user_resources(u);
 		int j=0;
 		for(int i=0; i<rs.length;i++)
 		{
-//			if(system.get_resource_of_index(i) instanceof Equipment)
-//			{
-//				Equipment temp = (Equipment)system.get_resource_of_index(i);
-//				if(temp.isUserCompatible(u.getUser_type())&&(temp.getResource_Status()==true))
-//				{
-					if(rs[i] instanceof Equipment){
-						menuitems[j] =(rs[i].getID())+""/*+temp.getID()*/;
-						j++;
-						num_of_equips++;
-					}
-//				}
-//			}
+			if(rs[i] instanceof Equipment){
+				menuitems[j] =(rs[i].getID())+""/*+temp.getID()*/;
+				j++;
+				num_of_equips++;
+			}
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		EquipmentsCards.add(menun);
@@ -531,30 +507,16 @@ public class ReservationFrame extends JFrame{
 				}
 		
 		});
-		//menun.setMaximumSize(new Dimension(150,30));
-		
 		return EquipmentsCards;
 	}
 	//To display all resources of type Court in JcomboBox
 	JPanel DisplayCourts(){
-		
-		//JPanel roomCards= new JPanel(new CardLayout());
 		JPanel CourtsCards = new JPanel();		
-		String[] menuitems=new String[system.get_user_resources_count(u)];
+		String[] menuitems=new String[system.get_numberOfCourts(u)]; //system.get_user_resources_count(u)
 		Resource[] rs = system.get_user_resources(u);
 		int j=0;
 		for(int i=0; i<rs.length;i++)
 		{
-//			if(system.get_resource_of_index(i) instanceof Sports_Courts)
-//			{
-//				Sports_Courts temp = (Sports_Courts)system.get_resource_of_index(i);
-//				if((temp.isUserCompatible(u.getUser_type()))&&(temp.getResource_Status()==true))
-//				{
-//					menuitems[j] = temp.getID()+"";
-//					j++;
-//					num_of_courts++;
-//				}
-//			}
 			if(rs[i] instanceof Sports_Courts){
 				menuitems[j] = rs[i].getID()+"";
 				j++;
@@ -563,7 +525,6 @@ public class ReservationFrame extends JFrame{
 		}
 		JComboBox menun = new JComboBox(menuitems);
 		CourtsCards.add(menun);
-		//menun.setMaximumSize(new Dimension(150,30));
 		if(num_of_courts!=0)
 			court_name=(String)menun.getSelectedItem(); 
 
@@ -584,6 +545,5 @@ public class ReservationFrame extends JFrame{
 		
 		});
 		return CourtsCards;
-	}		
-	
+	}			
 }

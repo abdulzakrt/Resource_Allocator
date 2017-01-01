@@ -22,13 +22,14 @@ public class Resource_Management_System implements Serializable{
 	private Admin[] Admins;
 	private Reservation[] Reservations;
 	private int resourcecount,usercount,admincount,reservationcount;
+	private int numberOfRooms, numberOfEquipments, numberOfCourts;
 	public Resource_Management_System() {
 		Resources=new Resource[100];
 		Users=new User[100];
 		Admins=new Admin[100];
 		Reservations=new Reservation[100];
 		resourcecount=usercount=admincount=reservationcount=0;
-		
+		numberOfRooms=numberOfEquipments=numberOfCourts=0;
 	}
 	public User searchUser(int id){
 		for (int i=0;i<usercount;i++){
@@ -43,10 +44,47 @@ public class Resource_Management_System implements Serializable{
 		if(this.Does_resourse_exist(temp.getID())){
 			throw new IDexisterror();
 		}
+		if(temp instanceof Room)
+			numberOfRooms++;
+		if(temp instanceof Sports_Courts)
+			numberOfCourts++;
+		if(temp instanceof Equipment)
+			numberOfEquipments++;
 		Resources[resourcecount]=temp;
 		resourcecount++;
 		
 	}
+	
+	public int get_numberOfRooms(User u){
+		int numberOfRoomsForUser = 0;
+		for(int i=0;i<resourcecount; i++) {
+			if(Resources[i] instanceof Room && Resources[i].isUserCompatible(u.getUser_type())){
+				numberOfRoomsForUser++;
+			}
+		}
+		return numberOfRoomsForUser;
+	}
+	
+	public int get_numberOfCourts(User u){
+		int numberOfCourtsForUser = 0;
+		for(int i=0;i<resourcecount; i++) {
+			if(Resources[i] instanceof Sports_Courts && Resources[i].isUserCompatible(u.getUser_type())){
+				numberOfCourtsForUser++;
+			}
+		}
+		return numberOfCourtsForUser;
+	}
+	
+	public int get_numberOfEquipments(User u){
+		int numberOfEquipsForUser = 0;
+		for(int i=0;i<resourcecount; i++) {
+			if(Resources[i] instanceof Equipment && Resources[i].isUserCompatible(u.getUser_type())){
+				numberOfEquipsForUser++;
+			}
+		}
+		return numberOfEquipsForUser;
+	}
+	
 	public void Display_resource(){
 		System.out.println("Resources:");
 		for(int i=0;i<resourcecount;i++){
@@ -202,14 +240,7 @@ public class Resource_Management_System implements Serializable{
 	}
 	public void Cancel_reservation( Reservation x)
 	{
-		int i=0;
-		for(i=0;i<reservationcount;i++)
-		{
-			if((Reservations[i].getStartDate().equals(x.getStartDate()))&&(x.get_user_ID()==Reservations[i].get_user_ID()))
-			{
-				Reservations[i].setCancelled();
-			}
-		}
+		x.setCancelled();
 	}
 	public LocalTime[] check_source(int x,LocalDate sdate)
     {
