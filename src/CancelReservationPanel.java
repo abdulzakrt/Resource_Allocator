@@ -65,7 +65,7 @@ public class CancelReservationPanel extends JFrame {
 		        }
 		    }
 		});
-		//////////////////////////////////////////////////////////////////////////////////////
+		
 		//To fill the menuitems list with reservation which a specific user reserved  
 		
 		String[] menuitems=new String[system.get_reservation_count(u)];

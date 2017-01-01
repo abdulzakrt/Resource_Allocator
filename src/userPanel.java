@@ -32,12 +32,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
+//This panel will help the user to make a new reservation
+
 public class userPanel extends JFrame{
 	
 	JFrame frame = this;
-	JPanel Calendar_panel1, Calendar_panel, Resource_panel, startdate_panel;
+	JPanel Calendar_panel1, Calendar_panel, Resource_panel, startdate_panel; //These three panels are add to the userPanel frame
 	int num_of_equips=0, num_of_rooms=0, num_of_courts=0;
-	JToggleButton[] CalendarTimes;
+	//These buttons are the calendar buttons so that a 24 buttons will be displayed representing 1 day
+	JToggleButton[] CalendarTimes;    
 	DatePicker strtdte;
 	Resource_Management_System system;
 	User u;
@@ -70,7 +73,7 @@ public class userPanel extends JFrame{
 		            //System.exit(0);
 		        }
 		    }
-		});		
+		});	//end of addWindowListener
 		//setLayout(null);
 		//Start Date Label
 		JLabel lblStartDate = new JLabel("Start Date: ");
@@ -79,16 +82,16 @@ public class userPanel extends JFrame{
 		
 		
 		
-		//Resource Label Panel
+		//Resource Panel
 		JLabel lblResource = new JLabel("Resource: ");
 		lblResource.setBounds(20, 28, 88, 22);
-		Resource_panel.add(lblResource);
+		Resource_panel.add(lblResource);   // Add the label to the Resource panel
 		
 		//Drop down to display resource categories
 		JPanel cards = new JPanel(new CardLayout());
 		String[] menuitems={"Room","Equipments","Court"};
 		JComboBox menu = new JComboBox(menuitems);
-		menu.setSelectedIndex(0);
+		menu.setSelectedIndex(0);  //so that the first element will be shown in the JComboBox i.e Room in this case
 		//JPanel ResourcesCategory = new JPanel();
 		Resource_panel.setToolTipText("choose a resource");
 		Resource_panel.setBounds(77, 26, 116, 30);
@@ -115,13 +118,11 @@ public class userPanel extends JFrame{
 		        	strtdte.setDate(null);
 		        if(((String)evt.getItem()=="Court")&&(num_of_courts==0))
 		        	strtdte.setDate(null);
-		        for(int k =0; k<24;k++)
-				{
+		        for(int k =0; k<24;k++)	{
 					CalendarTimes[k].setEnabled(false);
 				}
-				}
-		
-		});
+			}
+		});//end of addItemListener
 			
 		
 		
@@ -136,27 +137,21 @@ public class userPanel extends JFrame{
 		//frame.getContentPane().add(lblReservationPanel);
 		int s=0,y=0;
 		JToggleButton[] Calendar = new JToggleButton[24];
-		for(int i=0; i<24; i++)
-		{
-			if((i)%7 == 0)
-			{
+		for(int i=0; i<24; i++) {   //In order to display the calendar buttons in Calender_panel 
+			if((i)%7 == 0) {        //each 7 buttons will fit in one row
 				s=0;
 				if(i!=0)
 					y+=69;
 			}
-			
-			
 			if(i<9)
-				Calendar[i]=new JToggleButton("0"+(i+1)+":00");
+				Calendar[i]=new JToggleButton("0"+(i+1)+":00"); //Creating the calendar with its appropriate hour 
 			else 
-			{
-				Calendar[i]=new JToggleButton((i+1)+":00");
-			}
+				Calendar[i]=new JToggleButton((i+1)+":00");     //Creating the calendar with its appropriate hour
+			
 			Calendar[i].setBounds(s,y,71,23);
 			Calendar_panel.add(Calendar[i], BorderLayout.CENTER);
-			Calendar[i].setEnabled(false);
+			Calendar[i].setEnabled(false);   //at the beginning the buttons will be disabled
 			//Calendar[i].setBackground(Color.red);
-				
 			s+=70;
 		}
 		CalendarTimes = Calendar;
@@ -173,17 +168,19 @@ public class userPanel extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					//If the user make a submission with out choosing any date
 					if(strtdte.getDate()==null)
 						throw new Exception();
 				}
 				catch (Exception e)
 				{
-					JOptionPane error = new JOptionPane("you didnt make a Reservation (empty reservation)!");
-					
+					//A dialog will appear to show the following message 
+					JOptionPane error = new JOptionPane("you didnt make a Reservation (empty reservation)!"); 
 					error.createDialog("error").setVisible(true);
 					return;
 				}
 				try {
+					//If the user did not choose any our form the calendar array
 					if(resource_name==null)
 						throw new Exception();
 				}
@@ -196,7 +193,7 @@ public class userPanel extends JFrame{
 				}
 				//The user can not reserve a resource more than once on the same date
 				try{
-				
+					//We go through the reservations and check if the user have a reservation on this date for the same resource
 					if(system.check_user_reserved_on_date(Integer.parseInt(resource_name), date_of_res, u.getLog_in_ID())==true)
 						{throw new Exception();}
 					}
@@ -208,53 +205,59 @@ public class userPanel extends JFrame{
 									Calendar[j].setEnabled(false);
 									//Calendar[j].setBackground(Color.red);
 						}
+						//To print an error message on a dialog 
 						JOptionPane success = new JOptionPane("user "+u.getLog_in_ID()+" is not allowed to reserve resource "+resource_name+" on "+date_of_res);
 						success.createDialog("Fail").setVisible(true);
 						strtdte.setDate(null);
 						return;
 						
 					}
-				//give feed back on the reservation
+				//To find the resource that the user chose form the resources array
+				//and store in temp, where temp is a variable of type Resource
 				Resource temp=null;
 				for(int i=0; i<system.get_resource_count();i++)
 				{
 					if(system.get_resource_of_index(i) instanceof Room)
 					{
-						Room temp1 = (Room)system.get_resource_of_index(i);
+						//If the resource is instance of Room then check its ID and compare it with the user choice 
+						Room temp1 = (Room)system.get_resource_of_index(i); 
 						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
-							temp=temp1;
+							temp=temp1;  // The resource which the user want to reserve 
 						}
 						
 					}
 					else if(system.get_resource_of_index(i) instanceof Sports_Courts)
 					{
+						//If the resource is instance of Room then check its ID and compare it with the user choice
 						Sports_Courts temp1 = (Sports_Courts)system.get_resource_of_index(i);
 						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
-							temp=temp1;
+							temp=temp1; // The resource which the user want to reserve
 						}
 					}
+					//If the resource is instance of Room then check its ID and compare it with the user choice
 					else if(system.get_resource_of_index(i) instanceof Equipment)
 					{
 						Equipment temp1 = (Equipment)system.get_resource_of_index(i);
 						if(temp1.getID()==(Integer.parseInt(resource_name)))
 						{
-							temp=temp1;
+							temp=temp1; // The resource which the user want to reserve
 						}
 					}
 				}
+				//Each resource has it allowance time specified by the admin
 				int num_of_hours = temp.getAllowance_time();				
 				int hours_selected=0;
-				
 				try{
 					for(int j=0; j<24;j++)
 					{
 						if(Calendar[j].isSelected())
 						{
-							hours_selected++;
+							hours_selected++;  //Counting how many hours does the user want to reserve the resource he chose 
 						}
 					}
+					//Checking if the number of hours more than the time allowed
 					if(hours_selected>num_of_hours)
 					{
 						throw new Exception();
@@ -263,17 +266,18 @@ public class userPanel extends JFrame{
 				catch (Exception e){
 					
 					JOptionPane error = new JOptionPane("number of hours has to be less than or equal to "+num_of_hours);
-					
 					error.createDialog("error").setVisible(true);
 					for(int i=0;i<24;i++)
 					{
 						Calendar[i].setSelected(false);
-						Calendar[i].setEnabled(false);
+						//If the number of hours is greater then the buttons of the calendar will be disabled
+						Calendar[i].setEnabled(false); 
 					}
-					strtdte.setDate(null);
+					strtdte.setDate(null);    //set the DatePicker as null
 					return;
 					
 				}
+				//The reservation should be a consecutive number of hours
 				try{
 					int space=0, zeros=0, selected=0;
 					for(int j=0; j<24;j++)
@@ -304,12 +308,14 @@ public class userPanel extends JFrame{
 					strtdte.setDate(null);
 					return;
 				}
+				//This array will hold the hours the user want to reserve this resource
 				LocalTime[] hours_to_reserve;
 				if(hours_selected<num_of_hours)
 					hours_to_reserve =  new LocalTime[hours_selected];
 				else
 					hours_to_reserve = new LocalTime[num_of_hours];
 				int i=0;
+				//To identify which buttons have been selected
 				for(int j=0; j<24;j++)
 				{
 					if(Calendar[j].isSelected())
@@ -331,7 +337,7 @@ public class userPanel extends JFrame{
 						}
 					}
 				}
-				system.Reserve(u, temp, hours_to_reserve, date_of_res);
+				system.Reserve(u, temp, hours_to_reserve, date_of_res); //make the reservation
 				JOptionPane success = new JOptionPane("Reservation Successful");
 				success.createDialog("Success").setVisible(true);
 				for(i=0;i<24;i++)
@@ -341,7 +347,7 @@ public class userPanel extends JFrame{
 				}
 				strtdte.setDate(null);
 			}
-		});
+		});//end addActionListener of the button submit
 		//Start Date Picker inside Start Date Panel
 		DatePicker startdate_l = new DatePicker();
 		strtdte=startdate_l;
