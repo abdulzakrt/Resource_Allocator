@@ -106,14 +106,12 @@ public class Resource_Management_System implements Serializable{
 			
 		}
 	}
-	public boolean Does_admin_exist(int id){
+
+	public boolean Does_member_exist(int id){
 		for (int i=0;i<admincount;i++){
 			if (Admins[i].getLog_in_ID()==id)
 				return true;
 		}
-		return false;
-	}
-	public boolean Does_user_exist(int id){
 		for (int i=0;i<usercount;i++){
 			if (Users[i].getLog_in_ID()==id)
 				return true;
@@ -174,60 +172,60 @@ public class Resource_Management_System implements Serializable{
         //if date is before start date of resource or after end date of resource 
         //allowance time check  Done  
         //input error checking
-	public void Reserve(User u){
-		
-                for(int i=0;i<resourcecount;i++)
-                {
-                    System.out.println(Resources[i].getID());
-                }
-                //Resource temp = new Resource();
-                Scanner in = new Scanner(System.in);
-                System.out.println("Enter resource ID >"); 
-                int ID = in.nextInt(); 
-                System.out.println("Enter Start Date yyyy-MM-dd>"); 
-                String input = in.next();  
-                LocalDate sdate = LocalDate.parse(input);
-                                
-                System.out.println("Enter Start time HH:MM >"); 
-                input = in.next();  
-                LocalTime stime = LocalTime.parse(input);
-                                
-                System.out.println("Enter end time HH:MM >"); 
-                input = in.next();  
-                LocalTime etime = LocalTime.parse(input);
-                Reservation temp; 
-                Resource temp1=null;
-                long duration = ChronoUnit.MINUTES.between(stime, etime);  //To get reservation duration in min.
-                for(int i=0;i<resourcecount;i++)
-                {
-                    if(Resources[i].getID()==ID){
-                        temp1=Resources[i];
-                        break;
-                    }                        
-                    
-                }
-                if ((temp1!=null)){
-                	if((sdate.isBefore(temp1.getStart_date()))||(sdate.isAfter(temp1.getend_date())))
-                	{
-                		System.out.println("error wrong starting date !");
-                		return;
-                	}
-                	if(duration > temp1.getAllowance_time()){  //To check if the users exceeded the allowed time
-                		System.out.println("error The allowed time is: "+ temp1.getAllowance_time() + " minute(s)");
-                		return;
-                	}
-	                if((check_source(u,ID, stime, etime, sdate)==1)&&(temp1.isUserCompatible(u.getUser_type())))
-	                {         	 
-  	                    temp= new Reservation(temp1,sdate,stime, etime,u);	                  
-	                    Reservations[reservationcount]=temp;
-	                    reservationcount++;
-	                    return ;
-	                }
-                }
-                System.out.println("No resarvation was made!!!");
-                return ;
-				
-	}
+//	public void Reserve(User u){
+//		
+//                for(int i=0;i<resourcecount;i++)
+//                {
+//                    System.out.println(Resources[i].getID());
+//                }
+//                //Resource temp = new Resource();
+//                Scanner in = new Scanner(System.in);
+//                System.out.println("Enter resource ID >"); 
+//                int ID = in.nextInt(); 
+//                System.out.println("Enter Start Date yyyy-MM-dd>"); 
+//                String input = in.next();  
+//                LocalDate sdate = LocalDate.parse(input);
+//                                
+//                System.out.println("Enter Start time HH:MM >"); 
+//                input = in.next();  
+//                LocalTime stime = LocalTime.parse(input);
+//                                
+//                System.out.println("Enter end time HH:MM >"); 
+//                input = in.next();  
+//                LocalTime etime = LocalTime.parse(input);
+//                Reservation temp; 
+//                Resource temp1=null;
+//                long duration = ChronoUnit.MINUTES.between(stime, etime);  //To get reservation duration in min.
+//                for(int i=0;i<resourcecount;i++)
+//                {
+//                    if(Resources[i].getID()==ID){
+//                        temp1=Resources[i];
+//                        break;
+//                    }                        
+//                    
+//                }
+//                if ((temp1!=null)){
+//                	if((sdate.isBefore(temp1.getStart_date()))||(sdate.isAfter(temp1.getend_date())))
+//                	{
+//                		System.out.println("error wrong starting date !");
+//                		return;
+//                	}
+//                	if(duration > temp1.getAllowance_time()){  //To check if the users exceeded the allowed time
+//                		System.out.println("error The allowed time is: "+ temp1.getAllowance_time() + " minute(s)");
+//                		return;
+//                	}
+//	                if((check_source(u,ID, stime, etime, sdate)==1)&&(temp1.isUserCompatible(u.getUser_type())))
+//	                {         	 
+//  	                    temp= new Reservation(temp1,sdate,stime, etime,u);	                  
+//	                    Reservations[reservationcount]=temp;
+//	                    reservationcount++;
+//	                    return ;
+//	                }
+//                }
+//                System.out.println("No resarvation was made!!!");
+//                return ;
+//				
+//	}
 	public void Reserve(User u, Resource x, LocalTime[] hours, LocalDate strtdte )
 	{
 		LocalTime strt, end;
@@ -309,14 +307,14 @@ public class Resource_Management_System implements Serializable{
        	return 1;
     }
 	public void addUser_to_system(User temp) throws IDexisterror{
-			if (this.Does_user_exist(temp.getLog_in_ID()))
+			if (this.Does_member_exist(temp.getLog_in_ID()))
 				throw new IDexisterror();
 			Users[usercount]=temp;
 			usercount++;
 			
 	}
 	public void addAdmin_to_system(Admin temp) throws IDexisterror{
-		if (this.Does_admin_exist(temp.getLog_in_ID()))
+		if (this.Does_member_exist(temp.getLog_in_ID()))
 			throw new IDexisterror();
 		Admins[admincount]=temp;
 		admincount++;
